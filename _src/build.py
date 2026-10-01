@@ -18,7 +18,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 # 실제 도메인에서만 켜진다. 미리보기·로컬에서는 기록하지 않음
 GA_ID = "G-SXYG0R5WMM"
 # 샘플클래스 신청을 받는 구글 Apps Script 웹앱 주소 (신청 → 구글 시트 + 메일)
-FORM_ENDPOINT = ""
+FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycby6k2TKL4GjP-XzRct7w_7yKdNAslZeJEhDgeK1nBIh6rZuuf9nP146p9yayOhi58ch_g/exec"
 ANALYTICS = """<script>
 if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
   var s = document.createElement('script'); s.async = true;
