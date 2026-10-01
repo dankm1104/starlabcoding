@@ -130,6 +130,7 @@ def page(title, desc, canon_path, extra_head, inner, og_type="website"):
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta name="format-detection" content="telephone=no">
+{('<link rel="alternate" type="application/rss+xml" title="스타랩 이야기" href="' + DOMAIN + '/rss.xml">') if DOMAIN else ""}
 {('<meta property="og:image" content="' + DOMAIN + '/img/hero.jpg">') if DOMAIN else ""}
 {FONTS}
 {extra_head}
@@ -270,6 +271,23 @@ if DOMAIN:
     write(f"{OUT}/sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{DOMAIN}/{u}</loc><lastmod>{m}</lastmod></url>\n" for u, m in urls) + "</urlset>\n")
 write(f"{OUT}/robots.txt", robots)
+
+# RSS: 네이버 서치어드바이저 등에 새 글을 알리는 용도
+if DOMAIN:
+    from email.utils import format_datetime
+    from datetime import datetime, timezone, timedelta
+    KST = timezone(timedelta(hours=9))
+    def rfc(d):
+        return format_datetime(datetime.fromisoformat(d).replace(hour=9, tzinfo=KST))
+    items = "".join(
+        f"  <item>\n    <title>{html.escape(p['title'])}</title>\n    <link>{DOMAIN}/posts/{p['slug']}.html</link>\n"
+        f"    <guid isPermaLink=\"true\">{DOMAIN}/posts/{p['slug']}.html</guid>\n"
+        f"    <description>{html.escape(p['summary'])}</description>\n    <category>{html.escape(p['category'])}</category>\n"
+        f"    <pubDate>{rfc(p['date'])}</pubDate>\n  </item>\n" for p in posts)
+    write(f"{OUT}/rss.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n'
+          f"  <title>스타랩 이야기 | 스타랩코딩학원 광진점</title>\n  <link>{DOMAIN}/posts/</link>\n"
+          "  <description>광진구 구의동 스타랩코딩학원 광진점의 코딩 교육 이야기와 학부모 질문 정리</description>\n"
+          f"  <language>ko</language>\n  <lastBuildDate>{rfc(posts[0]['date'])}</lastBuildDate>\n" + items + "</channel>\n</rss>\n")
 write(f"{OUT}/CNAME", "starlabcoding.co.kr\n")  # 깃허브 페이지 도메인 연결용
 
 # 검토용 아티팩트: 첫 페이지는 뼈대 없이, 글 페이지는 완전한 문서로

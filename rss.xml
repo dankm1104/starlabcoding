@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>스타랩 이야기 | 스타랩코딩학원 광진점</title>
+  <link>https://starlabcoding.co.kr/posts/</link>
+  <description>광진구 구의동 스타랩코딩학원 광진점의 코딩 교육 이야기와 학부모 질문 정리</description>
+  <language>ko</language>
+  <lastBuildDate>Sat, 19 Sep 2026 09:00:00 +0900</lastBuildDate>
+  <item>
+    <title>등록 전에 수업을 먼저 해 볼 수 있나요? 스타랩 샘플클래스</title>
+    <link>https://starlabcoding.co.kr/posts/sample-class.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/sample-class.html</guid>
+    <description>정규수업과 같은 교구와 방식으로 만들고, 코딩하고, 고쳐 봅니다. 수업이 끝나면 지금 수준과 시작하면 좋을 과정을 안내합니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Sat, 19 Sep 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>블록코딩은 잘하는데 파이썬에서 막힌다면</title>
+    <link>https://starlabcoding.co.kr/posts/python-after-block-coding.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/python-after-block-coding.html</guid>
+    <description>블록에서 글자로, 오타 하나에 멈추는 실행, 빈 화면에서 순서 정하기. 파이썬이 어려운 세 가지 이유와 넘어가는 방법.</description>
+    <category>학부모 질문</category>
+    <pubDate>Thu, 03 Sep 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>7세부터 초등 2학년, 코딩은 이렇게 시작합니다</title>
+    <link>https://starlabcoding.co.kr/posts/coding-age-7-to-grade2.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/coding-age-7-to-grade2.html</guid>
+    <description>이 시기에 기르는 건 코드가 아니라 생각의 순서입니다. 7세, 초1, 초2 수업이 어떻게 다른지 정리했습니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Wed, 05 Aug 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>과학·SW 공모전은 왜 여름방학에 준비하나요?</title>
+    <link>https://starlabcoding.co.kr/posts/contests-summer.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/contests-summer.html</guid>
+    <description>청소년 과학·SW 공모전은 9월 초 제출이 몰려 있어 여름방학이 준비의 골든타임입니다. 2026년 기준 주요 공모전과 스타랩의 지도 원칙을 정리했습니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Sat, 25 Jul 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>로보텍스 2026 준비 현장: 자율주행 로봇 한 대가 완성되기까지</title>
+    <link>https://starlabcoding.co.kr/posts/robotex-2026-prep.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robotex-2026-prep.html</guid>
+    <description>정답을 주지 않는 준비. 선택지마다 장단점을 설명하고 결정은 학생이 합니다. 레고 스모와 포크레이스를 준비하는 과정을 소개합니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Wed, 01 Jul 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>AI로 숙제하는 학생, 사고력은 자라고 있을까요?</title>
+    <link>https://starlabcoding.co.kr/posts/ai-homework.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/ai-homework.html</guid>
+    <description>AI를 쓰느냐 마느냐보다 AI를 부릴 힘이 갖춰졌느냐가 먼저입니다. 사고력이 자라는 시기에 AI가 그 과정을 대신하면 응용력이 자랄 자리가 줄어듭니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Tue, 16 Jun 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>로보텍스 코리아 2026 출전: 어떤 대회이고 왜 수업으로 나가나요</title>
+    <link>https://starlabcoding.co.kr/posts/robotex-2026.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robotex-2026.html</guid>
+    <description>로봇코딩 2~3년차 학생들이 수업의 일환으로 전원 출전합니다. 로보텍스가 어떤 대회인지, 레고 스모와 포크레이스가 어떤 종목인지 정리했습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Thu, 04 Jun 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>코딩은 몇 학년부터 시작하면 좋을까요?</title>
+    <link>https://starlabcoding.co.kr/posts/coding-start-grade.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/coding-start-grade.html</guid>
+    <description>학교 정보 수업은 두 배로 늘었습니다. 텍스트 코딩을 시작하기 좋은 시기와 저학년에 먼저 기를 것을 학년별로 정리했습니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Tue, 24 Mar 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>중학생 코딩, 왜 C언어를 배우나요?</title>
+    <link>https://starlabcoding.co.kr/posts/middle-school-c.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/middle-school-c.html</guid>
+    <description>C언어는 데이터가 저장되고 프로그램이 실행되는 컴퓨터의 기본 구조를 배우는 언어입니다. AI로 프로그램을 쉽게 만드는 시대일수록 구조를 이해하는 힘이 차이를 만듭니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Sat, 28 Feb 2026 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>수학을 어려워하는 학생도 코딩을 잘할 수 있을까요?</title>
+    <link>https://starlabcoding.co.kr/posts/coding-and-math.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/coding-and-math.html</guid>
+    <description>코딩에 필요한 수학적 사고와 학교 수학 시험은 다른 영역입니다. 정답을 빨리 구하는 힘보다 과정을 설계하는 힘이 먼저입니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Thu, 16 Oct 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>로보텍스 2025 한국대회, 세 부문 출전과 월드 챔피언십 대표 선발</title>
+    <link>https://starlabcoding.co.kr/posts/robotex-2025.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robotex-2025.html</guid>
+    <description>로봇 스모 1kg·3kg, 포크레이스 시니어 세 부문에 출전해 월드 챔피언십 두 종목 한국 대표를 포함해 여러 해외 대회 대표로 선발되었습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Fri, 08 Aug 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>2025 한국 정보올림피아드(KOI) 초등부 금상</title>
+    <link>https://starlabcoding.co.kr/posts/koi-gold.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/koi-gold.html</guid>
+    <description>2025 한국 정보올림피아드 초등부에서 스타랩 학생이 1차 대회 은상에 이어 2차 대회 금상을 받았습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Sat, 02 Aug 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>AI가 코드도 짜 주는데, 왜 코딩을 배워야 하나요?</title>
+    <link>https://starlabcoding.co.kr/posts/why-coding-with-ai.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/why-coding-with-ai.html</guid>
+    <description>AI에게 일을 맡기려면 문제를 정확히 정의하고, 판단 기준을 세우고, 틀린 답을 가려낼 수 있어야 합니다. 그 힘을 기르는 훈련이 코딩입니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Wed, 25 Jun 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>코딩은 몇 달 배우면 다 배우나요?</title>
+    <link>https://starlabcoding.co.kr/posts/how-long-coding.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/how-long-coding.html</guid>
+    <description>파이썬이든 C언어든 마스터에는 끝이 없습니다. 학생이 코딩을 배우는 목적은 숙달이 아니라 사고력 훈련이고, 훈련은 꾸준함이 핵심입니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Mon, 02 Jun 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 3학년 수업 엿보기: 선을 따라가는 나노봇</title>
+    <link>https://starlabcoding.co.kr/posts/nanobot.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/nanobot.html</guid>
+    <description>혈관 속을 이동하는 의료용 나노봇 이야기로 시작해, 컬러센서와 조건문으로 검은 선을 따라 달리는 자율주행 로봇을 만듭니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Fri, 09 May 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>청소년 IT경시대회 초등부 파이썬 부문 동상·장려상</title>
+    <link>https://starlabcoding.co.kr/posts/it-contest-python.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/it-contest-python.html</guid>
+    <description>로봇만 하는 학원이 아닙니다. 대회 준비 없이 정규수업에서 배운 파이썬으로 청소년 IT경시대회 초등부 동상과 장려상을 받았습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Tue, 01 Apr 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>COS·COS Pro 코딩자격증, 2025년 응시자 전원 합격</title>
+    <link>https://starlabcoding.co.kr/posts/cos-2025.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/cos-2025.html</guid>
+    <description>봄학기 재원생 대상 YBM 자격증 시험에서 초등학생 COS 응시자와 초·중학생 COS Pro 응시자가 모두 합격했습니다. 두 자격증의 차이도 정리했습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Tue, 25 Mar 2025 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>청소년이 참가할 수 있는 코딩·로봇대회에는 무엇이 있나요?</title>
+    <link>https://starlabcoding.co.kr/posts/contests-list.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/contests-list.html</guid>
+    <description>WRO, FLL, 로보컵 같은 국제 로봇대회부터 프로그래밍 경진대회, 공모전까지 청소년이 도전할 수 있는 대회를 정리했습니다.</description>
+    <category>학부모 질문</category>
+    <pubDate>Fri, 27 Dec 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>임베디드SW경진대회 2024, 창의상·장려상·입선 3관왕</title>
+    <link>https://starlabcoding.co.kr/posts/embedded-sw-2024.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/embedded-sw-2024.html</guid>
+    <description>제22회 임베디드SW경진대회 메이커 히어로즈 부문에 두 팀이 결선에 올라 주니어 전체 창의상, 장려상, 입선을 받았습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Tue, 12 Nov 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 저학년 수업 엿보기: 그림 그리는 드로잉 로봇</title>
+    <link>https://starlabcoding.co.kr/posts/drawing-robot.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/drawing-robot.html</guid>
+    <description>모터 두 개로 그림을 그리는 로봇을 만들고, 바퀴 한 바퀴의 이동 거리를 재서 사각형, 삼각형, 별을 그립니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Fri, 08 Nov 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 저학년 수업 엿보기: 컬러센서로 택배 분류하기</title>
+    <link>https://starlabcoding.co.kr/posts/parcel-sorting.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/parcel-sorting.html</guid>
+    <description>매일 받는 택배가 어떻게 분류되는지 이야기하고, 컬러센서로 소포를 구분하는 분류기계를 만들어 프로그램을 짭니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Fri, 16 Aug 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>로보텍스 2024 첫 출전, 월드 챔피언십 한국 대표 선발</title>
+    <link>https://starlabcoding.co.kr/posts/robotex-2024.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robotex-2024.html</guid>
+    <description>로보텍스 한국대회 로봇 스모 1kg 부문에 처음 출전해, 두 팀이 월드 챔피언십과 아시아 챔피언십 한국 대표로 선발되었습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Wed, 07 Aug 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 1학년 수업 엿보기: 케이블카 여행</title>
+    <link>https://starlabcoding.co.kr/posts/cable-car.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/cable-car.html</guid>
+    <description>케이블카가 움직이는 원리를 알아보고, 모터 회전수로 거리를 생각해 중간 전망대에 들르는 프로그램을 만듭니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Mon, 24 Jun 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>7세 수업 엿보기: 원숭이 손은 왜 나무에 매달릴 수 있을까</title>
+    <link>https://starlabcoding.co.kr/posts/age7-hand.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/age7-hand.html</guid>
+    <description>사람과 동물의 손을 비교하고, 손가락이 구부러진 원숭이를 만들어 어디에 매달릴 수 있는지 실험합니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Wed, 08 May 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 고학년 수업 엿보기: 공장 로봇팔과 하노이의 탑</title>
+    <link>https://starlabcoding.co.kr/posts/robot-arm.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robot-arm.html</guid>
+    <description>공장에서 부품을 정렬하는 병렬 다관절 로봇을 만들고, 하노이의 탑처럼 블록을 최소 횟수로 옮기는 미션을 풉니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Fri, 05 Apr 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 저학년 수업 엿보기: 택시! 택시! 미술관까지 가는 길</title>
+    <link>https://starlabcoding.co.kr/posts/taxi.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/taxi.html</guid>
+    <description>스파이크 에센셜로 택시를 만들고, 지도 위 경로를 따라 미술관에 도착하도록 동작을 조합합니다. 코드의 순서를 익히는 수업입니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Wed, 27 Mar 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>7세 수업 엿보기: 딱딱한 블록으로 움직이는 관절 만들기</title>
+    <link>https://starlabcoding.co.kr/posts/age7-joint.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/age7-joint.html</guid>
+    <description>7세 과정 첫 시간입니다. 축과 도르래로 팔처럼 움직이는 관절을 만들고, 그 관절로 강아지를 만들어 함께 놉니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Thu, 21 Mar 2024 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>임베디드SW경진대회 2023, 초등 팀 우수상과 세종대학교 총장상</title>
+    <link>https://starlabcoding.co.kr/posts/embedded-sw-2023.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/embedded-sw-2023.html</guid>
+    <description>제21회 임베디드SW경진대회 주니어 메이커 부문에서 자동 화분 온실을 만든 팀이 우수상과 세종대학교 총장상을 받았습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Tue, 12 Dec 2023 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 고학년 수업 엿보기: 3단계 보안 안전금고</title>
+    <link>https://starlabcoding.co.kr/posts/safe-box.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/safe-box.html</guid>
+    <description>키패드, 다이얼, 지문 인식 같은 잠금 방식을 살펴보고, 리스트로 비밀번호를 관리하는 3단계 보안 금고를 만듭니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Tue, 21 Nov 2023 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>7세 수업 엿보기: 발사대로 자동차 릴레이 경주</title>
+    <link>https://starlabcoding.co.kr/posts/age7-relay.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/age7-relay.html</guid>
+    <description>자동차와 발사대를 만들고, 얼마나 멀리 갈지 예측한 뒤 직접 재 봅니다. 7세 90분 수업이 어떤 순서로 진행되는지도 소개합니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Tue, 14 Nov 2023 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>COS 코딩자격증, 1~4급 응시자 31명 전원 합격</title>
+    <link>https://starlabcoding.co.kr/posts/cos-2023.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/cos-2023.html</guid>
+    <description>YBM 공인시험센터로 처음 연 COS 시험에서 1급부터 4급까지 응시한 31명이 모두 합격했습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Fri, 25 Aug 2023 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>2023 WRO 프렌드십 챌린지 은상(전체 2위)과 장려상</title>
+    <link>https://starlabcoding.co.kr/posts/wro-2023.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/wro-2023.html</guid>
+    <description>월드 로봇 올림피아드 프렌드십 챌린지 부문에 초등 저학년 네 팀이 출전해 은상 한 팀과 장려상 두 팀을 받았습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Sun, 20 Aug 2023 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>2023 한국 로보컵 오픈 Rookie Rescue Basic 1위·3위</title>
+    <link>https://starlabcoding.co.kr/posts/robocup-2023.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robocup-2023.html</guid>
+    <description>처음 출전한 로보컵에서 Rookie Rescue Basic 부문 1위와 3위를 차지하고, 해외 대회에 나갈 한국 대표 자격을 얻었습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Mon, 27 Feb 2023 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>초등 수업 엿보기: 한 달짜리 장기 프로젝트, 로봇 씨름</title>
+    <link>https://starlabcoding.co.kr/posts/robot-sumo-class.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/robot-sumo-class.html</guid>
+    <description>샘플 없이 기능 설명만 듣고 로봇을 설계하고, 각자 작전에 맞춰 프로그램을 짠 뒤 원내 씨름대회를 엽니다.</description>
+    <category>수업 엿보기</category>
+    <pubDate>Wed, 07 Dec 2022 09:00:00 +0900</pubDate>
+  </item>
+  <item>
+    <title>FLL 퓨처디자이너 예선 종합 1위, 전국대회 진출</title>
+    <link>https://starlabcoding.co.kr/posts/fll-2022.html</link>
+    <guid isPermaLink="true">https://starlabcoding.co.kr/posts/fll-2022.html</guid>
+    <description>세계적인 로봇대회 FLL의 퓨처디자이너 예선전에서 로봇경기 1위와 종합점수 1위로 2관왕에 올랐습니다.</description>
+    <category>대회·자격증</category>
+    <pubDate>Tue, 15 Nov 2022 09:00:00 +0900</pubDate>
+  </item>
+</channel>
+</rss>
