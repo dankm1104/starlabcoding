@@ -21,6 +21,7 @@
 .agree .terms{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;color:var(--sub);background:var(--paper);border-radius:8px;padding:12px 14px}
 .agree .terms dt{font-weight:700;color:var(--ink)}
 .agree .terms dd{margin:0}
+.agree .notice{margin:0;padding:12px 14px 12px 30px;background:var(--paper);border-radius:8px;font-size:.92rem;display:flex;flex-direction:column;gap:6px}
 .agree .check{display:flex;align-items:flex-start;gap:10px;font-weight:700;cursor:pointer}
 .agree .check input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--ink);flex:none}
 .f .submit{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
@@ -34,7 +35,7 @@
 .apply .sample .hours{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;font-size:.92rem}
 .apply .sample .hours dt{color:#A9A9A4;font-weight:400}
 .apply .sample .hours dd{margin:0}
-@media (max-width:860px){.apply .sample{position:static}}
+@media (max-width:860px){.apply .sample{position:static;order:-1}.apply-head{order:-2}}
 </style>
 <main id="top">
   <div class="wrap apply">
@@ -54,6 +55,7 @@
         <label class="fl" for="f-grade">학년<em>필수</em></label>
         <select id="f-grade" name="grade" required>
           <option value="">선택해 주세요</option>
+          <option>7세</option>
           <option>초1</option><option>초2</option><option>초3</option><option>초4</option><option>초5</option><option>초6</option>
           <option>중1</option><option>중2</option><option>중3</option>
         </select>
@@ -67,11 +69,12 @@
       <fieldset class="field">
         <legend class="fl">코딩·로봇 경험<em>필수</em></legend>
         <div class="exp">
-          <input type="radio" name="exp" id="x1" value="처음"><label for="x1">처음이에요</label>
-          <input type="radio" name="exp" id="x2" value="엔트리·스크래치"><label for="x2">엔트리·스크래치</label>
-          <input type="radio" name="exp" id="x3" value="로봇코딩"><label for="x3">로봇코딩</label>
-          <input type="radio" name="exp" id="x4" value="파이썬·C언어"><label for="x4">파이썬·C언어</label>
+          <input type="checkbox" name="exp" id="x1" value="처음"><label for="x1">처음이에요</label>
+          <input type="checkbox" name="exp" id="x2" value="엔트리·스크래치"><label for="x2">엔트리·스크래치</label>
+          <input type="checkbox" name="exp" id="x3" value="로봇코딩"><label for="x3">로봇코딩</label>
+          <input type="checkbox" name="exp" id="x4" value="파이썬·C언어"><label for="x4">파이썬·C언어</label>
         </div>
+        <p class="hint">해 본 것을 모두 골라 주세요.</p>
         <p class="err" id="e-exp"></p>
       </fieldset>
       <fieldset class="field">
@@ -87,15 +90,36 @@
         <p class="hint">여러 요일을 고를 수 있습니다. 월요일은 휴무입니다.</p>
         <p class="err" id="e-days"></p>
       </fieldset>
+      <fieldset class="field">
+        <legend class="fl">희망 시간대<em>필수</em></legend>
+        <div class="exp">
+          <input type="checkbox" name="times" id="t1" value="오전 10~12시"><label for="t1">오전 10~12시</label>
+          <input type="checkbox" name="times" id="t2" value="오후 1~3시"><label for="t2">오후 1~3시</label>
+          <input type="checkbox" name="times" id="t3" value="오후 3~5시"><label for="t3">오후 3~5시</label>
+          <input type="checkbox" name="times" id="t4" value="오후 5~7시"><label for="t4">오후 5~7시</label>
+          <input type="checkbox" name="times" id="t5" value="저녁 7시 이후"><label for="t5">저녁 7시 이후</label>
+        </div>
+        <p class="hint">여러 시간대를 고를 수 있습니다. 오전은 토요일, 저녁 7시 이후는 평일만 가능합니다.</p>
+        <p class="err" id="e-times"></p>
+      </fieldset>
       <div class="field">
         <label class="fl" for="f-memo">남기실 말씀</label>
-        <textarea id="f-memo" name="memo" maxlength="500" placeholder="희망 시간대나 궁금한 점을 적어 주세요."></textarea>
+        <textarea id="f-memo" name="memo" maxlength="500" placeholder="궁금한 점이나 미리 알려 주실 내용을 적어 주세요."></textarea>
       </div>
       <div class="hp" aria-hidden="true"><label for="f-website">웹사이트</label><input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
 
       <div class="agree">
+        <ul class="notice">
+          <li>샘플클래스는 90분이며, 참가비는 30,000원입니다. 정규과정에 등록하시면 수강료에서 전액 차감합니다.</li>
+          <li>수업 시간 조율을 위해 남겨 주신 학부모님 연락처로 전화나 문자를 드릴 수 있습니다.</li>
+        </ul>
+        <label class="check" for="f-confirm"><input type="checkbox" id="f-confirm" name="confirm"> 위 내용을 확인했습니다 (필수)</label>
+        <p class="err" id="e-confirm"></p>
+      </div>
+
+      <div class="agree">
         <dl class="terms">
-          <dt>수집 항목</dt><dd>학생 이름, 학년, 보호자 연락처, 코딩·로봇 경험, 가능한 요일, 남기신 말씀</dd>
+          <dt>수집 항목</dt><dd>학생 이름, 학년, 보호자 연락처, 코딩·로봇 경험, 가능한 요일과 시간대, 남기신 말씀</dd>
           <dt>이용 목적</dt><dd>샘플클래스 일정 안내, 상담과 상담 이력 관리</dd>
           <dt>보유 기간</dt><dd>상담 이력으로 보관하며, 삭제를 요청하시면 바로 파기합니다</dd>
         </dl>
@@ -120,7 +144,7 @@
     <aside class="sample" aria-label="샘플클래스 안내">
       <h3>샘플클래스 안내</h3>
       <dl>
-        <dt>대상</dt><dd>초등학생 · 중학생<small>코딩 경험이 없어도 됩니다</small></dd>
+        <dt>대상</dt><dd>7세 · 초등학생 · 중학생<small>코딩 경험이 없어도 됩니다</small></dd>
         <dt>시간</dt><dd>90분</dd>
         <dt>참가비</dt><dd>30,000원<small>정규과정 등록 시 수강료에서 전액 차감</small></dd>
       </dl>
@@ -150,13 +174,19 @@
     var d = this.value.replace(/\D/g, '').slice(0, 11);
     this.value = d.length > 7 ? d.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3') : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
   });
+  form.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name !== 'exp' || !t.checked) return;
+    [].slice.call(form.querySelectorAll('input[name=exp]')).forEach(function (i) {
+      if (i !== t && (t.value === '처음' || i.value === '처음')) i.checked = false;
+    });
+  });
   function collect() {
-    var days = [].slice.call(form.querySelectorAll('input[name=days]:checked')).map(function (i) { return i.value; });
-    var exp = form.querySelector('input[name=exp]:checked');
+    function picked(n) { return [].slice.call(form.querySelectorAll('input[name=' + n + ']:checked')).map(function (i) { return i.value; }).join(', '); }
     return {
       name: $('f-name').value.trim(), grade: $('f-grade').value, phone: $('f-phone').value.trim(),
-      exp: exp ? exp.value : '', days: days.join(', '), memo: $('f-memo').value.trim(),
-      website: $('f-website').value, agree: $('f-agree').checked, page: location.pathname
+      exp: picked('exp'), days: picked('days'), times: picked('times'), memo: $('f-memo').value.trim(),
+      website: $('f-website').value, confirm: $('f-confirm').checked, agree: $('f-agree').checked, page: location.pathname
     };
   }
   function validate(d) {
@@ -167,6 +197,8 @@
     bad('phone', /^01\d-?\d{3,4}-?\d{4}$/.test(d.phone) ? '' : '연락처를 010-0000-0000 형식으로 적어 주세요.', $('f-phone'));
     bad('exp', d.exp ? '' : '코딩·로봇 경험을 골라 주세요.', form.querySelector('input[name=exp]'));
     bad('days', d.days ? '' : '가능한 요일을 하나 이상 골라 주세요.', form.querySelector('input[name=days]'));
+    bad('times', d.times ? '' : '희망 시간대를 하나 이상 골라 주세요.', form.querySelector('input[name=times]'));
+    bad('confirm', d.confirm ? '' : '참가비와 연락 안내를 확인하셨으면 체크해 주세요.', $('f-confirm'));
     bad('agree', d.agree ? '' : '온라인 신청은 개인정보 수집·이용에 동의하셔야 합니다.', $('f-agree'));
     if (first) first.focus();
     return !first;

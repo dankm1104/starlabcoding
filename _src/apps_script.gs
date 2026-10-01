@@ -15,14 +15,14 @@ function doPost(e) {
     if (p.website) return out({ ok: true });            // 자동 등록 차단용 숨은 칸
     const v = {
       name: clip(p.name, 30), grade: clip(p.grade, 10), phone: clip(p.phone, 13),
-      exp: clip(p.exp, 20), days: clip(p.days, 30), memo: clip(p.memo, 500)
+      exp: clip(p.exp, 60), days: clip(p.days, 30), times: clip(p.times, 80), memo: clip(p.memo, 500)
     };
-    if (!v.name || !v.grade || !/^01\d-?\d{3,4}-?\d{4}$/.test(v.phone) || !p.agree) {
+    if (!v.name || !v.grade || !/^01\d-?\d{3,4}-?\d{4}$/.test(v.phone) || !p.agree || !p.confirm) {
       return out({ ok: false, error: 'invalid' });
     }
     const now = new Date();
     const date = Utilities.formatDate(now, 'Asia/Seoul', 'M월 d일');
-    const note = ['홈페이지 샘플클래스 신청', v.grade, '경험: ' + v.exp, '가능 요일: ' + v.days]
+    const note = ['홈페이지 샘플클래스 신청', v.grade, '경험: ' + v.exp, '가능 요일: ' + v.days, '희망 시간: ' + v.times]
       .concat(v.memo ? ['남기신 말씀: ' + v.memo] : []).join(', ');
 
     lock.waitLock(20000);
@@ -42,6 +42,7 @@ function doPost(e) {
         '보호자 연락처: ' + v.phone,
         '코딩·로봇 경험: ' + v.exp,
         '가능한 요일: ' + v.days,
+        '희망 시간대: ' + v.times,
         '남기신 말씀: ' + (v.memo || '-'),
         '',
         '신청 시각: ' + Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd HH:mm'),
@@ -55,8 +56,9 @@ function doPost(e) {
   }
 }
 
-// 학년 → 세는 나이 (초1=8 … 초6=13, 중1=14 … 중3=16). 명단Metadata 기존 기록과 같은 기준
+// 학년 → 세는 나이 (7세=7, 초1=8 … 초6=13, 중1=14 … 중3=16). 명단Metadata 기존 기록과 같은 기준
 function age(grade) {
+  if (grade === '7세') return '7';
   const m = /^(초|중)(\d)$/.exec(grade);
   if (!m) return grade;
   return String(Number(m[2]) + (m[1] === '초' ? 7 : 13));
