@@ -258,7 +258,7 @@ SAMPLE_STYLE = re.search(r"<style>.*?</style>", sf, re.S).group(0)
 SAMPLE_BODY = sf.replace(SAMPLE_STYLE, "").strip()
 SAMPLE_INNER = links(HEADER, "index.html", "posts/", "") + "\n" + SAMPLE_BODY.replace("</main>", "</main>\n" + FOOTER_RAW.replace("@@A@@", ""), 1)
 write(f"{OUT}/sample.html", page("샘플클래스 신청 | 스타랩코딩학원 광진점",
-      "스타랩코딩학원 광진점 샘플클래스 신청. 초등학생·중학생 대상 90분 로봇·코딩 수업, 참가비 30,000원(등록 시 차감). 02-444-1854",
+      "스타랩코딩학원 광진점 샘플클래스 신청. 7세·초등학생·중학생 대상 로봇·코딩 수업(초등·중등 90분, 7세 60분), 참가비 30,000원(등록 시 차감). 02-444-1854",
       "sample.html", STYLE + "\n" + SAMPLE_STYLE, SAMPLE_INNER))
 
 bots = ["Googlebot", "Google-Extended", "Yeti", "GPTBot", "OAI-SearchBot", "ChatGPT-User",
