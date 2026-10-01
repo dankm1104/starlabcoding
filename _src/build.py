@@ -173,7 +173,7 @@ org = {
 if DOMAIN:
     org["url"] = DOMAIN + "/"
     org["logo"] = DOMAIN + "/img/logo.png"
-    org["image"] = [DOMAIN + "/img/hero.jpg", DOMAIN + "/img/lobby.jpg"]
+    org["image"] = [DOMAIN + "/img/hero.jpg", DOMAIN + "/img/method.jpg"]
 faqld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     {"@type": "Question", "name": strip(q), "acceptedAnswer": {"@type": "Answer", "text": strip(a)}} for q, a in faq]}
 
@@ -219,9 +219,12 @@ def article_ld(p):
          "description": p["summary"], "datePublished": p["date"], "inLanguage": "ko",
          "author": {"@type": "Organization", "name": "스타랩코딩학원 광진점"},
          "publisher": {"@type": "Organization", "name": "스타랩코딩학원 광진점"},
+         "dateModified": p["date"],
          "isBasedOn": p["source"], "articleSection": p["category"]}
     if DOMAIN:
         o["mainEntityOfPage"] = f"{DOMAIN}/posts/{p['slug']}.html"
+        o["image"] = DOMAIN + "/img/hero.jpg"
+        o["publisher"]["logo"] = {"@type": "ImageObject", "url": DOMAIN + "/img/logo.png"}
     return ld(o)
 
 
@@ -254,7 +257,7 @@ for p in posts:
           page(f"{p['title']} | 스타랩코딩학원 광진점", p["summary"], f"posts/{p['slug']}.html",
                STYLE + "\n" + article_ld(p), article(p), "article"))
 write(f"{OUT}/posts/index.html", page("학원 소식 | 스타랩코딩학원 광진점",
-      "광진구 구의동 스타랩코딩학원 광진점의 코딩 교육 이야기와 학부모 질문 정리", "posts/", STYLE, LIST_INNER))
+      "광진구 구의동 스타랩코딩학원 광진점 학원 소식. 학부모가 자주 묻는 질문과 수업 이야기, 로봇대회·정보올림피아드·자격증 소식을 정리합니다.", "posts/", STYLE, LIST_INNER))
 
 # 샘플클래스 신청 페이지
 sf = open("sample_form.html", encoding="utf-8").read().replace("@@ENDPOINT@@", FORM_ENDPOINT)
@@ -264,6 +267,22 @@ SAMPLE_INNER = links(HEADER, "index.html", "posts/", "") + "\n" + SAMPLE_BODY.re
 write(f"{OUT}/sample.html", page("샘플클래스 신청 | 스타랩코딩학원 광진점",
       "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등학생·중학생 대상 로봇·코딩 수업(초등·중등 90분, 유치부 60분), 참가비 30,000원(등록 시 차감). 02-444-1854",
       "sample.html", STYLE + "\n" + SAMPLE_STYLE, SAMPLE_INNER))
+
+# 없는 주소로 들어왔을 때 (GitHub Pages가 404.html을 보여 준다. 어느 깊이에서든 열리므로 링크는 절대 경로)
+NF_INNER = links(HEADER, "/", "/posts/", "/") + """
+<main id="top">
+  <div class="wrap">
+    <div class="article">
+      <h1>페이지를 찾을 수 없습니다</h1>
+      <p>주소가 바뀌었거나 없어진 페이지입니다.</p>
+      <p><a class="btn" href="/">첫 화면으로</a> <a class="btn ghost" href="/posts/">학원 소식</a> <a class="btn ghost" href="/sample.html">샘플클래스 신청</a></p>
+    </div>
+  </div>
+</main>
+""" + FOOTER_RAW.replace("@@A@@", "/")
+nf = page("페이지를 찾을 수 없습니다 | 스타랩코딩학원 광진점", "스타랩코딩학원 광진점", "", STYLE, NF_INNER)
+nf = re.sub(r'<link rel="canonical"[^>]*>\n', "", nf).replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">', 1)
+write(f"{OUT}/404.html", nf)
 
 bots = ["Googlebot", "Google-Extended", "Yeti", "GPTBot", "OAI-SearchBot", "ChatGPT-User",
         "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Bingbot", "Daumoa"]
