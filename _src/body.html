@@ -33,6 +33,9 @@ p{margin:0}
 .nav{display:flex;gap:20px;white-space:nowrap}
 .nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
 .nav a:hover{color:var(--orange-ink)}
+.nav .nav-cta{display:none}
+@media (max-width:640px){.nav .nav-cta{display:inline-block;margin-left:auto;padding:3px 10px;border-radius:999px;background:var(--orange);color:var(--ink);font-size:.8rem;font-weight:700;white-space:nowrap}.nav{gap:14px}.nav a{font-size:.9rem}}
+@media (max-width:389px){.nav .nav-cta .l{display:none}}
 .top .phone{font-family:var(--mono);font-weight:500;color:var(--ink);text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;background:var(--orange);color:#1C1C1E;font-weight:700;text-decoration:none;font-size:.95rem}
 .btn.ghost{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
@@ -161,8 +164,17 @@ td.who{white-space:nowrap;font-family:var(--mono);font-size:.88rem}
 .steps li::before{content:counter(s);font-family:var(--mono);font-weight:500;color:var(--orange-ink);font-size:.85rem}
 .steps b{font-size:1rem}
 .steps span{font-size:.88rem;color:var(--sub)}
+.five{border-top:2px solid var(--ink);padding-top:12px}
+.five-h{font-weight:700;margin:0 0 6px}
+.five ol{margin:0;padding:0;list-style:none}
+.five li{display:grid;grid-template-columns:2.6rem 5.4rem minmax(0,1fr);align-items:baseline;gap:8px;padding:7px 0;border-bottom:1px dashed var(--rule)}
+.five li:last-child{border-bottom:0}
+.five b{font-size:.98rem}
+.five i{font-style:normal;font-family:var(--mono);font-size:.78rem;color:var(--orange-ink)}
+.five span{font-size:.9rem;color:var(--sub)}
+@media (max-width:420px){.five li{grid-template-columns:2.4rem 4.9rem minmax(0,1fr);gap:6px}.five span{font-size:.86rem}}
 
-/* 스타랩 이야기 */
+/* 학원 소식 */
 .posts{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink)}
 .posts a{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:4px 24px;padding:15px 0;border-bottom:1px solid var(--rule);color:var(--ink);text-decoration:none}
 .posts .meta{grid-row:span 2;display:flex;flex-direction:column;gap:2px;font-size:.85rem;color:var(--sub)}
@@ -235,7 +247,7 @@ footer a{color:var(--sub)}
   <div class="wrap">
     <a class="brand" href="@@H@@#top"><img src="@@A@@img/logo.png" alt="" width="67" height="34"><span class="name"><b>스타랩코딩학원</b><small>광진점</small></span></a>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="@@H@@#curriculum">커리큘럼</a><a href="@@H@@#record">실적</a><a href="@@P@@index.html">스타랩 이야기</a><a href="@@H@@#visit">오시는 길</a>
+      <a href="@@H@@#curriculum">커리큘럼</a><a href="@@H@@#record">실적</a><a href="@@P@@index.html">학원 소식</a><a href="@@H@@#visit">오시는 길</a><a class="nav-cta" href="@@A@@sample.html">샘플<span class="l">클래스</span> 신청</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
     <a class="btn" href="@@A@@sample.html">샘플클래스 신청</a>
@@ -430,6 +442,16 @@ footer a{color:var(--sub)}
           <li><b>고쳐보기</b><span>생각대로 움직이지 않으면 원인을 찾아 고칩니다.</span></li>
         </ol>
         <p>생각을 코드로 옮기고 결과를 보고 다시 판단하는 연습으로, 창의력과 끝까지 풀어내는 문제해결력, 함께 완성하는 협업능력을 기릅니다.</p>
+        <div class="five">
+          <p class="five-h">모든 수업은 5E 수업 모델로 진행합니다</p>
+          <ol>
+            <li><b>도입</b><i>Engage</i><span>오늘의 미션과 질문으로 수업을 엽니다</span></li>
+            <li><b>탐색</b><i>Explore</i><span>직접 만들고 코딩하며 답을 찾아봅니다</span></li>
+            <li><b>설명</b><i>Explain</i><span>왜 그렇게 움직였는지 원리를 정리합니다</span></li>
+            <li><b>확장</b><i>Elaborate</i><span>배운 원리를 더 어려운 미션에 적용합니다</span></li>
+            <li><b>평가</b><i>Evaluate</i><span>결과를 돌아보고 다음 목표를 정합니다</span></li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -438,7 +460,7 @@ footer a{color:var(--sub)}
 <section class="block" id="stories">
   <div class="wrap">
     <div class="head">
-      <h2>스타랩 이야기</h2>
+      <h2>학원 소식</h2>
       <p>상담에서 자주 받는 질문과 수업 이야기를 정리합니다.</p>
     </div>
     @@LATEST@@

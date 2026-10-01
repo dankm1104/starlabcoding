@@ -14,7 +14,10 @@
 <meta property="og:title" content="초등 3학년 수업 엿보기: 선을 따라가는 나노봇 | 스타랩코딩학원 광진점">
 <meta property="og:description" content="혈관 속을 이동하는 의료용 나노봇 이야기로 시작해, 컬러센서와 조건문으로 검은 선을 따라 달리는 자율주행 로봇을 만듭니다.">
 <meta name="format-detection" content="telephone=no">
-<link rel="alternate" type="application/rss+xml" title="스타랩 이야기" href="https://starlabcoding.co.kr/rss.xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" title="학원 소식" href="https://starlabcoding.co.kr/rss.xml">
 <meta property="og:image" content="https://starlabcoding.co.kr/img/hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,6 +57,9 @@ p{margin:0}
 .nav{display:flex;gap:20px;white-space:nowrap}
 .nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
 .nav a:hover{color:var(--orange-ink)}
+.nav .nav-cta{display:none}
+@media (max-width:640px){.nav .nav-cta{display:inline-block;margin-left:auto;padding:3px 10px;border-radius:999px;background:var(--orange);color:var(--ink);font-size:.8rem;font-weight:700;white-space:nowrap}.nav{gap:14px}.nav a{font-size:.9rem}}
+@media (max-width:389px){.nav .nav-cta .l{display:none}}
 .top .phone{font-family:var(--mono);font-weight:500;color:var(--ink);text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;background:var(--orange);color:#1C1C1E;font-weight:700;text-decoration:none;font-size:.95rem}
 .btn.ghost{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
@@ -182,8 +188,17 @@ td.who{white-space:nowrap;font-family:var(--mono);font-size:.88rem}
 .steps li::before{content:counter(s);font-family:var(--mono);font-weight:500;color:var(--orange-ink);font-size:.85rem}
 .steps b{font-size:1rem}
 .steps span{font-size:.88rem;color:var(--sub)}
+.five{border-top:2px solid var(--ink);padding-top:12px}
+.five-h{font-weight:700;margin:0 0 6px}
+.five ol{margin:0;padding:0;list-style:none}
+.five li{display:grid;grid-template-columns:2.6rem 5.4rem minmax(0,1fr);align-items:baseline;gap:8px;padding:7px 0;border-bottom:1px dashed var(--rule)}
+.five li:last-child{border-bottom:0}
+.five b{font-size:.98rem}
+.five i{font-style:normal;font-family:var(--mono);font-size:.78rem;color:var(--orange-ink)}
+.five span{font-size:.9rem;color:var(--sub)}
+@media (max-width:420px){.five li{grid-template-columns:2.4rem 4.9rem minmax(0,1fr);gap:6px}.five span{font-size:.86rem}}
 
-/* 스타랩 이야기 */
+/* 학원 소식 */
 .posts{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink)}
 .posts a{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:4px 24px;padding:15px 0;border-bottom:1px solid var(--rule);color:var(--ink);text-decoration:none}
 .posts .meta{grid-row:span 2;display:flex;flex-direction:column;gap:2px;font-size:.85rem;color:var(--sub)}
@@ -300,7 +315,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
   <div class="wrap">
     <a class="brand" href="../index.html#top"><img src="../img/logo.png" alt="" width="67" height="34"><span class="name"><b>스타랩코딩학원</b><small>광진점</small></span></a>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="../index.html#curriculum">커리큘럼</a><a href="../index.html#record">실적</a><a href="index.html">스타랩 이야기</a><a href="../index.html#visit">오시는 길</a>
+      <a href="../index.html#curriculum">커리큘럼</a><a href="../index.html#record">실적</a><a href="index.html">학원 소식</a><a href="../index.html#visit">오시는 길</a><a class="nav-cta" href="../sample.html">샘플<span class="l">클래스</span> 신청</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
     <a class="btn" href="../sample.html">샘플클래스 신청</a>
@@ -309,7 +324,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
 <main id="top">
   <div class="wrap">
     <article class="article">
-      <p class="crumb"><a href="index.html">스타랩 이야기</a> · 수업 엿보기</p>
+      <p class="crumb"><a href="index.html">학원 소식</a> · 수업 엿보기</p>
       <h1>초등 3학년 수업 엿보기: 선을 따라가는 나노봇</h1>
       <p class="byline"><time datetime="2025-05-09">2025.05.09</time> · 스타랩코딩학원 광진점</p>
       <div class="answer"><span>짧게 답하면</span><p>초등 3학년 '스마트 병원' 주제의 나노봇 수업에서는 레고 에듀케이션 스파이크 프라임으로 라인트레이싱 로봇을 만듭니다. 컬러센서로 바닥과 선의 색을 구분하고, 조건문으로 색에 따라 다른 동작을 하게 한 뒤 반복시키면 검은 선을 따라 달리는 자율주행 로봇이 됩니다.</p></div>
