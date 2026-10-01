@@ -1,0 +1,193 @@
+<style>
+/* 샘플클래스 신청 페이지 */
+.apply [hidden]{display:none!important}
+.apply{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:28px;align-items:start;padding-block:40px 64px}
+.apply-head{grid-column:1 / -1;display:flex;flex-direction:column;gap:10px;max-width:44rem}
+.apply-head h1{font-size:clamp(1.6rem,3.8vw,2.3rem)}
+.apply-head p{color:var(--sub)}
+@media (max-width:860px){.apply{grid-template-columns:1fr}}
+.f{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.f .field{display:flex;flex-direction:column;gap:8px;min-width:0;border:0;margin:0;padding:0}
+.f .fl{font-weight:700;font-size:.95rem;padding:0}
+.f legend.fl{margin-bottom:8px}
+.f .fl em{font-style:normal;font-size:.78rem;font-weight:700;color:var(--orange-ink);margin-left:6px}
+.f input[type=text],.f input[type=tel],.f select,.f textarea{font:inherit;font-size:1rem;padding:10px 12px;border-radius:8px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);width:100%;max-width:26rem}
+.f textarea{max-width:none;min-height:96px;resize:vertical}
+.f .hint{font-size:.86rem;color:var(--sub)}
+.f .err{font-size:.88rem;font-weight:700;color:#B3261E}
+.f .err:empty{display:none}
+.f [aria-invalid="true"]{border-color:#B3261E}
+.agree{border-top:1px solid var(--rule);padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.agree .terms{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem;color:var(--sub);background:var(--paper);border-radius:8px;padding:12px 14px}
+.agree .terms dt{font-weight:700;color:var(--ink)}
+.agree .terms dd{margin:0}
+.agree .check{display:flex;align-items:flex-start;gap:10px;font-weight:700;cursor:pointer}
+.agree .check input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--ink);flex:none}
+.f .submit{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.f button.btn{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:1rem;padding:12px 22px}
+.f button.btn[disabled]{opacity:.6;cursor:default}
+.f .submit span{font-size:.88rem;color:var(--sub)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{background:var(--sheet);border:1px solid var(--rule);border-left:5px solid var(--orange);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.done h2{font-size:1.3rem}
+.apply .sample{position:sticky;top:16px}
+.apply .sample .hours{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;font-size:.92rem}
+.apply .sample .hours dt{color:#A9A9A4;font-weight:400}
+.apply .sample .hours dd{margin:0}
+@media (max-width:860px){.apply .sample{position:static}}
+</style>
+<main id="top">
+  <div class="wrap apply">
+    <div class="apply-head">
+      <p class="crumb"><a href="index.html#sample">샘플클래스</a></p>
+      <h1>샘플클래스 신청</h1>
+      <p>정규수업과 같은 교구와 방식으로 직접 만들고, 코딩하고, 고쳐 보는 90분 수업입니다.<br>신청을 남겨 주시면 확인 후 전화로 수업 시간을 안내해 드립니다.</p>
+    </div>
+
+    <form class="f" id="applyForm" novalidate>
+      <div class="field">
+        <label class="fl" for="f-name">학생 이름<em>필수</em></label>
+        <input type="text" id="f-name" name="name" autocomplete="off" maxlength="30" required>
+        <p class="err" id="e-name"></p>
+      </div>
+      <div class="field">
+        <label class="fl" for="f-grade">학년<em>필수</em></label>
+        <select id="f-grade" name="grade" required>
+          <option value="">선택해 주세요</option>
+          <option>초1</option><option>초2</option><option>초3</option><option>초4</option><option>초5</option><option>초6</option>
+          <option>중1</option><option>중2</option><option>중3</option>
+        </select>
+        <p class="err" id="e-grade"></p>
+      </div>
+      <div class="field">
+        <label class="fl" for="f-phone">보호자 연락처<em>필수</em></label>
+        <input type="tel" id="f-phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" maxlength="13" required>
+        <p class="err" id="e-phone"></p>
+      </div>
+      <fieldset class="field">
+        <legend class="fl">코딩·로봇 경험<em>필수</em></legend>
+        <div class="exp">
+          <input type="radio" name="exp" id="x1" value="처음"><label for="x1">처음이에요</label>
+          <input type="radio" name="exp" id="x2" value="엔트리·스크래치"><label for="x2">엔트리·스크래치</label>
+          <input type="radio" name="exp" id="x3" value="로봇코딩"><label for="x3">로봇코딩</label>
+          <input type="radio" name="exp" id="x4" value="파이썬·C언어"><label for="x4">파이썬·C언어</label>
+        </div>
+        <p class="err" id="e-exp"></p>
+      </fieldset>
+      <fieldset class="field">
+        <legend class="fl">가능한 요일<em>필수</em></legend>
+        <div class="exp">
+          <input type="checkbox" name="days" id="d2" value="화"><label for="d2">화</label>
+          <input type="checkbox" name="days" id="d3" value="수"><label for="d3">수</label>
+          <input type="checkbox" name="days" id="d4" value="목"><label for="d4">목</label>
+          <input type="checkbox" name="days" id="d5" value="금"><label for="d5">금</label>
+          <input type="checkbox" name="days" id="d6" value="토"><label for="d6">토</label>
+          <input type="checkbox" name="days" id="d7" value="일"><label for="d7">일</label>
+        </div>
+        <p class="hint">여러 요일을 고를 수 있습니다. 월요일은 휴무입니다.</p>
+        <p class="err" id="e-days"></p>
+      </fieldset>
+      <div class="field">
+        <label class="fl" for="f-memo">남기실 말씀</label>
+        <textarea id="f-memo" name="memo" maxlength="500" placeholder="희망 시간대나 궁금한 점을 적어 주세요."></textarea>
+      </div>
+      <div class="hp" aria-hidden="true"><label for="f-website">웹사이트</label><input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+
+      <div class="agree">
+        <dl class="terms">
+          <dt>수집 항목</dt><dd>학생 이름, 학년, 보호자 연락처, 코딩·로봇 경험, 가능한 요일, 남기신 말씀</dd>
+          <dt>이용 목적</dt><dd>샘플클래스 일정 안내와 상담</dd>
+          <dt>보유 기간</dt><dd>신청일로부터 1년 보관 후 파기</dd>
+        </dl>
+        <p class="hint">동의하지 않으셔도 됩니다. 이 경우 온라인 신청은 어렵고, 전화(02-444-1854)로 신청하실 수 있습니다.</p>
+        <label class="check" for="f-agree"><input type="checkbox" id="f-agree" name="agree"> 개인정보 수집·이용에 동의합니다 (필수)</label>
+        <p class="err" id="e-agree"></p>
+      </div>
+
+      <div class="submit">
+        <button class="btn" type="submit" id="f-submit">신청하기</button>
+        <span>확인 후 남겨 주신 번호로 전화드립니다.</span>
+      </div>
+      <p class="err" id="e-send" role="alert"></p>
+    </form>
+
+    <div class="done" id="applyDone" hidden tabindex="-1">
+      <h2>신청이 접수되었습니다</h2>
+      <p>확인 후 남겨 주신 번호로 전화드려 수업 시간을 안내해 드립니다.<br>급하시면 02-444-1854로 전화 주세요.</p>
+      <p><a href="index.html">첫 페이지로 돌아가기</a></p>
+    </div>
+
+    <aside class="sample" aria-label="샘플클래스 안내">
+      <h3>샘플클래스 안내</h3>
+      <dl>
+        <dt>대상</dt><dd>초등학생 · 중학생<small>코딩 경험이 없어도 됩니다</small></dd>
+        <dt>시간</dt><dd>90분</dd>
+        <dt>참가비</dt><dd>30,000원<small>정규과정 등록 시 수강료에서 전액 차감</small></dd>
+      </dl>
+      <dl class="hours">
+        <dt>화~금</dt><dd>13:00~20:30</dd>
+        <dt>토</dt><dd>10:00~17:00</dd>
+        <dt>일</dt><dd>13:00~17:00</dd>
+        <dt>월</dt><dd>휴무</dd>
+      </dl>
+      <p>전화로 신청하셔도 됩니다.</p>
+      <div class="cta"><a class="btn ghost" href="tel:024441854">전화 02-444-1854</a></div>
+    </aside>
+  </div>
+</main>
+<script>
+(function () {
+  var ENDPOINT = '@@ENDPOINT@@';
+  var form = document.getElementById('applyForm');
+  var done = document.getElementById('applyDone');
+  var btn = document.getElementById('f-submit');
+  function $(id) { return document.getElementById(id); }
+  function setErr(id, msg, el) {
+    $('e-' + id).textContent = msg || '';
+    if (el) el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  }
+  $('f-phone').addEventListener('input', function () {
+    var d = this.value.replace(/\D/g, '').slice(0, 11);
+    this.value = d.length > 7 ? d.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3') : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
+  });
+  function collect() {
+    var days = [].slice.call(form.querySelectorAll('input[name=days]:checked')).map(function (i) { return i.value; });
+    var exp = form.querySelector('input[name=exp]:checked');
+    return {
+      name: $('f-name').value.trim(), grade: $('f-grade').value, phone: $('f-phone').value.trim(),
+      exp: exp ? exp.value : '', days: days.join(', '), memo: $('f-memo').value.trim(),
+      website: $('f-website').value, agree: $('f-agree').checked, page: location.pathname
+    };
+  }
+  function validate(d) {
+    var first = null;
+    function bad(id, msg, el) { setErr(id, msg, el); if (msg && !first) first = el || $('e-' + id); }
+    bad('name', d.name ? '' : '학생 이름을 적어 주세요.', $('f-name'));
+    bad('grade', d.grade ? '' : '학년을 골라 주세요.', $('f-grade'));
+    bad('phone', /^01\d-?\d{3,4}-?\d{4}$/.test(d.phone) ? '' : '연락처를 010-0000-0000 형식으로 적어 주세요.', $('f-phone'));
+    bad('exp', d.exp ? '' : '코딩·로봇 경험을 골라 주세요.', form.querySelector('input[name=exp]'));
+    bad('days', d.days ? '' : '가능한 요일을 하나 이상 골라 주세요.', form.querySelector('input[name=days]'));
+    bad('agree', d.agree ? '' : '온라인 신청은 개인정보 수집·이용에 동의하셔야 합니다.', $('f-agree'));
+    if (first) first.focus();
+    return !first;
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    setErr('send', '');
+    var d = collect();
+    if (!validate(d)) return;
+    btn.disabled = true; btn.textContent = '보내는 중…';
+    fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(d) })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res || !res.ok) throw new Error('fail');
+        form.hidden = true; done.hidden = false; done.focus();
+        if (window.gtag) gtag('event', 'generate_lead', { form_name: 'sample_class' });
+      })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = '신청하기';
+        setErr('send', '신청을 보내지 못했습니다. 잠시 후 다시 시도하시거나 02-444-1854로 전화 주세요.');
+      });
+  });
+})();
+</script>

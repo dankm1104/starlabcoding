@@ -17,6 +17,8 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 # 구글 애널리틱스 (속성: 스타랩코딩학원 광진점 홈페이지, 스트림: 광진점 홈페이지)
 # 실제 도메인에서만 켜진다. 미리보기·로컬에서는 기록하지 않음
 GA_ID = "G-SXYG0R5WMM"
+# 샘플클래스 신청을 받는 구글 Apps Script 웹앱 주소 (신청 → 구글 시트 + 메일)
+FORM_ENDPOINT = ""
 ANALYTICS = """<script>
 if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
   var s = document.createElement('script'); s.async = true;
@@ -32,7 +34,7 @@ if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : /sub01-03-04|sample\\.html/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\\.kakao|map\\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -196,7 +198,7 @@ def article(p):
       <div class="ask">
         <h2>어디서부터 시작할지 궁금하다면</h2>
         <p>학년과 코딩 경험을 알려 주시면 레벨테스트와 상담으로 시작 단계를 함께 정합니다. 전화문의 <span class="num">02-444-1854</span></p>
-        <div class="cta"><a class="btn" href="../index.html#sample">샘플클래스 신청</a><a class="btn ghost" href="http://pf.kakao.com/_jixhQG/chat">카카오톡 상담</a></div>
+        <div class="cta"><a class="btn" href="../sample.html">샘플클래스 신청</a><a class="btn ghost" href="http://pf.kakao.com/_jixhQG/chat">카카오톡 상담</a></div>
       </div>
     </article>
     <section class="article" style="padding-top:0" aria-label="다른 글">
@@ -250,12 +252,21 @@ for p in posts:
 write(f"{OUT}/posts/index.html", page("스타랩 이야기 | 스타랩코딩학원 광진점",
       "광진구 구의동 스타랩코딩학원 광진점의 코딩 교육 이야기와 학부모 질문 정리", "posts/", STYLE, LIST_INNER))
 
+# 샘플클래스 신청 페이지
+sf = open("sample_form.html", encoding="utf-8").read().replace("@@ENDPOINT@@", FORM_ENDPOINT)
+SAMPLE_STYLE = re.search(r"<style>.*?</style>", sf, re.S).group(0)
+SAMPLE_BODY = sf.replace(SAMPLE_STYLE, "").strip()
+SAMPLE_INNER = links(HEADER, "index.html", "posts/", "") + "\n" + SAMPLE_BODY.replace("</main>", "</main>\n" + FOOTER_RAW.replace("@@A@@", ""), 1)
+write(f"{OUT}/sample.html", page("샘플클래스 신청 | 스타랩코딩학원 광진점",
+      "스타랩코딩학원 광진점 샘플클래스 신청. 초등학생·중학생 대상 90분 로봇·코딩 수업, 참가비 30,000원(등록 시 차감). 02-444-1854",
+      "sample.html", STYLE + "\n" + SAMPLE_STYLE, SAMPLE_INNER))
+
 bots = ["Googlebot", "Google-Extended", "Yeti", "GPTBot", "OAI-SearchBot", "ChatGPT-User",
         "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Bingbot", "Daumoa"]
 robots = "".join(f"User-agent: {b}\nAllow: /\n\n" for b in bots) + "User-agent: *\nAllow: /\n"
 if DOMAIN:
     robots += f"\nSitemap: {DOMAIN}/sitemap.xml\n"
-    urls = [("", date.today().isoformat()), ("posts/", posts[0]["date"])] + [(f"posts/{p['slug']}.html", p["date"]) for p in posts]
+    urls = [("", date.today().isoformat()), ("sample.html", date.today().isoformat()), ("posts/", posts[0]["date"])] + [(f"posts/{p['slug']}.html", p["date"]) for p in posts]
     write(f"{OUT}/sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{DOMAIN}/{u}</loc><lastmod>{m}</lastmod></url>\n" for u, m in urls) + "</urlset>\n")
 write(f"{OUT}/robots.txt", robots)
@@ -266,5 +277,6 @@ write(f"{PREV}/index.html", "<title>스타랩 광진점 홈페이지</title>\n" 
 for p in posts:
     write(f"{PREV}/posts/{p['slug']}.html", open(f"{OUT}/posts/{p['slug']}.html", encoding="utf-8").read())
 write(f"{PREV}/posts/index.html", open(f"{OUT}/posts/index.html", encoding="utf-8").read())
+write(f"{PREV}/sample.html", open(f"{OUT}/sample.html", encoding="utf-8").read())
 shutil.copy(f"{PREV}/index.html", "preview.html")  # Claude 미리보기용, 저장소에 올리지 않음  # 아티팩트 주소를 유지하려고 같은 파일 경로로 게시
 print("ok:", len(posts), "posts,", len(faq), "faq")

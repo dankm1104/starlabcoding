@@ -271,7 +271,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : /sub01-03-04|sample\.html/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -287,7 +287,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
       <a href="../index.html#curriculum">커리큘럼</a><a href="../index.html#record">실적</a><a href="index.html">스타랩 이야기</a><a href="../index.html#visit">오시는 길</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
-    <a class="btn" href="../index.html#sample">샘플클래스 신청</a>
+    <a class="btn" href="../sample.html">샘플클래스 신청</a>
   </div>
 </header>
 <main id="top">
@@ -308,7 +308,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
       <div class="ask">
         <h2>어디서부터 시작할지 궁금하다면</h2>
         <p>학년과 코딩 경험을 알려 주시면 레벨테스트와 상담으로 시작 단계를 함께 정합니다. 전화문의 <span class="num">02-444-1854</span></p>
-        <div class="cta"><a class="btn" href="../index.html#sample">샘플클래스 신청</a><a class="btn ghost" href="http://pf.kakao.com/_jixhQG/chat">카카오톡 상담</a></div>
+        <div class="cta"><a class="btn" href="../sample.html">샘플클래스 신청</a><a class="btn ghost" href="http://pf.kakao.com/_jixhQG/chat">카카오톡 상담</a></div>
       </div>
     </article>
     <section class="article" style="padding-top:0" aria-label="다른 글">

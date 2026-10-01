@@ -250,7 +250,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : /sub01-03-04|sample\.html/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -266,7 +266,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
       <a href="../index.html#curriculum">커리큘럼</a><a href="../index.html#record">실적</a><a href="index.html">스타랩 이야기</a><a href="../index.html#visit">오시는 길</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
-    <a class="btn" href="../index.html#sample">샘플클래스 신청</a>
+    <a class="btn" href="../sample.html">샘플클래스 신청</a>
   </div>
 </header>
 <main id="top">

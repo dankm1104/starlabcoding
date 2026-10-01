@@ -180,7 +180,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : /sub01-03-04|sample\.html/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -414,7 +414,7 @@ footer a{color:var(--sub)}
       <a href="#curriculum">커리큘럼</a><a href="#record">실적</a><a href="posts/index.html">스타랩 이야기</a><a href="#visit">오시는 길</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
-    <a class="btn" href="#sample">샘플클래스 신청</a>
+    <a class="btn" href="sample.html">샘플클래스 신청</a>
   </div>
 </header>
 
@@ -483,7 +483,7 @@ footer a{color:var(--sub)}
           <dt>참가비</dt><dd>30,000원<small>정규과정 등록 시 수강료에서 전액 차감</small></dd>
         </dl>
         <div class="cta">
-          <a class="btn" href="https://star-lab.co.kr/m/sub01-03-04.php">샘플클래스 신청</a>
+          <a class="btn" href="sample.html">샘플클래스 신청</a>
           <a class="btn ghost" href="tel:024441854">전화 02-444-1854</a>
         </div>
       </div>
