@@ -14,6 +14,32 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500'
          '&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">')
 
+# 구글 애널리틱스 (속성: 스타랩코딩학원 광진점 홈페이지, 스트림: 광진점 홈페이지)
+# 실제 도메인에서만 켜진다. 미리보기·로컬에서는 기록하지 않음
+GA_ID = "G-SXYG0R5WMM"
+ANALYTICS = """<script>
+if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
+  var s = document.createElement('script'); s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=@@GA@@';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', '@@GA@@');
+  // 버튼 클릭 기록: 전화, 샘플클래스 신청, 카카오톡, 지도
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    var name = h.indexOf('tel:') === 0 ? 'phone_click'
+      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
+      : /map\\.kakao|map\\.naver/.test(h) ? 'map_click' : '';
+    if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
+  });
+}
+</script>""".replace("@@GA@@", GA_ID)
+
 PHOTO_ALT = {
     1: "광진구 구의동 스타랩코딩학원 광진점 교실",
     2: "7세 STEAM 수업 교구 VEX123과 레고 에듀케이션 얼리 심플머신",
@@ -105,6 +131,7 @@ def page(title, desc, canon_path, extra_head, inner, og_type="website"):
 {('<meta property="og:image" content="' + DOMAIN + '/img/hero.jpg">') if DOMAIN else ""}
 {FONTS}
 {extra_head}
+{ANALYTICS}
 </head>
 <body>
 {inner}

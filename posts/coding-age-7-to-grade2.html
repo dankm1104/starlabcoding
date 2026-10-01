@@ -256,6 +256,28 @@ footer a{color:var(--sub)}
  "mainEntityOfPage": "https://starlabcoding.co.kr/posts/coding-age-7-to-grade2.html"
 }
 </script>
+<script>
+if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
+  var s = document.createElement('script'); s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SXYG0R5WMM';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', 'G-SXYG0R5WMM');
+  // 버튼 클릭 기록: 전화, 샘플클래스 신청, 카카오톡, 지도
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    var name = h.indexOf('tel:') === 0 ? 'phone_click'
+      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
+      : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
+    if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
+  });
+}
+</script>
 </head>
 <body>
 <header class="top">
