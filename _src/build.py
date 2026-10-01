@@ -165,7 +165,7 @@ org = {
     ],
     "sameAs": ["https://blog.naver.com/starlab_gwangjin", "https://pf.kakao.com/_jixhQG", "https://place.map.kakao.com/1836797483"],
     "parentOrganization": {"@type": "Organization", "name": "스타랩코딩학원", "url": "https://star-lab.co.kr"},
-    "knowsAbout": ["로봇코딩", "피지컬 AI", "AI 로보틱스", "파이썬", "C언어", "아두이노", "임베디드", "정보올림피아드", "로봇대회", "COS", "COS Pro"],
+    "knowsAbout": ["로봇코딩", "피지컬 AI", "AI 로보틱스", "파이썬", "C언어", "아두이노", "MCU", "임베디드", "머신러닝", "정보올림피아드", "로봇대회", "COS", "COS Pro"],
 }
 if DOMAIN:
     org["url"] = DOMAIN + "/"

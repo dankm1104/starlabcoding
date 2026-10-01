@@ -137,10 +137,14 @@ tr:last-child td{border-bottom:0}
 td:first-child{font-weight:700;white-space:nowrap}
 td.who{white-space:nowrap;font-family:var(--mono);font-size:.88rem}
 .stages td p{margin-bottom:6px}
+.stages{table-layout:fixed}
+.stages th:first-child,.stages td:first-child{width:12rem}
+.stages th:nth-child(2),.stages td:nth-child(2){width:6.5rem}
+.stages caption{caption-side:top;text-align:left;padding:12px 18px;font-size:.8rem;font-weight:700;color:var(--sub);background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
 .cl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
 .cl li{color:var(--sub);font-size:.93rem}
 .cl b{color:var(--ink);margin-right:8px}
-@media (max-width:640px){.stages thead{display:none}.stages tbody tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 16px;border-bottom:1px solid var(--rule)}.stages tbody tr:last-child{border-bottom:0}.stages td{padding:0;border:0}.stages td:last-child{grid-column:1 / -1}}
+@media (max-width:640px){.stages thead{display:none}.stages tbody tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 16px;border-bottom:1px solid var(--rule)}.stages tbody tr:last-child{border-bottom:0}.stages td{padding:0;border:0}.stages td:last-child{grid-column:1 / -1}.stages th:first-child,.stages td:first-child,.stages th:nth-child(2),.stages td:nth-child(2){width:auto}.stages caption{padding:10px 16px}}
 
 /* 시작점 찾기 */
 .start{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
