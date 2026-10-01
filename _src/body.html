@@ -116,10 +116,14 @@ tr:last-child td{border-bottom:0}
 td:first-child{font-weight:700;white-space:nowrap}
 td.who{white-space:nowrap;font-family:var(--mono);font-size:.88rem}
 .stages td p{margin-bottom:6px}
+.stages{table-layout:fixed}
+.stages th:first-child,.stages td:first-child{width:12rem}
+.stages th:nth-child(2),.stages td:nth-child(2){width:6.5rem}
+.stages caption{caption-side:top;text-align:left;padding:12px 18px;font-size:.8rem;font-weight:700;color:var(--sub);background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
 .cl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
 .cl li{color:var(--sub);font-size:.93rem}
 .cl b{color:var(--ink);margin-right:8px}
-@media (max-width:640px){.stages thead{display:none}.stages tbody tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 16px;border-bottom:1px solid var(--rule)}.stages tbody tr:last-child{border-bottom:0}.stages td{padding:0;border:0}.stages td:last-child{grid-column:1 / -1}}
+@media (max-width:640px){.stages thead{display:none}.stages tbody tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 16px;border-bottom:1px solid var(--rule)}.stages tbody tr:last-child{border-bottom:0}.stages td{padding:0;border:0}.stages td:last-child{grid-column:1 / -1}.stages th:first-child,.stages td:first-child,.stages th:nth-child(2),.stages td:nth-child(2){width:auto}.stages caption{padding:10px 16px}}
 
 /* 시작점 찾기 */
 .start{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
@@ -316,7 +320,7 @@ footer a{color:var(--sub)}
     <div class="head">
       <h2>유치부터 대입까지, 끊김 없는 로드맵</h2>
     </div>
-    <div class="trackbox" role="img" aria-label="과정 지도: 유치부 STEAM, 초1부터 로봇코딩 에센셜, 초3부터 로봇코딩 프라임, 초5부터 파이썬·AI 로보틱스, 중1부터 C·임베디드, 고1부터 프로젝트로 이어집니다. 함께 듣는 반: 앱인벤터(초4~5), AX(초6~중1), 파이썬 알고리즘(중1~3). 경진대회 준비반: 자격증·영재원·로봇대회·공모전·경시대회(초2~고3)">
+    <div class="trackbox" role="img" aria-label="과정 지도: 유치부 STEAM, 초1부터 로봇코딩 에센셜, 초3부터 로봇코딩 프라임, 초5부터 파이썬·AI 로보틱스, 중2부터 C·임베디드, 고1부터 프로젝트로 이어집니다. 선택 과정: 앱인벤터(초4~5), AX(초6~중1), 파이썬 알고리즘(중1~3). 경진대회 준비반: 자격증·영재원·로봇대회·공모전·경시대회(초2~고3)">
       <div class="track">
         <div class="station"><i></i><b>유치부</b></div>
         <div class="station"><i></i><b>초1</b></div>
@@ -335,8 +339,8 @@ footer a{color:var(--sub)}
         <div class="bar main first s1" data-range="유치부" style="grid-column:1 / span 1;grid-row:2"><strong>STEAM</strong><small><span>기초 로봇공학</span><span>언플러그드 코딩</span></small></div>
         <div class="bar main s2" data-range="초1~" style="grid-column:2 / span 2;grid-row:2"><strong>로봇코딩 에센셜</strong><small><span>블록코딩</span><span>컴퓨터 사이언스</span></small></div>
         <div class="bar main s3" data-range="초3~" style="grid-column:4 / span 2;grid-row:2"><strong>로봇코딩 프라임</strong><small><span>센서 제어, 레고 물리학</span><span>대회 프로젝트</span></small></div>
-        <div class="bar main s5" data-range="초5~" style="grid-column:6 / span 2;grid-row:2"><strong>파이썬 · AI 로보틱스</strong><small><span>문법과 알고리즘</span><span>로보틱스, 머신러닝 기초</span></small></div>
-        <div class="bar main s6" data-range="중1~" style="grid-column:8 / span 3;grid-row:2"><strong>C · 임베디드</strong><small><span>C 문법과 자료구조</span><span>MCU 기반 하드웨어 제어</span></small></div>
+        <div class="bar main s5" data-range="초5~" style="grid-column:6 / span 3;grid-row:2"><strong>파이썬 · AI 로보틱스</strong><small><span>문법과 알고리즘</span><span>로보틱스, 머신러닝 기초</span></small></div>
+        <div class="bar main s6" data-range="중2~" style="grid-column:9 / span 2;grid-row:2"><strong>C · 임베디드</strong><small><span>C 문법과 자료구조</span><span>MCU 기반 하드웨어 제어</span></small></div>
         <div class="bar main last s7" data-range="고1~" style="grid-column:11 / span 3;grid-row:2"><strong>프로젝트</strong><small><span>심화탐구 보고서</span><span>포트폴리오</span></small></div>
         <div class="bar single gap" data-range="초4~5" style="grid-column:5 / span 2;grid-row:3"><strong>앱인벤터</strong><small>스마트폰 앱 만들기</small></div>
         <div class="bar single gap" data-range="초6~중1" style="grid-column:7 / span 2;grid-row:3"><strong>AX</strong><small>AI 협업 코딩과 코드 리뷰</small></div>
@@ -358,18 +362,32 @@ footer a{color:var(--sub)}
           <thead><tr><th>과정</th><th>대상</th><th>내용</th></tr></thead>
           <tbody>
             <tr><td>STEAM</td><td class="who">유치부</td><td>
-              <p>레고 에듀케이션 얼리 심플머신과 브릭큐 에센셜로 장치를 직접 만들고 바꿔 가며 실험해, 움직임의 원리와 그 안의 과학 원리를 손으로 이해합니다. VEX123 로봇으로는 화면 없이 명령의 순서를 정하는 언플러그드 코딩을 배웁니다.</p>
+              <p>레고 에듀케이션 얼리 심플머신과 브릭큐 에센셜로 장치를 직접 만들고 바꿔 가며 실험해, 기초 로봇공학의 원리를 손으로 이해합니다. VEX123 로봇으로는 화면 없이 명령의 순서를 정하는 언플러그드 코딩을 배웁니다.</p>
               <ul class="cl"><li><b>STEAM 메이커</b>직접 조립하며 움직임을 관찰합니다</li><li><b>123 코딩</b>명령의 순서를 정해 로봇을 움직입니다</li><li><b>심플 머신</b>도구와 기계의 원리를 실험합니다</li></ul></td></tr>
-            <tr><td>로봇코딩 에센셜</td><td class="who">초1~2</td><td>
+            <tr><td>로봇코딩 에센셜</td><td class="who">초1~</td><td>
               <p>로봇코딩의 기초와 컴퓨터 활용 습관을 쌓습니다.</p>
               <ul class="cl"><li><b>블록코딩 기초</b>레고 에듀케이션 스파이크 에센셜로 순서·반복·조건을 로봇에 적용합니다</li><li><b>컴퓨터 사이언스</b>컴퓨터 활용부터 엔트리·COS까지</li><li><b>레고 과학교실</b>만들고 비교하며 과학을 이해합니다</li></ul></td></tr>
-            <tr><td>로봇코딩 프라임</td><td class="who">초3~6</td><td>
+            <tr><td>로봇코딩 프라임</td><td class="who">초3~</td><td>
               <p>센서로 판단하는 로봇 제어를 익히고 파이썬 학습으로 이어갑니다.</p>
-              <ul class="cl"><li><b>센서 제어</b>레고 에듀케이션 스파이크 프라임으로 센서 값에 따라 행동을 설계합니다</li><li><b>레고 물리학</b>구조를 바꾸고 작동 원리를 확인합니다</li><li><b>미션과 대회 프로젝트</b>주행 전략을 세우고 반복해서 개선합니다</li></ul></td></tr>
-            <tr><td>파이썬</td><td class="who">초5~</td><td>문법과 알고리즘, 문제해결 연습, COS Pro 자격증</td></tr>
-            <tr><td>AI 로보틱스</td><td class="who">초6~</td><td>파이썬 로보틱스로 정밀 주행과 센서 제어를 익히고, 카메라로 인식·추적한 결과를 로봇의 동작과 연결합니다</td></tr>
-            <tr><td>C · 임베디드</td><td class="who">중등~</td><td>C언어 기초, 아두이노로 장치 제어</td></tr>
-            <tr><td>프로젝트</td><td class="who">고등</td><td>Git·오픈소스, 심화탐구보고서, 공모전 도전, 생기부 관리와 포트폴리오</td></tr>
+              <ul class="cl"><li><b>센서 제어</b>레고 에듀케이션 스파이크 프라임으로 센서 값에 따라 행동을 설계합니다</li><li><b>레고 물리학</b>구조를 바꾸고 작동 원리를 확인합니다</li><li><b>대회 프로젝트</b>주행 전략을 세우고 반복해서 개선합니다</li></ul></td></tr>
+            <tr><td>파이썬 · AI 로보틱스</td><td class="who">초5~</td><td>
+              <p>텍스트 코딩으로 넘어와 로봇을 더 정밀하게 다루고, 카메라로 보고 판단하는 로봇까지 만듭니다.</p>
+              <ul class="cl"><li><b>문법과 알고리즘</b>파이썬의 기초 문법을 익히고, COS Pro 자격증까지 준비합니다</li><li><b>로보틱스</b>파이썬으로 정밀 주행과 센서 제어를 익힙니다</li><li><b>머신러닝 기초</b>카메라 인식 결과를 로봇의 동작과 연결합니다</li></ul></td></tr>
+            <tr><td>C · 임베디드</td><td class="who">중2~</td><td>
+              <p>C언어와 MCU로 실제 하드웨어를 직접 움직입니다.</p>
+              <ul class="cl"><li><b>C 문법과 자료구조</b>C언어의 문법과 자료구조를 익힙니다</li><li><b>MCU 기반 하드웨어 제어</b>센서와 모터를 MCU로 직접 제어합니다</li><li><b>임베디드 프로젝트</b>회로와 코드를 함께 설계해 실제로 작동하는 시스템을 완성합니다</li></ul></td></tr>
+            <tr><td>프로젝트</td><td class="who">고1~</td><td>
+              <p>그동안 배운 것을 대입과 진로로 잇습니다.</p>
+              <ul class="cl"><li><b>심화탐구 보고서</b>물리·수학·정보 교과와 이어지는 탐구 보고서를 씁니다</li><li><b>포트폴리오</b>생기부 관리와 공모전 도전으로 진로 이력을 쌓습니다</li><li><b>Git·오픈소스</b>협업 도구로 실제 개발 방식을 익힙니다</li></ul></td></tr>
+          </tbody>
+        </table>
+        <table class="stages">
+          <caption>선택 과정 · 경진대회 준비반</caption>
+          <tbody>
+            <tr><td>앱인벤터</td><td class="who">초4~5</td><td>스마트폰 앱 만들기</td></tr>
+            <tr><td>AX</td><td class="who">초6~중1</td><td>AI 협업 코딩과 코드 리뷰</td></tr>
+            <tr><td>파이썬 알고리즘</td><td class="who">중1~3</td><td>문제 해결 전략과 효율적인 풀이</td></tr>
+            <tr><td>경진대회 준비반</td><td class="who">초2~고3</td><td>자격증 · 영재원 · 로봇대회 · 공모전 · 경시대회</td></tr>
           </tbody>
         </table>
       </div>
@@ -434,11 +452,11 @@ footer a{color:var(--sub)}
       <h2>자주 묻는 질문</h2>
     </div>
     <div class="faq">
-      <details><summary>코딩은 몇 살부터 시작하면 좋을까요?</summary><p>유치부는 STEAM 과정으로 시작합니다. 얼리 심플머신과 브릭큐 에센셜로 장치를 직접 만들고 실험하며 움직임의 원리와 과학 원리를 배우고, VEX123 로봇으로 화면 없이 명령의 순서를 정하는 언플러그드 코딩을 익힙니다. 초등 1~2학년은 로봇코딩 에센셜로 순서·반복·조건을 로봇에 적용하며 블록코딩을 시작합니다.</p></details>
-      <details><summary>엔트리·스크래치를 배웠는데 다음은 무엇을 배우나요?</summary><p>스타랩에서도 초등 저학년 컴퓨터 사이언스 과정에서 엔트리를 배웁니다. 그다음 로봇코딩 프라임으로 센서를 쓰는 로봇 제어를 거쳐 파이썬으로 텍스트 코딩을 시작하고, AI 로보틱스와 C · 임베디드로 이어집니다. 스마트폰 앱을 만들어 보고 싶다면 앱인벤터 반을 함께 들을 수 있습니다. 초등 고학년이 처음 오면 레벨테스트로 맞는 단계를 바로 정합니다.</p></details>
+      <details><summary>코딩은 몇 살부터 시작하면 좋을까요?</summary><p>유치부는 STEAM 과정으로 시작합니다. 얼리 심플머신과 브릭큐 에센셜로 장치를 직접 만들고 실험하며 기초 로봇공학의 원리를 배우고, VEX123 로봇으로 화면 없이 명령의 순서를 정하는 언플러그드 코딩을 익힙니다. 초등 1~2학년은 로봇코딩 에센셜로 순서·반복·조건을 로봇에 적용하며 블록코딩을 시작합니다.</p></details>
+      <details><summary>엔트리·스크래치를 배웠는데 다음은 무엇을 배우나요?</summary><p>스타랩에서도 초등 저학년 컴퓨터 사이언스 과정에서 엔트리를 배웁니다. 그다음 로봇코딩 프라임으로 센서를 쓰는 로봇 제어를 거쳐 파이썬 · AI 로보틱스에서 텍스트 코딩과 로봇 제어를 배우고, C · 임베디드로 이어집니다. 스마트폰 앱을 만들어 보고 싶다면 앱인벤터 반을 함께 들을 수 있습니다. 초등 고학년이 처음 오면 레벨테스트로 맞는 단계를 바로 정합니다.</p></details>
       <details><summary>중간에 들어가도 진도를 따라갈 수 있나요?</summary><p>600차시에 달하는 커리큘럼 안에서 레벨테스트와 상담으로 지금 수준에 맞는 자리를 정합니다. 언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.</p></details>
-      <details><summary>중학생은 무엇을 배우나요?</summary><p>파이썬 문법과 알고리즘을 익힌 뒤 AI 로보틱스에서 정밀 주행과 센서 제어, 카메라 인식·추적 결과로 로봇을 움직이는 법을 배웁니다. C언어 기초와 아두이노 장치 제어도 함께 다룹니다. 고등부에서는 Git·오픈소스, 심화탐구보고서, 공모전, 생기부 관리로 이어집니다.</p></details>
-      <details><summary>대회나 영재원 준비도 하나요?</summary><p>로봇대회, 공모전, 경시대회, 영재원, 자격증 준비반을 운영합니다. 대회반은 Lv6부터 편성하고, 자격증은 블록코딩 단계의 COS와 파이썬 단계의 COS Pro를 목표로 합니다. 정보올림피아드 초등부 금상, FLL 퓨처 디자이너 종합 1위, 로보컵 코리아 오픈 1위, 로보텍스 아시아 챔피언십 3위 등의 실적이 있습니다.</p></details>
+      <details><summary>중학생은 무엇을 배우나요?</summary><p>파이썬 · AI 로보틱스에서 문법과 알고리즘, 로보틱스, 머신러닝 기초를 배우고, C · 임베디드에서 C 문법과 자료구조, MCU 기반 하드웨어 제어를 다룹니다. 알고리즘을 더 깊이 하고 싶은 학생은 파이썬 알고리즘 반을 함께 듣습니다. 고등부에서는 Git·오픈소스, 심화탐구보고서, 공모전, 생기부 관리로 이어집니다.</p></details>
+      <details><summary>대회나 영재원 준비도 하나요?</summary><p>경진대회 준비반에서 로봇대회, 공모전, 경시대회, 영재원, 자격증을 준비합니다. 대회반은 Lv6부터 편성하고, 자격증은 블록코딩 단계의 COS와 파이썬 단계의 COS Pro를 목표로 합니다. 정보올림피아드 초등부 금상, FLL 퓨처 디자이너 종합 1위, 로보컵 코리아 오픈 1위, 로보텍스 아시아 챔피언십 3위 등의 실적이 있습니다.</p></details>
       <details><summary>결석하면 보강해 주나요?</summary><p>격주 토요일 오후 2시 30분에 보강 수업이 있고, 해당 주 화요일에 결석한 학생에게 안내합니다. 같은 주 다른 반 수업에 참여하려면 학원에 문의해 주세요. 2주 이상 결석하는 경우에도 따로 문의해 주세요.</p></details>
       <details><summary>등록 전에 수업을 들어 볼 수 있나요?</summary><p>샘플클래스가 있습니다. 초등학생과 중학생은 90분, 유치부는 60분 동안 진행하고, 참가비 30,000원은 정규과정에 등록하면 수강료에서 전액 차감합니다.</p></details>
     </div>
@@ -488,29 +506,32 @@ footer a{color:var(--sub)}
 (function(){
   var g=document.getElementById('grade'), out=document.getElementById('result');
   if(!g||!out) return;
-  var A='앱인벤터 (초3~5) · 스마트폰 앱 만들기', X='AX (초6~중3) · 스스로 생각한 뒤 AI로 확장하기', P='파이썬 알고리즘 (초6~) · 풀이를 설계하고 더 나은 방법 찾기';
+  var A='앱인벤터 (초4~5) · 스마트폰 앱 만들기', X='AX (초6~중1) · AI 협업 코딩과 코드 리뷰', P='파이썬 알고리즘 (중1~3) · 문제 해결 전략과 효율적인 풀이';
   var R={
-    k7:{none:['STEAM','얼리 심플머신과 브릭큐 에센셜로 움직임의 원리를 배우고, VEX123 로봇으로 언플러그드 코딩을 익힙니다.']},
+    k7:{none:['STEAM','얼리 심플머신과 브릭큐 에센셜로 기초 로봇공학의 원리를 배우고, VEX123 로봇으로 언플러그드 코딩을 익힙니다.']},
     e12:{none:['로봇코딩 에센셜','스파이크 에센셜로 순서·반복·조건을 로봇에 적용하며 블록코딩을 시작합니다.'],
          block:['로봇코딩 에센셜','블록코딩 경험이 있으면 상담에서 단계를 올려 시작할 수 있습니다.'],
          text:['상담 후 결정','저학년이 텍스트 코딩을 해 봤다면 레벨테스트로 맞는 반을 찾습니다.']},
+    e3:{none:['로봇코딩 프라임','스파이크 프라임으로 센서 값에 따라 행동을 설계하며 시작합니다.'],
+        block:['로봇코딩 프라임','블록코딩 경험을 살려 대회 프로젝트로 바로 들어갑니다.'],
+        text:['상담 후 결정','텍스트 코딩 경험이 있으면 레벨테스트로 맞는 반을 찾습니다.']},
     e34:{none:['로봇코딩 프라임','스파이크 프라임으로 센서 값에 따라 행동을 설계하며 시작합니다.'],
-         block:['로봇코딩 프라임','블록코딩 경험을 살려 미션과 대회 프로젝트로 바로 들어갑니다.',A],
+         block:['로봇코딩 프라임','블록코딩 경험을 살려 대회 프로젝트로 바로 들어갑니다.',A],
          text:['상담 후 결정','텍스트 코딩 경험이 있으면 레벨테스트로 맞는 반을 찾습니다.',A]},
     e5:{none:['로봇코딩 프라임','처음이라면 로봇 제어로 원리를 익힌 뒤 파이썬으로 넘어갑니다.'],
-        block:['파이썬','블록코딩 다음 단계로 텍스트 코딩을 시작합니다.',A],
-        text:['AI 로보틱스','파이썬 문법을 마쳤다면 정밀 주행과 센서 제어, AI 인식·추적으로 이어갑니다.']},
+        block:['파이썬 · AI 로보틱스','블록코딩 다음 단계로 텍스트 코딩을 시작합니다.',A],
+        text:['파이썬 · AI 로보틱스','파이썬 문법을 마쳤다면 로보틱스와 머신러닝 기초로 이어갑니다.']},
     e6:{none:['로봇코딩 프라임','처음이라면 로봇 제어로 원리를 익힌 뒤 파이썬으로 넘어갑니다.'],
-        block:['파이썬','블록코딩 다음 단계로 텍스트 코딩을 시작합니다.',X],
-        text:['AI 로보틱스','파이썬 문법을 마쳤다면 정밀 주행과 센서 제어, AI 인식·추적으로 이어갑니다.',P]},
-    m:{none:['파이썬','기초 문법 첫 단원부터 시작하는 반이라 처음이어도 괜찮습니다.'],
-       block:['파이썬','블록코딩 경험을 텍스트 코딩으로 옮겨 갑니다.',X],
-       text:['AI 로보틱스 또는 C · 임베디드','배운 범위를 확인해 로봇 제어나 C언어로 이어갑니다.',P]},
+        block:['파이썬 · AI 로보틱스','블록코딩 다음 단계로 텍스트 코딩을 시작합니다.',X],
+        text:['파이썬 · AI 로보틱스','파이썬 문법을 마쳤다면 로보틱스와 머신러닝 기초로 이어갑니다.',X]},
+    m:{none:['파이썬 · AI 로보틱스','기초 문법 첫 단원부터 시작하는 반이라 처음이어도 괜찮습니다.'],
+       block:['파이썬 · AI 로보틱스','블록코딩 경험을 텍스트 코딩으로 옮겨 갑니다.'],
+       text:['파이썬 · AI 로보틱스 또는 C · 임베디드','배운 범위를 확인해 로봇 제어나 C언어로 이어갑니다.',P]},
     h:{none:['파이썬부터','상담에서 목표(내신, 학생기록부, 진로)를 확인하고 시작합니다.'],
        block:['파이썬부터','텍스트 코딩 기초를 다진 뒤 프로젝트로 이어갑니다.'],
-       text:['프로젝트','Git·오픈소스, 심화탐구보고서, 공모전으로 이어갑니다.',P]}
+       text:['프로젝트','Git·오픈소스, 심화탐구보고서, 공모전으로 이어갑니다.']}
   };
-  function key(v){ if(v==='k7')return'k7'; if(v==='e1'||v==='e2')return'e12'; if(v==='e3'||v==='e4')return'e34'; if(v==='e5')return'e5'; if(v==='e6')return'e6'; if(v.charAt(0)==='m')return'm'; return'h'; }
+  function key(v){ if(v==='k7')return'k7'; if(v==='e1'||v==='e2')return'e12'; if(v==='e3')return'e3'; if(v==='e4')return'e34'; if(v==='e5')return'e5'; if(v==='e6')return'e6'; if(v.charAt(0)==='m')return'm'; return'h'; }
   function render(){
     var e=document.querySelector('input[name=exp]:checked'); var ex=e?e.value:'none';
     var row=R[key(g.value)]; var r=row[ex]||row.none;
