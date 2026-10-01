@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>코딩은 몇 학년부터 시작하면 좋을까요? | 스타랩코딩학원 광진점</title>
+<meta name="description" content="학교 정보 수업은 두 배로 늘었습니다. 텍스트 코딩을 시작하기 좋은 시기와 저학년에 먼저 기를 것을 학년별로 정리했습니다.">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<link rel="canonical" href="https://starlabcoding.co.kr/posts/coding-start-grade.html">
+<meta property="og:url" content="https://starlabcoding.co.kr/posts/coding-start-grade.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="스타랩코딩학원 광진점">
+<meta property="og:title" content="코딩은 몇 학년부터 시작하면 좋을까요? | 스타랩코딩학원 광진점">
+<meta property="og:description" content="학교 정보 수업은 두 배로 늘었습니다. 텍스트 코딩을 시작하기 좋은 시기와 저학년에 먼저 기를 것을 학년별로 정리했습니다.">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:image" content="https://starlabcoding.co.kr/img/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* 배치: 왼쪽 정렬 한 기둥(최대 68rem). 대표 장면은 7세~고3을 잇는 노선도형 커리큘럼 지도.
+   과정 막대 색은 단계가 올라갈수록 진해지는 주황 한 계열, 단과반·준비반은 점선 */
+:root{
+  --paper:#F5F5F2; --sheet:#FFFFFF; --ink:#1C1C1E; --sub:#5E5F63; --rule:#DCDCD6;
+  --orange:#F7941E; --orange-ink:#A65605; --mat:#ECEDE8; --track:#1C1C1E;
+  --s1:#FEF1E2; --s2:#FDDDB8; --s3:#FBC489; --s4:#F9AB57; --s5:#F7941E; --s6:#D97A12; --s7:#A65605;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--orange-ink);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance;letter-spacing:-.02em}
+p{margin:0}
+.wrap{max-width:76rem;margin:0 auto;padding-inline:20px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.label{font-size:.85rem;font-weight:700;color:var(--sub)}
+
+/* 상단 */
+.top{background:var(--sheet);border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;text-decoration:none;color:var(--ink)}
+.brand img{height:34px;width:auto}
+.brand .name{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+.brand .name b{font-size:1.05rem;letter-spacing:-.02em}
+.brand .name small{font-size:.84rem;font-weight:500;color:var(--sub)}
+@media (max-width:640px){.top .phone,.top .btn{display:none}}
+.nav{display:flex;gap:20px;white-space:nowrap}
+.nav a{color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
+.nav a:hover{color:var(--orange-ink)}
+.top .phone{font-family:var(--mono);font-weight:500;color:var(--ink);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;background:var(--orange);color:#1C1C1E;font-weight:700;text-decoration:none;font-size:.95rem}
+.btn.ghost{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}
+@media (max-width:860px){.nav{order:5;width:100%;overflow-x:auto;gap:18px;border-top:1px solid var(--rule);padding-top:10px}}
+
+/* 첫 화면 */
+.hero{background:var(--sheet);border-bottom:1px solid var(--rule)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"text photo" "facts facts";gap:32px 48px;padding-block:44px 40px;align-items:center}
+.hero .text{grid-area:text;min-width:0}
+.hero .photo{grid-area:photo;margin:0}
+.hero .photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px}
+.hero h1{font-size:clamp(1.9rem,4.2vw,2.9rem);font-weight:700}
+.hero h1 em{font-style:normal;color:var(--orange-ink)}
+.hero .copy{margin-top:20px;max-width:36rem;display:flex;flex-direction:column;gap:12px}
+.hero .cta{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
+.facts{grid-area:facts;margin:0;padding:0;list-style:none;border-top:3px solid var(--ink);display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.facts li{display:flex;flex-direction:column;gap:2px;padding:14px 16px 4px 0}
+.facts b{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+.facts span{font-size:.92rem;color:var(--sub)}
+@media (max-width:780px){.hero .wrap{grid-template-columns:1fr;grid-template-areas:"text" "photo" "facts";gap:26px;padding-block:36px 32px}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+section.block{padding-block:52px;border-bottom:1px solid var(--rule)}
+section.block > .wrap{display:flex;flex-direction:column;gap:22px}
+.head{display:flex;flex-direction:column;gap:8px;max-width:46rem}
+.head h2{font-size:clamp(1.4rem,2.6vw,1.9rem)}
+.head p{color:var(--sub)}
+
+/* 커리큘럼 지도 */
+.trackbox{overflow-x:auto;background:var(--mat);border-radius:12px;padding:20px 18px 18px;
+  background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:28px 28px;background-position:-1px -1px}
+.track{display:grid;grid-template-columns:repeat(13,minmax(88px,1fr));row-gap:8px;min-width:1144px}
+.station{grid-row:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;padding-bottom:6px}
+.station::before{content:"";position:absolute;top:7px;left:0;right:0;height:6px;background:var(--track)}
+.station:first-child::before{left:50%}
+.station:last-child::before{right:50%}
+.station i{position:relative;width:20px;height:20px;border-radius:50%;background:var(--sheet);border:4px solid var(--track)}
+.station b{font-family:var(--mono);font-size:.82rem;font-weight:500}
+.bar{position:relative;border-radius:7px;padding:7px 9px;min-height:50px;display:flex;flex-direction:column;justify-content:center;line-height:1.35;min-width:0;color:var(--ink)}
+.bar strong{font-size:.92rem;white-space:nowrap}
+.bar small{font-size:.77rem;color:rgba(28,28,30,.74);white-space:nowrap}
+.s1{background:var(--s1)}.s2{background:var(--s2)}.s3{background:var(--s3)}.s4{background:var(--s4)}.s5{background:var(--s5)}.s6{background:var(--s6)}
+.s7{background:var(--s7);color:#FFFFFF}.s7 small{color:rgba(255,255,255,.86)}
+.bar.single{background:var(--sheet);border:1.5px solid #B9BAB2}
+.bar.prep{background:var(--sheet);border:1.5px dashed #8E8F89}
+.bar.gap{margin-top:12px}
+.bar.join{margin-right:4px}
+@media (max-width:700px){
+  .trackbox{background:none;padding:0;overflow:visible}
+  .track{display:flex;flex-direction:column;gap:8px;min-width:0}
+  .station{display:none}
+  .bar{display:grid;grid-template-columns:4.6rem minmax(0,1fr);column-gap:10px;row-gap:0;align-items:center;min-height:0;padding:9px 12px;border-radius:8px}
+  .bar::before{content:attr(data-range);grid-row:1 / span 2;font-family:var(--mono);font-size:.78rem}
+  .bar strong,.bar small{grid-column:2;white-space:normal}
+  .bar.gap{margin-top:6px}
+  .bar.join{margin-right:0}
+}
+.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.shots img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px}
+.shots figcaption{font-size:.88rem;font-weight:700;color:var(--sub)}
+@media (max-width:700px){.shots{grid-template-columns:repeat(3,72%);overflow-x:auto;scroll-snap-type:x mandatory}.shots figure{scroll-snap-align:start}}
+details.more{border:1px solid var(--rule);border-radius:12px;background:var(--sheet)}
+details.more summary{cursor:pointer;padding:14px 18px;font-weight:700}
+details.more[open] summary{border-bottom:1px solid var(--rule)}
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;vertical-align:top;padding:12px 18px;border-bottom:1px solid var(--rule)}
+thead th{font-size:.8rem;font-weight:700;color:var(--sub);background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+td.who{white-space:nowrap;font-family:var(--mono);font-size:.88rem}
+.stages td p{margin-bottom:6px}
+.cl{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
+.cl li{color:var(--sub);font-size:.93rem}
+.cl b{color:var(--ink);margin-right:8px}
+@media (max-width:640px){.stages thead{display:none}.stages tbody tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 16px;border-bottom:1px solid var(--rule)}.stages tbody tr:last-child{border-bottom:0}.stages td{padding:0;border:0}.stages td:last-child{grid-column:1 / -1}}
+
+/* 시작점 찾기 */
+.start{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
+@media (max-width:860px){.start{grid-template-columns:1fr}}
+.finder{display:flex;flex-direction:column;gap:16px;background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:22px;min-width:0}
+.finder .field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.finder label,.finder .fl{font-weight:700;font-size:.92rem}
+.finder select{font:inherit;font-size:1rem;padding:9px 12px;border-radius:8px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);width:100%}
+.exp{display:flex;flex-wrap:wrap;gap:8px}
+.exp input{position:absolute;opacity:0;pointer-events:none}
+.exp label{font-weight:500;padding:7px 13px;border:1.5px solid var(--ink);border-radius:99px;cursor:pointer;font-size:.9rem}
+.exp input:checked + label{background:var(--ink);color:var(--sheet)}
+.exp input:focus-visible + label{outline:2px solid var(--orange);outline-offset:2px}
+.result{border-left:5px solid var(--orange);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:4px}
+.result b{font-size:1.12rem}
+.result p{font-size:.95rem}
+.result .alt{margin-top:6px;padding-top:8px;border-top:1px dashed var(--rule);font-size:.9rem;color:var(--sub)}
+
+/* 실적 */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.split > div{display:flex;flex-direction:column;gap:16px;min-width:0}
+.split img{width:100%;border-radius:12px;aspect-ratio:4/3;object-fit:cover}
+.list.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:36px}
+.list.two li{grid-template-columns:10.5rem minmax(0,1fr);font-size:.95rem}
+@media (max-width:780px){.list.two{grid-template-columns:1fr}}
+.list{margin:0;padding:0;list-style:none}
+.list li{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr);gap:4px 16px;padding:11px 0;border-bottom:1px dashed var(--rule)}
+.list li span:first-child{font-weight:700}
+@media (max-width:780px){.split{grid-template-columns:1fr}}
+@media (max-width:640px){.list li{grid-template-columns:1fr}}
+
+/* 수업 방식 */
+.steps{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;counter-reset:s}
+.steps li{counter-increment:s;background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.steps li::before{content:counter(s);font-family:var(--mono);font-weight:500;color:var(--orange-ink);font-size:.85rem}
+.steps b{font-size:1rem}
+.steps span{font-size:.88rem;color:var(--sub)}
+
+/* 스타랩 이야기 */
+.posts{list-style:none;margin:0;padding:0;border-top:3px solid var(--ink)}
+.posts a{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:4px 24px;padding:15px 0;border-bottom:1px solid var(--rule);color:var(--ink);text-decoration:none}
+.posts .meta{grid-row:span 2;display:flex;flex-direction:column;gap:2px;font-size:.85rem;color:var(--sub)}
+.posts time{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.posts b{font-size:1.06rem;line-height:1.45}
+.posts .sum{color:var(--sub);font-size:.95rem}
+.posts a:hover b{color:var(--orange-ink);text-decoration:underline;text-underline-offset:3px}
+.more-link{font-weight:700}
+@media (max-width:640px){.posts a{grid-template-columns:1fr}.posts .meta{grid-row:auto;flex-direction:row;gap:10px}}
+
+/* 샘플클래스 */
+.sample{background:var(--ink);color:var(--sheet);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.sample h3{font-size:1.25rem;color:var(--sheet)}
+.sample p{color:#D4D4D0;font-size:.95rem}
+.sample dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px}
+.sample dt{color:#A9A9A4;font-size:.9rem}
+.sample dd{margin:0;font-weight:500}
+.sample dd small{display:block;font-weight:400;font-size:.86rem;color:#A9A9A4}
+.sample .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.sample .btn.ghost{border-color:var(--sheet);color:var(--sheet)}
+
+/* 자주 묻는 질문 */
+.faq{border-top:3px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{cursor:pointer;list-style:none;padding:15px 32px 15px 0;font-weight:700;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:12px;font-family:var(--mono);font-size:1.2rem;color:var(--orange-ink)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{padding:0 0 16px;max-width:52rem}
+
+/* 오시는 길 */
+.info{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:22px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px 36px;align-items:start}
+.addr,.time{display:flex;flex-direction:column;gap:10px;min-width:0}
+.note{font-size:.9rem;color:var(--sub)}
+.hours{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 18px}
+.hours dt{font-weight:700}
+.hours dd{margin:0}
+.maps{display:flex;flex-wrap:wrap;gap:8px}
+.maps .btn{padding:7px 12px;font-size:.88rem}
+@media (max-width:780px){.info{grid-template-columns:1fr}}
+
+/* 글 페이지 */
+.article{max-width:44rem;display:flex;flex-direction:column;gap:18px;padding-block:40px 56px}
+.crumb{font-size:.9rem;color:var(--sub)}
+.crumb a{color:var(--sub)}
+.article h1{font-size:clamp(1.6rem,3.8vw,2.3rem)}
+.byline{font-size:.9rem;color:var(--sub)}
+.byline time{font-family:var(--mono)}
+.answer{border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);padding:16px 0;display:flex;flex-direction:column;gap:6px}
+.answer span{font-size:.85rem;font-weight:700;color:var(--orange-ink)}
+.answer p{font-size:1.06rem;font-weight:500}
+.prose{display:flex;flex-direction:column;gap:14px}
+.prose h2{font-size:1.3rem;margin-top:16px}
+.prose ul{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:6px}
+.prose code{font-family:var(--mono);font-size:.9em;background:var(--mat);padding:1px 5px;border-radius:4px}
+.prose .tablebox{border:1px solid var(--rule);border-radius:12px;background:var(--sheet)}
+.source{font-size:.92rem;color:var(--sub);border-top:1px solid var(--rule);padding-top:14px}
+.ask{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.ask h2{font-size:1.15rem}
+.ask .cta{display:flex;flex-wrap:wrap;gap:10px}
+
+footer{padding-block:32px 48px;color:var(--sub);font-size:.88rem}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer img{height:26px;width:auto;margin-bottom:6px;align-self:flex-start}
+footer a{color:var(--sub)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "코딩은 몇 학년부터 시작하면 좋을까요?",
+ "description": "학교 정보 수업은 두 배로 늘었습니다. 텍스트 코딩을 시작하기 좋은 시기와 저학년에 먼저 기를 것을 학년별로 정리했습니다.",
+ "datePublished": "2026-03-24",
+ "inLanguage": "ko",
+ "author": {
+  "@type": "Organization",
+  "name": "스타랩코딩학원 광진점"
+ },
+ "publisher": {
+  "@type": "Organization",
+  "name": "스타랩코딩학원 광진점"
+ },
+ "isBasedOn": "https://blog.naver.com/starlab_gwangjin/224227750635",
+ "articleSection": "스타랩 이야기",
+ "mainEntityOfPage": "https://starlabcoding.co.kr/posts/coding-start-grade.html"
+}
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../index.html#top"><img src="../img/logo.png" alt="" width="67" height="34"><span class="name"><b>스타랩코딩학원</b><small>광진점</small></span></a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="../index.html#curriculum">커리큘럼</a><a href="../index.html#record">실적</a><a href="index.html">스타랩 이야기</a><a href="../index.html#visit">오시는 길</a>
+    </nav>
+    <a class="phone" href="tel:024441854">02-444-1854</a>
+    <a class="btn" href="../index.html#sample">샘플클래스 신청</a>
+  </div>
+</header>
+<main id="top">
+  <div class="wrap">
+    <article class="article">
+      <p class="crumb"><a href="index.html">스타랩 이야기</a></p>
+      <h1>코딩은 몇 학년부터 시작하면 좋을까요?</h1>
+      <p class="byline"><time datetime="2026-03-24">2026.03.24</time> · 스타랩코딩학원 광진점</p>
+      <div class="answer"><span>짧게 답하면</span><p>무엇으로 시작하느냐에 따라 다릅니다. 파이썬·C언어 같은 텍스트 코딩은 초등 5~6학년 무렵이 적당하고, 그 전에는 로봇과 블록코딩으로 문제를 나누고 순서를 세우는 사고력을 기르는 것이 시작입니다. 몇 학년보다 어떤 방식으로 시작하느냐가 더 중요합니다.</p></div>
+      <div class="prose">
+<h2>학교 정보 수업이 두 배로 늘었습니다</h2>
+<p>2022 개정 교육과정에서 초등학교 정보교육은 17시간에서 34시간으로, 중학교는 34시간에서 68시간으로 늘었습니다. 적용은 학년별로 차례대로 진행됩니다.</p>
+<div class="tablebox"><table>
+<thead><tr><th>연도</th><th>적용 학년</th></tr></thead>
+<tbody>
+<tr><td>2024</td><td>초등 1·2학년</td></tr>
+<tr><td>2025</td><td>초등 3·4학년, 중학교 1학년</td></tr>
+<tr><td>2026</td><td>초등 5·6학년, 중학교 2학년</td></tr>
+<tr><td>2027</td><td>전 학년 적용 완료</td></tr>
+</tbody></table></div>
+<h2>텍스트 코딩은 초등 고학년부터</h2>
+<p>한국정보교육학회에 발표된 2023년 연구에서 교사들은 코딩교육을 시작하기 좋은 시기로 초등 5~6학년을 가장 많이 꼽았습니다. 논리적으로 생각하는 힘이 어느 정도 자란 때라는 이유입니다. 다만 여기서 말하는 코딩은 파이썬, C언어 같은 텍스트 프로그래밍입니다. 블록코딩이나 로봇을 쓰는 체험형 수업은 다르게 봐야 합니다.</p>
+<h2>저학년은 사고력을 먼저 기릅니다</h2>
+<p>초등 저학년에 코딩을 시작한다는 건 문법을 배운다는 뜻이 아닙니다. 이 시기에 기르는 것은 컴퓨팅 사고력입니다.</p>
+<ul><li>문제를 작은 단위로 나누기</li><li>반복되는 패턴 찾기</li><li>순서대로 절차 세우기</li></ul>
+<p>로봇을 직접 조립하고, 움직임을 설계해 명령을 만들고, 결과를 확인하는 과정이 그대로 코딩 공부의 시작이 됩니다.</p>
+<h2>학년별로 이렇게 시작합니다</h2>
+<div class="tablebox"><table>
+<thead><tr><th>학년</th><th>시작 방법</th></tr></thead>
+<tbody>
+<tr><td>초등 1~3학년</td><td>로봇 교구와 블록코딩으로 만들면서 생각하는 체험형 수업</td></tr>
+<tr><td>초등 4~6학년</td><td>블록코딩에 익숙하다면 파이썬 같은 텍스트 코딩으로 넘어갈 때</td></tr>
+<tr><td>중학생 이상</td><td>목표에 맞춰 파이썬, C언어를 체계적으로</td></tr>
+</tbody></table></div>
+      </div>
+      <p class="source">사진과 함께 보는 원문: <a href="https://blog.naver.com/starlab_gwangjin/224227750635">스타랩 광진 블로그</a></p>
+      <div class="ask">
+        <h2>어디서부터 시작할지 궁금하다면</h2>
+        <p>학년과 코딩 경험을 알려 주시면 레벨테스트와 상담으로 시작 단계를 함께 정합니다. 전화문의 <span class="num">02-444-1854</span></p>
+        <div class="cta"><a class="btn" href="../index.html#sample">샘플클래스 신청</a><a class="btn ghost" href="http://pf.kakao.com/_jixhQG/chat">카카오톡 상담</a></div>
+      </div>
+    </article>
+    <section class="article" style="padding-top:0" aria-label="다른 글">
+      <h2 style="font-size:1.2rem">다른 글</h2>
+      <ul class="posts">
+      <li><a href="python-after-block-coding.html"><span class="meta"><time datetime="2026-09-03">2026.09.03</time></span><b>블록코딩은 잘하는데 파이썬에서 막힌다면</b><span class="sum">블록에서 글자로, 오타 하나에 멈추는 실행, 빈 화면에서 순서 정하기. 파이썬이 어려운 세 가지 이유와 넘어가는 방법.</span></a></li>
+      <li><a href="coding-age-7-to-grade2.html"><span class="meta"><time datetime="2026-08-05">2026.08.05</time></span><b>7세부터 초등 2학년, 코딩은 이렇게 시작합니다</b><span class="sum">이 시기에 기르는 건 코드가 아니라 생각의 순서입니다. 7세, 초1, 초2 수업이 어떻게 다른지 정리했습니다.</span></a></li>
+    </ul>
+    </section>
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <img src="../img/logo.png" alt="스타랩코딩학원" width="51" height="26">
+    <p><b style="color:var(--ink)">스타랩코딩학원 광진점</b> · 서울특별시 광진구 광나루로 602 대한빌딩 2층 201호 · 02-444-1854</p>
+    <p>학원등록번호 제2310호 · 서울특별시광진교육지원청</p>
+    <p><a href="https://blog.naver.com/starlab_gwangjin">스타랩 광진 블로그</a> · <a href="http://pf.kakao.com/_jixhQG">카카오톡 채널</a> · <a href="https://star-lab.co.kr">스타랩 본사</a></p>
+  </div>
+</footer>
+</body>
+</html>
