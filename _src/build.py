@@ -97,7 +97,7 @@ posts.sort(key=lambda p: p["date"], reverse=True)
 def cat(p, pre="", a="", b=""):
     """분류가 '스타랩 이야기'(섹션 이름과 같음)면 표시하지 않는다"""
     c = p["category"]
-    return "" if c == "스타랩 이야기" else f"{pre}{a}{c}{b}"
+    return "" if c in ("스타랩 이야기", "학원 소식") else f"{pre}{a}{c}{b}"
 
 
 def dot(d):
@@ -130,7 +130,10 @@ def page(title, desc, canon_path, extra_head, inner, og_type="website"):
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta name="format-detection" content="telephone=no">
-{('<link rel="alternate" type="application/rss+xml" title="스타랩 이야기" href="' + DOMAIN + '/rss.xml">') if DOMAIN else ""}
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+{('<link rel="alternate" type="application/rss+xml" title="학원 소식" href="' + DOMAIN + '/rss.xml">') if DOMAIN else ""}
 {('<meta property="og:image" content="' + DOMAIN + '/img/hero.jpg">') if DOMAIN else ""}
 {FONTS}
 {extra_head}
@@ -188,7 +191,7 @@ def article(p):
 <main id="top">
   <div class="wrap">
     <article class="article">
-      <p class="crumb"><a href="index.html">스타랩 이야기</a>{cat(p, " · ")}</p>
+      <p class="crumb"><a href="index.html">학원 소식</a>{cat(p, " · ")}</p>
       <h1>{p["title"]}</h1>
       <p class="byline"><time datetime="{p["date"]}">{dot(p["date"])}</time> · 스타랩코딩학원 광진점</p>
       <div class="answer"><span>짧게 답하면</span><p>{p["answer"]}</p></div>
@@ -226,7 +229,7 @@ LIST_INNER = f"""{links(HEADER, "../index.html", "", "../")}
 <main id="top">
   <div class="wrap">
     <div class="article" style="max-width:52rem">
-      <h1>스타랩 이야기</h1>
+      <h1>학원 소식</h1>
       <p style="color:var(--sub)">상담에서 자주 받는 질문과 수업 이야기를 정리합니다. 사진이 담긴 원문은 스타랩 광진 블로그에 있습니다.</p>
       {post_list(posts, "")}
     </div>
@@ -250,7 +253,7 @@ for p in posts:
     write(f"{OUT}/posts/{p['slug']}.html",
           page(f"{p['title']} | 스타랩코딩학원 광진점", p["summary"], f"posts/{p['slug']}.html",
                STYLE + "\n" + article_ld(p), article(p), "article"))
-write(f"{OUT}/posts/index.html", page("스타랩 이야기 | 스타랩코딩학원 광진점",
+write(f"{OUT}/posts/index.html", page("학원 소식 | 스타랩코딩학원 광진점",
       "광진구 구의동 스타랩코딩학원 광진점의 코딩 교육 이야기와 학부모 질문 정리", "posts/", STYLE, LIST_INNER))
 
 # 샘플클래스 신청 페이지
@@ -285,7 +288,7 @@ if DOMAIN:
         f"    <description>{html.escape(p['summary'])}</description>\n    <category>{html.escape(p['category'])}</category>\n"
         f"    <pubDate>{rfc(p['date'])}</pubDate>\n  </item>\n" for p in posts)
     write(f"{OUT}/rss.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n'
-          f"  <title>스타랩 이야기 | 스타랩코딩학원 광진점</title>\n  <link>{DOMAIN}/posts/</link>\n"
+          f"  <title>학원 소식 | 스타랩코딩학원 광진점</title>\n  <link>{DOMAIN}/posts/</link>\n"
           "  <description>광진구 구의동 스타랩코딩학원 광진점의 코딩 교육 이야기와 학부모 질문 정리</description>\n"
           f"  <language>ko</language>\n  <lastBuildDate>{rfc(posts[0]['date'])}</lastBuildDate>\n" + items + "</channel>\n</rss>\n")
 write(f"{OUT}/CNAME", "starlabcoding.co.kr\n")  # 깃허브 페이지 도메인 연결용
