@@ -250,7 +250,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : /sub01-03-04|sample\.html/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -266,7 +266,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
       <a href="../index.html#curriculum">커리큘럼</a><a href="../index.html#record">실적</a><a href="index.html">스타랩 이야기</a><a href="../index.html#visit">오시는 길</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
-    <a class="btn" href="../index.html#sample">샘플클래스 신청</a>
+    <a class="btn" href="../sample.html">샘플클래스 신청</a>
   </div>
 </header>
 <main id="top">
@@ -275,7 +275,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
       <h1>스타랩 이야기</h1>
       <p style="color:var(--sub)">상담에서 자주 받는 질문과 수업 이야기를 정리합니다. 사진이 담긴 원문은 스타랩 광진 블로그에 있습니다.</p>
       <ul class="posts">
-      <li><a href="sample-class.html"><span class="meta"><time datetime="2026-09-19">2026.09.19</time><span>학부모 질문</span></span><b>등록 전에 수업을 먼저 해 볼 수 있나요? 스타랩 샘플클래스</b><span class="sum">정규수업과 같은 교구와 방식으로 90분 동안 만들고, 코딩하고, 고쳐 봅니다. 수업이 끝나면 지금 수준과 시작하면 좋을 과정을 안내합니다.</span></a></li>
+      <li><a href="sample-class.html"><span class="meta"><time datetime="2026-09-19">2026.09.19</time><span>학부모 질문</span></span><b>등록 전에 수업을 먼저 해 볼 수 있나요? 스타랩 샘플클래스</b><span class="sum">정규수업과 같은 교구와 방식으로 만들고, 코딩하고, 고쳐 봅니다. 수업이 끝나면 지금 수준과 시작하면 좋을 과정을 안내합니다.</span></a></li>
       <li><a href="python-after-block-coding.html"><span class="meta"><time datetime="2026-09-03">2026.09.03</time><span>학부모 질문</span></span><b>블록코딩은 잘하는데 파이썬에서 막힌다면</b><span class="sum">블록에서 글자로, 오타 하나에 멈추는 실행, 빈 화면에서 순서 정하기. 파이썬이 어려운 세 가지 이유와 넘어가는 방법.</span></a></li>
       <li><a href="coding-age-7-to-grade2.html"><span class="meta"><time datetime="2026-08-05">2026.08.05</time><span>학부모 질문</span></span><b>7세부터 초등 2학년, 코딩은 이렇게 시작합니다</b><span class="sum">이 시기에 기르는 건 코드가 아니라 생각의 순서입니다. 7세, 초1, 초2 수업이 어떻게 다른지 정리했습니다.</span></a></li>
       <li><a href="contests-summer.html"><span class="meta"><time datetime="2026-07-25">2026.07.25</time><span>학부모 질문</span></span><b>과학·SW 공모전은 왜 여름방학에 준비하나요?</b><span class="sum">청소년 과학·SW 공모전은 9월 초 제출이 몰려 있어 여름방학이 준비의 골든타임입니다. 2026년 기준 주요 공모전과 스타랩의 지도 원칙을 정리했습니다.</span></a></li>

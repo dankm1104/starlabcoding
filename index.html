@@ -159,7 +159,7 @@
    "name": "등록 전에 수업을 들어 볼 수 있나요?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "샘플클래스가 있습니다. 초등학생과 중학생 대상으로 90분 동안 진행하고, 참가비 30,000원은 정규과정에 등록하면 수강료에서 전액 차감합니다."
+    "text": "샘플클래스가 있습니다. 초등학생과 중학생은 90분, 7세는 60분 동안 진행하고, 참가비 30,000원은 정규과정에 등록하면 수강료에서 전액 차감합니다."
    }
   }
  ]
@@ -180,7 +180,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : h.indexOf('sub01-03-04') > -1 ? 'sample_class_click'
+      : /sub01-03-04|sample\.html/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -414,7 +414,7 @@ footer a{color:var(--sub)}
       <a href="#curriculum">커리큘럼</a><a href="#record">실적</a><a href="posts/index.html">스타랩 이야기</a><a href="#visit">오시는 길</a>
     </nav>
     <a class="phone" href="tel:024441854">02-444-1854</a>
-    <a class="btn" href="#sample">샘플클래스 신청</a>
+    <a class="btn" href="sample.html">샘플클래스 신청</a>
   </div>
 </header>
 
@@ -478,12 +478,12 @@ footer a{color:var(--sub)}
         <h3>처음이라면, 샘플클래스로 먼저 경험해 보세요</h3>
         <p>정규수업과 같은 교구와 방식으로 직접 만들고, 코딩하고, 고쳐 가며 완성해 봅니다.<br>끝나면 지금 수준과 이어질 과정을 안내해 드립니다.</p>
         <dl>
-          <dt>대상</dt><dd>초등학생 · 중학생<small>코딩 경험이 없어도 됩니다</small></dd>
-          <dt>시간</dt><dd>90분</dd>
+          <dt>대상</dt><dd>7세 · 초등학생 · 중학생<small>코딩 경험이 없어도 됩니다</small></dd>
+          <dt>시간</dt><dd>90분<small>7세는 60분</small></dd>
           <dt>참가비</dt><dd>30,000원<small>정규과정 등록 시 수강료에서 전액 차감</small></dd>
         </dl>
         <div class="cta">
-          <a class="btn" href="https://star-lab.co.kr/m/sub01-03-04.php">샘플클래스 신청</a>
+          <a class="btn" href="sample.html">샘플클래스 신청</a>
           <a class="btn ghost" href="tel:024441854">전화 02-444-1854</a>
         </div>
       </div>
@@ -606,7 +606,7 @@ footer a{color:var(--sub)}
       <p>상담에서 자주 받는 질문과 수업 이야기를 정리합니다.</p>
     </div>
     <ul class="posts">
-      <li><a href="posts/sample-class.html"><span class="meta"><time datetime="2026-09-19">2026.09.19</time><span>학부모 질문</span></span><b>등록 전에 수업을 먼저 해 볼 수 있나요? 스타랩 샘플클래스</b><span class="sum">정규수업과 같은 교구와 방식으로 90분 동안 만들고, 코딩하고, 고쳐 봅니다. 수업이 끝나면 지금 수준과 시작하면 좋을 과정을 안내합니다.</span></a></li>
+      <li><a href="posts/sample-class.html"><span class="meta"><time datetime="2026-09-19">2026.09.19</time><span>학부모 질문</span></span><b>등록 전에 수업을 먼저 해 볼 수 있나요? 스타랩 샘플클래스</b><span class="sum">정규수업과 같은 교구와 방식으로 만들고, 코딩하고, 고쳐 봅니다. 수업이 끝나면 지금 수준과 시작하면 좋을 과정을 안내합니다.</span></a></li>
       <li><a href="posts/python-after-block-coding.html"><span class="meta"><time datetime="2026-09-03">2026.09.03</time><span>학부모 질문</span></span><b>블록코딩은 잘하는데 파이썬에서 막힌다면</b><span class="sum">블록에서 글자로, 오타 하나에 멈추는 실행, 빈 화면에서 순서 정하기. 파이썬이 어려운 세 가지 이유와 넘어가는 방법.</span></a></li>
       <li><a href="posts/coding-age-7-to-grade2.html"><span class="meta"><time datetime="2026-08-05">2026.08.05</time><span>학부모 질문</span></span><b>7세부터 초등 2학년, 코딩은 이렇게 시작합니다</b><span class="sum">이 시기에 기르는 건 코드가 아니라 생각의 순서입니다. 7세, 초1, 초2 수업이 어떻게 다른지 정리했습니다.</span></a></li>
     </ul>
@@ -626,7 +626,7 @@ footer a{color:var(--sub)}
       <details><summary>중학생은 무엇을 배우나요?</summary><p>파이썬 문법과 알고리즘을 익힌 뒤 AI 로보틱스에서 정밀 주행과 센서 제어, 카메라 인식·추적 결과로 로봇을 움직이는 법을 배웁니다. C언어 기초와 아두이노 장치 제어도 함께 다룹니다. 고등부에서는 Git·오픈소스, 심화탐구보고서, 공모전, 생기부 관리로 이어집니다.</p></details>
       <details><summary>대회나 영재원 준비도 하나요?</summary><p>로봇대회, 공모전, 경시대회, 영재원, 자격증 준비반을 운영합니다. 대회반은 Lv6부터 편성하고, 자격증은 블록코딩 단계의 COS와 파이썬 단계의 COS Pro를 목표로 합니다. 정보올림피아드 초등부 금상, FLL 퓨처 디자이너 종합 1위, 로보컵 코리아 오픈 1위, 로보텍스 아시아 챔피언십 3위 등의 실적이 있습니다.</p></details>
       <details><summary>결석하면 보강해 주나요?</summary><p>격주 토요일 오후 2시 30분에 보강 수업이 있고, 해당 주 화요일에 결석한 학생에게 안내합니다. 같은 주 다른 반 수업에 참여하려면 학원에 문의해 주세요. 2주 이상 결석하는 경우에도 따로 문의해 주세요.</p></details>
-      <details><summary>등록 전에 수업을 들어 볼 수 있나요?</summary><p>샘플클래스가 있습니다. 초등학생과 중학생 대상으로 90분 동안 진행하고, 참가비 30,000원은 정규과정에 등록하면 수강료에서 전액 차감합니다.</p></details>
+      <details><summary>등록 전에 수업을 들어 볼 수 있나요?</summary><p>샘플클래스가 있습니다. 초등학생과 중학생은 90분, 7세는 60분 동안 진행하고, 참가비 30,000원은 정규과정에 등록하면 수강료에서 전액 차감합니다.</p></details>
     </div>
   </div>
 </section>
