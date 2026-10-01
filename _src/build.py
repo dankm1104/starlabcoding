@@ -44,7 +44,7 @@ if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
 
 PHOTO_ALT = {
     1: "광진구 구의동 스타랩코딩학원 광진점 교실",
-    2: "7세 STEAM 수업 교구 VEX123과 레고 에듀케이션 얼리 심플머신",
+    2: "유치부 STEAM 수업 교구 VEX123과 레고 에듀케이션 얼리 심플머신",
     3: "레고 에듀케이션 스파이크로 만든 로봇코딩 작품",
     4: "파이썬·C언어·임베디드 수업",
     5: "학생이 로봇을 조립하고 코딩하는 수업 장면",
@@ -153,7 +153,7 @@ org = {
     "name": "스타랩코딩학원 광진점",
     "alternateName": ["스타랩 광진점", "스타랩코딩학원 광진센터"],
     "description": "광진구 구의동, 실적으로 증명하는 스타랩코딩학원입니다. 6년 연속 전국대회 수상 세계대회 진출 10회. "
-                   "7세 첫 코딩부터 고등 심화 프로젝트까지, 로봇코딩으로 시작해 파이썬 C언어 임베디드로 이어집니다.",
+                   "유치부 첫 코딩부터 고등 심화 프로젝트까지, 로봇코딩으로 시작해 파이썬 C언어 임베디드로 이어집니다.",
     "telephone": "+82-2-444-1854",
     "address": {"@type": "PostalAddress", "streetAddress": "광나루로 602 대한빌딩 2층 201호",
                 "addressLocality": "광진구", "addressRegion": "서울특별시", "postalCode": "05034", "addressCountry": "KR"},
@@ -177,9 +177,9 @@ faqld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
 home = body.replace("@@LATEST@@", post_list(posts[:3], "posts/"))
 home = links(home, "", "posts/", "")
 
-TITLE = "광진구 구의동 코딩학원 스타랩 | 7세~고등 로봇코딩·파이썬·C언어"
+TITLE = "광진구 구의동 코딩학원 스타랩 | 유치~고등 로봇코딩·파이썬·C언어"
 DESC = ("광진구 구의동 스타랩코딩학원 광진점. 6년 연속 전국대회 수상, 세계대회 진출 10회. "
-        "7세 로봇코딩부터 파이썬, C언어, 임베디드, 고등 심화 프로젝트까지 600차시 커리큘럼. 샘플클래스 운영. 02-444-1854")
+        "유치부 로봇코딩부터 파이썬, C언어, 임베디드, 고등 심화 프로젝트까지 600차시 커리큘럼. 샘플클래스 운영. 02-444-1854")
 
 # ── 글 페이지 ──
 def article(p):
@@ -259,7 +259,7 @@ SAMPLE_STYLE = re.search(r"<style>.*?</style>", sf, re.S).group(0)
 SAMPLE_BODY = sf.replace(SAMPLE_STYLE, "").strip()
 SAMPLE_INNER = links(HEADER, "index.html", "posts/", "") + "\n" + SAMPLE_BODY.replace("</main>", "</main>\n" + FOOTER_RAW.replace("@@A@@", ""), 1)
 write(f"{OUT}/sample.html", page("샘플클래스 신청 | 스타랩코딩학원 광진점",
-      "스타랩코딩학원 광진점 샘플클래스 신청. 7세·초등학생·중학생 대상 로봇·코딩 수업(초등·중등 90분, 7세 60분), 참가비 30,000원(등록 시 차감). 02-444-1854",
+      "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등학생·중학생 대상 로봇·코딩 수업(초등·중등 90분, 유치부 60분), 참가비 30,000원(등록 시 차감). 02-444-1854",
       "sample.html", STYLE + "\n" + SAMPLE_STYLE, SAMPLE_INNER))
 
 bots = ["Googlebot", "Google-Extended", "Yeti", "GPTBot", "OAI-SearchBot", "ChatGPT-User",
