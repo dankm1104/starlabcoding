@@ -311,7 +311,7 @@ if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : /sub01-03-04|sample\.html/.test(h) ? 'sample_class_click'
+      : /sub01-03-04|sample\.html|^#sample$/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\.kakao|map\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });

@@ -34,7 +34,7 @@ if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : /sub01-03-04|sample\\.html/.test(h) ? 'sample_class_click'
+      : /sub01-03-04|sample\\.html|^#sample$/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\\.kakao|map\\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -251,8 +251,13 @@ shutil.rmtree(PREV, ignore_errors=True)
 shutil.rmtree(f"{OUT}/posts", ignore_errors=True)  # 글 페이지만 새로 만든다 (OUT 전체를 지우면 저장소가 날아감)
 
 # 실제 사이트
-write(f"{OUT}/index.html", page(TITLE, DESC, "", ld(org) + "\n" + ld(faqld),
-                                home.replace(STYLE, STYLE)))
+# 첫 페이지: 2026-10-03 원장 컨펌 시안 D (home.py). 검색·통계 태그는 이 파일의 page()와 같은 것을 쓴다
+import home as homepage
+homepage.set_posts(posts[:3])
+_full = page(TITLE, DESC, "", ld(org) + "\n" + ld(faqld), "")
+HEAD = re.search(r"<head>\n(.*)\n</head>", _full, re.S).group(1).replace(FONTS + "\n", "")
+INDEX = homepage.page(HEAD, FORM_ENDPOINT)
+write(f"{OUT}/index.html", INDEX)
 for p in posts:
     write(f"{OUT}/posts/{p['slug']}.html",
           page(f"{p['title']} | 스타랩코딩학원 광진점", p["summary"], f"posts/{p['slug']}.html",
@@ -314,7 +319,7 @@ if DOMAIN:
 write(f"{OUT}/CNAME", "starlabcoding.co.kr\n")  # 깃허브 페이지 도메인 연결용
 
 # 검토용 아티팩트: 첫 페이지는 뼈대 없이, 글 페이지는 완전한 문서로
-write(f"{PREV}/index.html", "<title>스타랩 광진점 홈페이지</title>\n" + FONTS + "\n" + home)
+write(f"{PREV}/index.html", INDEX)
 for p in posts:
     write(f"{PREV}/posts/{p['slug']}.html", open(f"{OUT}/posts/{p['slug']}.html", encoding="utf-8").read())
 write(f"{PREV}/posts/index.html", open(f"{OUT}/posts/index.html", encoding="utf-8").read())
