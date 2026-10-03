@@ -182,8 +182,8 @@ home = body.replace("@@LATEST@@", post_list(posts[:3], "posts/"))
 home = links(home, "", "posts/", "")
 
 TITLE = "광진구 구의동 코딩학원 스타랩 | 유치~고등 로봇코딩·파이썬·C언어"
-DESC = ("광진구 구의동 스타랩코딩학원 광진점. 6년 연속 전국대회 수상, 세계대회 진출 10회. "
-        "유치부 로봇코딩부터 파이썬, C언어, 임베디드, 고등 심화 프로젝트까지 600차시 커리큘럼. 샘플클래스 운영. 02-444-1854")
+# 네이버 서치어드바이저 기준: 설명문은 80자 이내 (2026-10-03)
+DESC = "광진구 구의동 스타랩코딩학원 광진점. 6년 연속 전국대회 수상, 세계대회 진출 10회. 유치부 로봇코딩부터 파이썬·C언어까지 600차시 과정."
 
 # ── 글 페이지 ──
 def article(p):
@@ -271,7 +271,7 @@ SAMPLE_STYLE = re.search(r"<style>.*?</style>", sf, re.S).group(0)
 SAMPLE_BODY = sf.replace(SAMPLE_STYLE, "").strip()
 SAMPLE_INNER = links(HEADER, "index.html", "posts/", "") + "\n" + SAMPLE_BODY.replace("</main>", "</main>\n" + FOOTER_RAW.replace("@@A@@", ""), 1)
 write(f"{OUT}/sample.html", page("샘플클래스 신청 | 스타랩코딩학원 광진점",
-      "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등학생·중학생 대상 로봇·코딩 수업(초등·중등 90분, 유치부 60분), 참가비 30,000원(등록 시 차감). 02-444-1854",
+      "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등·중학생 로봇·코딩 수업(초등·중등 90분, 유치부 60분). 참가비 30,000원.",
       "sample.html", STYLE + "\n" + SAMPLE_STYLE, SAMPLE_INNER))
 
 # 없는 주소로 들어왔을 때 (GitHub Pages가 404.html을 보여 준다. 어느 깊이에서든 열리므로 링크는 절대 경로)
