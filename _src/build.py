@@ -130,6 +130,7 @@ def page(title, desc, canon_path, extra_head, inner, og_type="website"):
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta name="format-detection" content="telephone=no">
+<meta name="naver-site-verification" content="a8d50ad0e07dc6b774fd50e51b22d8a8fe8e33a2">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
