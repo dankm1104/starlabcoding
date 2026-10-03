@@ -20,7 +20,7 @@ SHOT = {k: D(f'ui-{k}.jpg') for k in ['python', 'appinventor', 'ax', 'algo']}
 SHOT['prep'] = D('prep.jpg')
 SHOT_ALT = {'python': '스파이크 앱 파이썬 편집기에서 거리 센서로 장애물을 피하는 주행 코드를 작성한 화면',
             'appinventor': '앱 인벤터 블록 편집기에서 스위치와 슬라이더로 조명 앱을 만드는 화면',
-            'ax': 'AI가 제안한 코드 변경을 검토하고 유지할지 되돌릴지 고르는 편집기 화면',
+            'ax': '클로드 코드 터미널에서 AI에게 테스트 점검을 맡기고 진행 과정을 확인하는 화면',  # 앤트로픽 공식 깃허브 소개 영상의 한 장면
             'algo': '프로그래머스 코딩테스트 연습 문제를 파이썬 깊이 우선 탐색으로 푸는 화면',
             'prep': '학원에 진열된 FLL 대회 트로피와 메달'}
 LG = {k: D('logo-' + f) for k, f in [('koi', 'koi.png'), ('fll', 'fll.svg'), ('robocup', 'robocup.png'), ('robotex', 'robotex.png'),
