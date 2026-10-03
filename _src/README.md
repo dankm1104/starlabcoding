@@ -9,7 +9,7 @@
    - 사진·로고·히어로 영상은 `img/d/`. 사진은 펙셀스 색감으로 보정한 것, 히어로 영상은 휴대폰용 720p(`hero-720.mp4`)와 PC용 1080p(`hero.mp4`) 두 개
    - 학원 소식 칸은 최신 글 3편. `img/d/post-<slug>.jpg`가 있으면 글 옆에 대표 이미지가 붙는다 (블로그 대표 이미지, 버튼 배너뿐인 글은 본문 사진)
    - 신청서는 첫 페이지 `#sample`에서도 받는다 (sample.html과 같은 Apps Script 주소로 같은 항목을 보낸다)
-   - 글 페이지·sample.html·404는 아직 예전 디자인(`body.html`의 스타일·머리글·바닥글)
+   - 글 페이지(posts/), 학원 소식 목록, sample.html, 404도 같은 디자인이다(2026-10-03). home.py의 `article_page`·`list_page`·`sample_page`·`notfound_page`가 만들고, 첫 페이지에 없는 칸으로 가는 링크는 `relink()`가 첫 페이지 주소로 바꾼다. `sample_form.html`과 `body.html`의 스타일·머리글·바닥글은 더 이상 페이지에 쓰지 않는다
 2. 글은 `_src/posts_src/`에 파일 하나씩 둔다. 맨 위 `slug: / title: / date: / category: / summary: / source: / answer:` 다음 줄에 `---`, 그 아래 본문 HTML.
    - 블로그 글을 그대로 복사하지 않는다. 네이버 유사문서로 블로그가 빠질 수 있으니 다시 쓴 정리본만 올린다.
    - 블로그 글 하나 = 사이트 글 하나. 여러 글을 합치지 않는다 (source 원문 링크가 하나씩 맞아야 한다).

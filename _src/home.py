@@ -607,6 +607,30 @@ input,select,textarea,button{font:inherit;color:inherit}
 .steps li span:not(.sn){display:block;margin-top:4px;color:rgba(28,28,30,.75)}
 .mx-p{color:var(--g5);max-width:34rem}
 
+/* 글 페이지 (학원 소식 글, 2026-10-03 새 디자인) */
+.post{padding-block:72px 40px}
+.post .cols{max-width:808px}
+.crumb{font-size:14px;color:var(--g5);margin:0 0 18px}.crumb a{color:var(--oi)}
+.post-h{font-size:40px;line-height:1.25;font-weight:600;letter-spacing:-.035em;margin:0 0 14px;text-wrap:balance}
+.byline{color:var(--g5);font-size:14px;margin:0 0 36px;font-variant-numeric:tabular-nums}
+.answer{background:var(--sand);border-radius:24px;padding:24px 28px;margin:0 0 40px}
+.answer span{display:block;font-size:13px;font-weight:700;color:var(--oi);letter-spacing:.04em;margin-bottom:8px}
+.answer p{margin:0;font-size:17px;line-height:1.7}
+.prose{font-size:17px;line-height:1.85}
+.prose p{margin:0 0 1.1em}
+.prose h2{font-size:24px;font-weight:600;letter-spacing:-.03em;line-height:1.35;margin:2em 0 .7em;text-wrap:balance}
+.prose ul,.prose ol{padding-left:1.2em;margin:0 0 1.2em}.prose li{margin:.35em 0}
+.prose b,.prose strong{font-weight:600}
+.prose code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;background:var(--sand);border-radius:6px;padding:.1em .4em}
+.prose .tablebox{overflow-x:auto;margin:0 0 1.4em}
+.prose table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.6}
+.prose th,.prose td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+.prose th{color:var(--g5);font-weight:600}
+.source{margin:40px 0 0;padding-top:20px;border-top:1px solid var(--line);color:var(--g5);font-size:14px}.source a{color:var(--oi)}
+.more-posts{padding-block:24px 96px}
+.more-posts .lbl2{font-size:24px;font-weight:600;letter-spacing:-.03em;margin:0 auto 20px;max-width:1000px}
+@media (max-width:700px){.post{padding-block:48px 24px}.post-h{font-size:28px}.prose,.answer p{font-size:16px}.prose h2{font-size:20px}.answer{padding:20px 22px}}
+
 /* 빈 자리 */
 .ph{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:24px;border-radius:16px;border:1.5px dashed rgba(28,28,30,.18);
   background:repeating-linear-gradient(-45deg,#F8F7F5 0 12px,#F1EFEC 12px 24px);color:var(--g5)}
@@ -672,7 +696,7 @@ input,select,textarea,button{font:inherit;color:inherit}
 JS = r'''
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches, hasIO = 'IntersectionObserver' in window;
-  var views = {}, cur = null, T0 = document.title;  /* 첫 화면 제목은 검색용 제목 그대로 */
+  var views = {}, cur = null, T0 = document.title, START = document.body.dataset.start || 'home';  /* 시작 화면 제목은 검색용 제목 그대로 */
   Array.prototype.forEach.call(document.querySelectorAll('.view'), function(v){ views[v.dataset.view] = v; });
 
   /* 숫자 카운트업 2초 */
@@ -705,12 +729,12 @@ JS = r'''
     Array.prototype.forEach.call(document.querySelectorAll('[data-nav]'), function(a){
       if (a.dataset.nav === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
-    cur = name; arm(views[name]); document.title = name === 'home' ? T0 : views[name].dataset.title;
+    cur = name; arm(views[name]); document.title = name === START ? T0 : views[name].dataset.title;
     return true;
   }
   function route(){
-    var h = decodeURIComponent(location.hash.slice(1)) || 'home', name = h, target = null;
-    if (!views[h]) { var el = document.getElementById(h); if (el && el.closest('.view')) { name = el.closest('.view').dataset.view; target = el; } else name = 'home'; }
+    var h = decodeURIComponent(location.hash.slice(1)) || START, name = h, target = null;
+    if (!views[h]) { var el = document.getElementById(h); if (el && el.closest('.view')) { name = el.closest('.view').dataset.view; target = el; } else name = START; }
     var changed = show(name);
     document.body.classList.remove('menu-open');
     requestAnimationFrame(function(){
@@ -718,7 +742,8 @@ JS = r'''
       else window.scrollTo(0, 0);
     });
   }
-  window.addEventListener('hashchange', route); route();
+  if (views[START]) { window.addEventListener('hashchange', route); route(); }
+  else arm(document);  /* 글 페이지처럼 화면 전환이 없는 문서 */
 
   /* 신청서: 필수 항목을 확인하고 학원 구글 시트(Apps Script)로 보낸다 */
   var form = document.getElementById('applyForm');
@@ -1056,10 +1081,12 @@ def sample():
 </div></section>
 </div>'''
 
-def page(HEAD, ENDPOINT):
+def shell(HEAD, ENDPOINT, main, start='home', current=None):
+    """문서 틀. main은 <main> 안에 들어갈 것. 첫 페이지 밖의 문서는 relink()로 링크를 고친다"""
     nav = [('curriculum', '커리큘럼'), ('record', '대회·실적'), ('stories', '학원 소식')]
-    navh = ''.join(f'<a href="#{k}" data-nav="{k}">{t}</a>' for k, t in nav) + '<a href="#visit">오시는 길</a>'
-    mnav = ''.join(f'<a href="#{k}" data-nav="{k}">{t}</a>' for k, t in nav) + '<a href="#sample" data-nav="sample">샘플클래스</a><a href="#visit">오시는 길</a><a class="tel2" href="tel:024441854">전화 02-444-1854</a>'
+    cur = lambda k: ' aria-current="page"' if k == current else ''
+    navh = ''.join(f'<a href="#{k}" data-nav="{k}"{cur(k)}>{t}</a>' for k, t in nav) + '<a href="#visit">오시는 길</a>'
+    mnav = ''.join(f'<a href="#{k}" data-nav="{k}"{cur(k)}>{t}</a>' for k, t in nav) + f'<a href="#sample" data-nav="sample"{cur("sample")}>샘플클래스</a><a href="#visit">오시는 길</a><a class="tel2" href="tel:024441854">전화 02-444-1854</a>'
     fcur = ''.join(f'<a href="#c-{SLUG[k]}">{c[0]}</a>' for k, c in enumerate(COURSES))
     return f'''<!doctype html>
 <html lang="ko">
@@ -1069,7 +1096,7 @@ def page(HEAD, ENDPOINT):
 <script>document.documentElement.className+=' js';window.FORM_ENDPOINT={json.dumps(ENDPOINT)}</script>
 <style>{CSS}</style>
 </head>
-<body>
+<body data-start="{start}">
 <header class="top"><div class="cols">
   <a class="brand" href="#home"><img src="{IMG['logo.png']}" alt=""><b>스타랩코딩학원</b></a>
   <nav class="nav" aria-label="주요 메뉴">{navh}</nav>
@@ -1077,11 +1104,7 @@ def page(HEAD, ENDPOINT):
     <button type="button" class="menu" aria-label="메뉴" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16 M4 12h16 M4 17h16"/></svg></button></div>
 </div><nav class="mnav" aria-label="메뉴">{mnav}</nav></header>
 <main>
-{home()}
-{curriculum()}
-{record()}
-{stories()}
-{sample()}
+{main}
 </main>
 <footer><div class="cols">
   <div class="col"><img src="{IMG['logo.png']}" alt="스타랩코딩학원"><p>스타랩코딩학원 광진점</p><p style="color:var(--g5)">서울특별시 광진구 광나루로 602 대한빌딩 2층 201호</p><p style="color:var(--g5)">학원등록번호 제2310호 · 서울특별시광진교육지원청</p></div>
@@ -1096,3 +1119,63 @@ def page(HEAD, ENDPOINT):
 </html>
 '''
 
+def page(HEAD, ENDPOINT):
+    return shell(HEAD, ENDPOINT, '\n'.join([home(), curriculum(), record(), stories(), sample()]))
+
+def relink(doc, home_url, asset):
+    """첫 페이지 밖 문서: 이 문서에 없는 칸(#curriculum 등)으로 가는 링크는 첫 페이지로, 사진 경로는 asset 기준으로"""
+    here = set(re.findall(r'\bid="([^"]+)"', doc)) | set(re.findall(r'data-view="([^"]+)"', doc))
+    def fix(m):
+        k = m.group(1)
+        if k in here: return m.group(0)
+        return f'href="{home_url}"' if k == 'home' else f'href="{home_url}#{k}"'
+    doc = re.sub(r'href="#([\w-]+)"', fix, doc)
+    return doc.replace('src="img/', f'src="{asset}img/').replace('href="posts/', f'href="{asset}posts/')
+
+def posts_list(items, href, asset):
+    """학원 소식 목록. href: 글 주소 앞부분, asset: 사진 경로 앞부분"""
+    rows = []
+    for p in items:
+        t = SITE / 'img' / 'd' / f"post-{p['slug']}.jpg"
+        th = f'<span class="th"><img src="{asset}img/d/post-{p["slug"]}.jpg" alt="" loading="lazy" decoding="async"></span>' if t.exists() else ''
+        c = '' if p['category'] in ('스타랩 이야기', '학원 소식') else f"<span>{p['category']}</span>"
+        rows.append(f'<li><a href="{href}{p["slug"]}.html"><span class="tx"><span class="meta"><time datetime="{p["date"]}">{p["date"].replace("-", ".")}</time>{c}</span>'
+                    f'<b>{p["title"]}</b><span class="sum">{p["summary"]}</span></span>{th}</a></li>')
+    return '<ul class="posts">\n      ' + '\n      '.join(rows) + '\n    </ul>'
+
+def article_page(HEAD, ENDPOINT, p, others):
+    """학원 소식 글 한 편 (posts/<slug>.html)"""
+    cat = '' if p['category'] in ('스타랩 이야기', '학원 소식') else f' · {p["category"]}'
+    main = f'''<article class="post"><div class="cols">
+  <p class="crumb"><a href="./">학원 소식</a>{cat}</p>
+  <h1 class="post-h">{p["title"]}</h1>
+  <p class="byline"><time datetime="{p["date"]}">{p["date"].replace("-", ".")}</time> · 스타랩코딩학원 광진점</p>
+  <div class="answer"><span>짧게 답하면</span><p>{p["answer"]}</p></div>
+  <div class="prose">
+{p["content"]}
+  </div>
+  <p class="source">사진과 함께 보는 원문: <a href="{p["source"]}">스타랩 광진 블로그</a></p>
+</div></article>
+<section class="more-posts"><div class="cols"><h2 class="lbl2">다른 글</h2>{posts_list(others, "", "../")}</div></section>
+{band()}'''
+    return relink(shell(HEAD, ENDPOINT, main, start='', current='stories'), '../', '../')
+
+def list_page(HEAD, ENDPOINT, items):
+    """학원 소식 전체 목록 (posts/index.html)"""
+    main = f'''<section class="phero"><div class="cols">
+  {phero('학원 소식', '학원 소식', '상담에서 자주 받는 질문과 수업 이야기를 정리합니다.<br>사진이 담긴 원문은 스타랩 광진 블로그에 있습니다.')}
+</div></section>
+<section style="padding-top:24px"><div class="cols">{posts_list(items, "", "../")}</div></section>
+{band()}'''
+    return relink(shell(HEAD, ENDPOINT, main, start='', current='stories'), '../', '../')
+
+def sample_page(HEAD, ENDPOINT):
+    """샘플클래스 신청만 따로 연 문서 (sample.html). 첫 페이지 #sample 과 같은 신청서"""
+    return relink(shell(HEAD, ENDPOINT, sample(), start='sample', current='sample'), './', '')
+
+def notfound_page(HEAD, ENDPOINT):
+    """없는 주소 (404.html). 어느 깊이에서든 열리므로 절대 경로"""
+    main = f'''<section class="phero"><div class="cols">
+  {phero('', '페이지를 찾을 수 없습니다', '주소가 바뀌었거나 없어진 페이지입니다.', btns(pill('첫 화면으로', '/'), go('학원 소식', '/posts/'), go('샘플클래스 신청', '/#sample')))}
+</div></section>'''
+    return relink(shell(HEAD, ENDPOINT, main, start=''), '/', '/')

@@ -34,7 +34,7 @@ if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
     if (!a) return;
     var h = a.getAttribute('href') || '';
     var name = h.indexOf('tel:') === 0 ? 'phone_click'
-      : /sub01-03-04|sample\\.html|^#sample$/.test(h) ? 'sample_class_click'
+      : /sub01-03-04|sample\\.html|#sample$/.test(h) ? 'sample_class_click'
       : h.indexOf('pf.kakao.com') > -1 ? 'kakao_click'
       : /map\\.kakao|map\\.naver/.test(h) ? 'map_click' : '';
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
@@ -270,41 +270,36 @@ shutil.rmtree(f"{OUT}/posts", ignore_errors=True)  # 글 페이지만 새로 만
 # 첫 페이지: 2026-10-03 원장 컨펌 시안 D (home.py). 검색·통계 태그는 이 파일의 page()와 같은 것을 쓴다
 import home as homepage
 homepage.set_posts(posts[:3])
-_full = page(TITLE, DESC, "", ld(org) + "\n" + ld(faqld), "")
-HEAD = re.search(r"<head>\n(.*)\n</head>", _full, re.S).group(1).replace(FONTS + "\n", "")
+def head_of(title, desc, canon_path, extra_head, og_type="website"):
+    """page()가 만드는 검색·통계 머리말에서 예전 글꼴만 뺀 것. 새 디자인 문서(home.py shell)의 <head>에 넣는다"""
+    full = page(title, desc, canon_path, extra_head, "", og_type)
+    return re.search(r"<head>\n(.*)\n</head>", full, re.S).group(1).replace(FONTS + "\n", "")
+
+
+HEAD = head_of(TITLE, DESC, "", ld(org) + "\n" + ld(faqld))
 INDEX = homepage.page(HEAD, FORM_ENDPOINT)
 write(f"{OUT}/index.html", INDEX)
-for p in posts:
-    write(f"{OUT}/posts/{p['slug']}.html",
-          page(f"{p['title']} | 스타랩코딩학원 광진점", p["summary"], f"posts/{p['slug']}.html",
-               STYLE + "\n" + article_ld(p), article(p), "article"))
-write(f"{OUT}/posts/index.html", page("학원 소식 | 스타랩코딩학원 광진점",
-      "광진구 구의동 스타랩코딩학원 광진점 학원 소식. 학부모가 자주 묻는 질문과 수업 이야기, 로봇대회·정보올림피아드·자격증 소식을 정리합니다.", "posts/", STYLE, LIST_INNER))
 
-# 샘플클래스 신청 페이지
-sf = open("sample_form.html", encoding="utf-8").read().replace("@@ENDPOINT@@", FORM_ENDPOINT)
-SAMPLE_STYLE = re.search(r"<style>.*?</style>", sf, re.S).group(0)
-SAMPLE_BODY = sf.replace(SAMPLE_STYLE, "").strip()
-SAMPLE_INNER = links(HEADER, "index.html", "posts/", "") + "\n" + SAMPLE_BODY.replace("</main>", "</main>\n" + FOOTER_RAW.replace("@@A@@", ""), 1)
-write(f"{OUT}/sample.html", page("샘플클래스 신청 | 스타랩코딩학원 광진점",
+# 학원 소식 글·목록 (2026-10-03부터 첫 페이지와 같은 디자인)
+for p in posts:
+    others = [o for o in posts if o["slug"] != p["slug"]][:3]
+    write(f"{OUT}/posts/{p['slug']}.html",
+          homepage.article_page(head_of(f"{p['title']} | 스타랩코딩학원 광진점", p["summary"], f"posts/{p['slug']}.html",
+                                        article_ld(p), "article"), FORM_ENDPOINT, p, others))
+write(f"{OUT}/posts/index.html", homepage.list_page(head_of("학원 소식 | 스타랩코딩학원 광진점",
+      "광진구 구의동 스타랩코딩학원 광진점 학원 소식. 학부모가 자주 묻는 질문과 수업 이야기, 로봇대회·정보올림피아드·자격증 소식을 정리합니다.", "posts/", ""),
+      FORM_ENDPOINT, posts))
+
+# 샘플클래스 신청 페이지: 첫 페이지 #sample 과 같은 신청서만 따로 연 문서
+write(f"{OUT}/sample.html", homepage.sample_page(head_of("샘플클래스 신청 | 스타랩코딩학원 광진점",
       "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등·중학생 로봇·코딩 수업(초등·중등 90분, 유치부 60분). 참가비 30,000원.",
-      "sample.html", STYLE + "\n" + SAMPLE_STYLE, SAMPLE_INNER))
+      "sample.html", ""), FORM_ENDPOINT))
 
 # 없는 주소로 들어왔을 때 (GitHub Pages가 404.html을 보여 준다. 어느 깊이에서든 열리므로 링크는 절대 경로)
-NF_INNER = links(HEADER, "/", "/posts/", "/") + """
-<main id="top">
-  <div class="wrap">
-    <div class="article">
-      <h1>페이지를 찾을 수 없습니다</h1>
-      <p>주소가 바뀌었거나 없어진 페이지입니다.</p>
-      <p><a class="btn" href="/">첫 화면으로</a> <a class="btn ghost" href="/posts/">학원 소식</a> <a class="btn ghost" href="/sample.html">샘플클래스 신청</a></p>
-    </div>
-  </div>
-</main>
-""" + FOOTER_RAW.replace("@@A@@", "/")
-nf = page("페이지를 찾을 수 없습니다 | 스타랩코딩학원 광진점", "스타랩코딩학원 광진점", "", STYLE, NF_INNER)
-nf = re.sub(r'<link rel="canonical"[^>]*>\n', "", nf).replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">', 1)
-write(f"{OUT}/404.html", nf)
+nf_head = head_of("페이지를 찾을 수 없습니다 | 스타랩코딩학원 광진점", "스타랩코딩학원 광진점", "", "")
+nf_head = re.sub(r'<link rel="canonical"[^>]*>\n', "", nf_head)
+nf_head = re.sub(r'<meta property="og:url"[^>]*>\n', "", nf_head).replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">', 1)
+write(f"{OUT}/404.html", homepage.notfound_page(nf_head, FORM_ENDPOINT))
 
 bots = ["Googlebot", "Google-Extended", "Yeti", "GPTBot", "OAI-SearchBot", "ChatGPT-User",
         "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Bingbot", "Daumoa"]
