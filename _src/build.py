@@ -41,6 +41,22 @@ if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
   });
 }
 </script>""".replace("@@GA@@", GA_ID)
+# 네이버 광고 전환 추적 (프리미엄 로그 분석 공통 스크립트 + 신청 완료 'lead')
+# 키(네이버공통키 na_account_id)는 검색광고시스템 [도구 > 프리미엄 로그 분석]에서 확인. 비어 있으면 아무것도 넣지 않는다
+# 안내: https://naver.github.io/conversion-tracking/pages/01_script_guide_wcstrans/
+NAVER_WA = ""
+if NAVER_WA:
+    ANALYTICS += """
+<script src="https://wcs.naver.net/wcslog.js"></script>
+<script>
+if (window.wcs && /(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
+  if (!window.wcs_add) window.wcs_add = {};
+  wcs_add["wa"] = "@@WA@@";
+  wcs.inflow("starlabcoding.co.kr");
+  wcs_do();
+  window.naverLead = function () { wcs.trans({ type: "lead" }); };
+}
+</script>""".replace("@@WA@@", NAVER_WA)
 
 PHOTO_ALT = {
     1: "광진구 구의동 스타랩코딩학원 광진점 교실",

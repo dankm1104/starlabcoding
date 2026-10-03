@@ -748,7 +748,7 @@ JS = r'''
         .then(function(res){
           if (!res || !res.ok) throw new Error('fail');
           form.hidden = true; document.getElementById('applyDone').hidden = false;
-          if (window.gtag) gtag('event', 'generate_lead', { form_name: 'sample_class' });
+          if (window.gtag) gtag('event', 'generate_lead', { form_name: 'sample_class' }); if (window.naverLead) naverLead();
         })
         .catch(function(){
           btn.disabled = false; btn.textContent = '신청하기';
