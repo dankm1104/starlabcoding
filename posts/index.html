@@ -22,7 +22,13 @@
 <meta property="og:image" content="https://starlabcoding.co.kr/img/hero.jpg">
 
 <script>
-if (/(^|\.)starlabcoding\.co\.kr$/.test(location.hostname)) {
+window.slTrack = /(^|\.)starlabcoding\.co\.kr$/.test(location.hostname) && !navigator.webdriver;
+try {
+  if (/[?&]internal=off/.test(location.search)) localStorage.removeItem('sl_internal');
+  else if (/[?&]internal\b/.test(location.search)) localStorage.setItem('sl_internal', '1');
+  if (localStorage.getItem('sl_internal') === '1') window.slTrack = false;
+} catch (e) {}
+if (window.slTrack) {
   var s = document.createElement('script'); s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=G-SXYG0R5WMM';
   document.head.appendChild(s);

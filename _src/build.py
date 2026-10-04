@@ -19,8 +19,16 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 GA_ID = "G-SXYG0R5WMM"
 # 샘플클래스 신청을 받는 구글 Apps Script 웹앱 주소 (신청 → 구글 시트 + 메일)
 FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycby6k2TKL4GjP-XzRct7w_7yKdNAslZeJEhDgeK1nBIh6rZuuf9nP146p9yayOhi58ch_g/exec"
+# 원장·학원 기기 제외: 주소 끝에 ?internal 을 붙여 한 번 열면 그 브라우저는 이후 기록 안 함 (?internal=off 로 해제)
+# 자동화 브라우저(navigator.webdriver)도 기록하지 않음
 ANALYTICS = """<script>
-if (/(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
+window.slTrack = /(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname) && !navigator.webdriver;
+try {
+  if (/[?&]internal=off/.test(location.search)) localStorage.removeItem('sl_internal');
+  else if (/[?&]internal\\b/.test(location.search)) localStorage.setItem('sl_internal', '1');
+  if (localStorage.getItem('sl_internal') === '1') window.slTrack = false;
+} catch (e) {}
+if (window.slTrack) {
   var s = document.createElement('script'); s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=@@GA@@';
   document.head.appendChild(s);
@@ -49,7 +57,7 @@ if NAVER_WA:
     ANALYTICS += """
 <script src="https://wcs.naver.net/wcslog.js"></script>
 <script>
-if (window.wcs && /(^|\\.)starlabcoding\\.co\\.kr$/.test(location.hostname)) {
+if (window.wcs && window.slTrack) {
   if (!window.wcs_add) window.wcs_add = {};
   wcs_add["wa"] = "@@WA@@";
   wcs.inflow("starlabcoding.co.kr");
