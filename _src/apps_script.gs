@@ -6,6 +6,7 @@
 const TO = 'darren.kim@star-lab.co.kr';
 const BOOK_ID = '1fF23hLKdMa_a9sF-ezPn4eOi_A1-5TSwjbKhlWgNoH0';   // 스타랩 통합관리
 const TAB = '명단Metadata';
+const REF_BOOK_ID = '1I1aI4I5FTgV6jH2TurtAYZt45jmIZKr-POmOguZE4t4';   // 스타랩 소개 링크 (원장 전용: 링크 값 | 소개한 분)
 // 명단Metadata 열: 번호 | 학생이름 | 학생 나이(해당년도 기준, 세는 나이) | 전화 번호 | 날짜(9월 30일) | 접근 경로 | 특이사항
 
 function doPost(e) {
@@ -21,6 +22,7 @@ function doPost(e) {
     if (!v.name || !v.grade || !/^01\d-?\d{3,4}-?\d{4}$/.test(v.phone) || !p.agree || !p.confirm) {
       return out({ ok: false, error: 'invalid' });
     }
+    v.refwho = who(v.ref);
     const now = new Date();
     const date = Utilities.formatDate(now, 'Asia/Seoul', 'M월 d일');
     const note = ['홈페이지 샘플클래스 신청', v.grade, '경험: ' + v.exp, '가능 요일: ' + v.days, '희망 시간: ' + v.times]
@@ -58,9 +60,22 @@ function doPost(e) {
   }
 }
 
-// 소개: 소개 링크로 왔으면 '링크 값', 직접 적었으면 적은 이름 (값 → 학부모 짝은 원장 대시보드에서)
+// 소개: 소개 링크로 왔으면 '소개한 분 (링크 값)', 직접 적었으면 적은 이름
 function intro(v) {
-  return [v.ref ? '링크 ' + v.ref : '', v.refname].filter(String).join(' / ');
+  const link = v.ref ? (v.refwho ? v.refwho + ' (링크 ' + v.ref + ')' : '링크 ' + v.ref) : '';
+  return [link, v.refname].filter(String).join(' / ');
+}
+
+// 링크 값 → 소개한 분. '스타랩 소개 링크' 시트 첫 탭의 A열(링크 값)·B열(소개한 분)에서 찾는다. 못 찾으면 빈칸
+function who(ref) {
+  if (!ref) return '';
+  try {
+    const rows = SpreadsheetApp.openById(REF_BOOK_ID).getSheets()[0].getDataRange().getValues();
+    for (let i = 1; i < rows.length; i++) {
+      if (String(rows[i][0]).trim().toLowerCase() === ref.toLowerCase()) return String(rows[i][1]).trim();
+    }
+  } catch (e) {}
+  return '';
 }
 
 // 학년 → 세는 나이 (7세=7, 초1=8 … 초6=13, 중1=14 … 중3=16). 명단Metadata 기존 기록과 같은 기준
