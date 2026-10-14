@@ -77,6 +77,10 @@ if (window.slTrack) {
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.documentElement.className+=' js';window.FORM_ENDPOINT="https://script.google.com/macros/s/AKfycby6k2TKL4GjP-XzRct7w_7yKdNAslZeJEhDgeK1nBIh6rZuuf9nP146p9yayOhi58ch_g/exec"</script>
+<script>(function(){var k='sl_ref',m=/[?&]r=([A-Za-z0-9_-]{2,20})(?:&|$)/.exec(location.search),now=Date.now(),v='';
+try{if(m)localStorage.setItem(k,JSON.stringify({v:m[1],t:now}));var o=JSON.parse(localStorage.getItem(k)||'null');
+if(o&&o.v&&now-o.t<5184e6)v=o.v;else localStorage.removeItem(k)}catch(e){}
+window.SL_REF=v||(m?m[1]:'')})();</script>
 <style>
 .ui{position:relative;width:100%;height:100%;container-type:inline-size;background:linear-gradient(155deg,#FEF1E2 0%,#FBD9AE 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .ui *{box-sizing:border-box}
@@ -538,6 +542,7 @@ input,select,textarea,button{font:inherit;color:inherit}
 .done .dk{width:56px;height:56px;border-radius:50%;background:var(--o);display:grid;place-items:center;font-size:24px;font-weight:700}
 .done h3{font-size:28px;font-weight:600;letter-spacing:-.03em}.done p{color:var(--g5)}
 .done[hidden],.af[hidden]{display:none}
+.refok{font-size:15px;font-weight:600;color:var(--oi)}
 .formcard .done{border:0;padding:32px 0}
 .aside{background:var(--sand);border-radius:24px;padding:32px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;position:sticky;top:76px}
 .aside h3{font-size:20px;font-weight:600}
@@ -748,6 +753,7 @@ input,select,textarea,button{font:inherit;color:inherit}
   /* 신청서: 필수 항목을 확인하고 학원 구글 시트(Apps Script)로 보낸다 */
   var form = document.getElementById('applyForm');
   if (form) {
+    if (window.SL_REF) { document.getElementById('refOk').hidden = false; document.getElementById('refIn').hidden = true; }
     form.elements['phone'].addEventListener('input', function(){
       var d = this.value.replace(/\D/g, '').slice(0, 11);
       this.value = d.length > 7 ? d.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3') : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
@@ -761,7 +767,7 @@ input,select,textarea,button{font:inherit;color:inherit}
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
       var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: picked('times'),
-                memo: f['memo'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample' };
+                memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample' };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
       if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간대');

@@ -15,7 +15,8 @@ function doPost(e) {
     if (p.website) return out({ ok: true });            // 자동 등록 차단용 숨은 칸
     const v = {
       name: clip(p.name, 30), grade: clip(p.grade, 10), phone: clip(p.phone, 13),
-      exp: clip(p.exp, 60), days: clip(p.days, 30), times: clip(p.times, 80), memo: clip(p.memo, 500)
+      exp: clip(p.exp, 60), days: clip(p.days, 30), times: clip(p.times, 80), memo: clip(p.memo, 500),
+      ref: String(p.ref || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 20), refname: clip(p.refname, 40)
     };
     if (!v.name || !v.grade || !/^01\d-?\d{3,4}-?\d{4}$/.test(v.phone) || !p.agree || !p.confirm) {
       return out({ ok: false, error: 'invalid' });
@@ -23,7 +24,7 @@ function doPost(e) {
     const now = new Date();
     const date = Utilities.formatDate(now, 'Asia/Seoul', 'M월 d일');
     const note = ['홈페이지 샘플클래스 신청', v.grade, '경험: ' + v.exp, '가능 요일: ' + v.days, '희망 시간: ' + v.times]
-      .concat(v.memo ? ['남기신 말씀: ' + v.memo] : []).join(', ');
+      .concat(v.memo ? ['남기신 말씀: ' + v.memo] : []).concat(intro(v) ? ['소개: ' + intro(v)] : []).join(', ');
 
     lock.waitLock(20000);
     const sh = SpreadsheetApp.openById(BOOK_ID).getSheetByName(TAB);
@@ -32,7 +33,7 @@ function doPost(e) {
 
     MailApp.sendEmail({
       to: TO,
-      subject: '[홈페이지] 샘플클래스 신청 - ' + v.name + ' (' + v.grade + ')',
+      subject: '[홈페이지] ' + (intro(v) ? '소개 ' : '') + '샘플클래스 신청 - ' + v.name + ' (' + v.grade + ')',
       name: '스타랩 광진점 홈페이지',
       body: [
         '광진점 홈페이지로 샘플클래스 신청이 들어왔습니다.',
@@ -44,6 +45,7 @@ function doPost(e) {
         '가능한 요일: ' + v.days,
         '희망 시간대: ' + v.times,
         '남기신 말씀: ' + (v.memo || '-'),
+        '소개해 주신 분: ' + (intro(v) || '-'),
         '',
         '신청 시각: ' + Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd HH:mm'),
         '스타랩 통합관리 > 명단Metadata 맨 아래에 기록했습니다.'
@@ -54,6 +56,11 @@ function doPost(e) {
     try { lock.releaseLock(); } catch (x) {}
     return out({ ok: false, error: 'server' });
   }
+}
+
+// 소개: 소개 링크로 왔으면 '링크 값', 직접 적었으면 적은 이름 (값 → 학부모 짝은 원장 대시보드에서)
+function intro(v) {
+  return [v.ref ? '링크 ' + v.ref : '', v.refname].filter(String).join(' / ');
 }
 
 // 학년 → 세는 나이 (7세=7, 초1=8 … 초6=13, 중1=14 … 중3=16). 명단Metadata 기존 기록과 같은 기준

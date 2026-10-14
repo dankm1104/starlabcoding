@@ -585,6 +585,7 @@ input,select,textarea,button{font:inherit;color:inherit}
 .done .dk{width:56px;height:56px;border-radius:50%;background:var(--o);display:grid;place-items:center;font-size:24px;font-weight:700}
 .done h3{font-size:28px;font-weight:600;letter-spacing:-.03em}.done p{color:var(--g5)}
 .done[hidden],.af[hidden]{display:none}
+.refok{font-size:15px;font-weight:600;color:var(--oi)}
 .formcard .done{border:0;padding:32px 0}
 .aside{background:var(--sand);border-radius:24px;padding:32px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;position:sticky;top:76px}
 .aside h3{font-size:20px;font-weight:600}
@@ -693,6 +694,13 @@ input,select,textarea,button{font:inherit;color:inherit}
 @media (prefers-reduced-motion:reduce){.mq-t{animation:none;flex-wrap:wrap;width:auto;justify-content:center}.mq-t .lg:nth-child(n+11){display:none}.view.on{animation:none}.js .appear,.js .trackbox .bar,.js .bubble,.js .h1 .w{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}}
 '''
 
+# 소개 링크: 주소 끝 ?r=값 으로 들어오면 그 브라우저에 60일 동안 기억해 두었다가 샘플클래스 신청 때 함께 보낸다.
+# 나중에 누른 소개 링크가 앞의 것을 덮는다. 저장이 막힌 브라우저에서도 그 방문 동안은 쓴다.
+REF_JS = r'''(function(){var k='sl_ref',m=/[?&]r=([A-Za-z0-9_-]{2,20})(?:&|$)/.exec(location.search),now=Date.now(),v='';
+try{if(m)localStorage.setItem(k,JSON.stringify({v:m[1],t:now}));var o=JSON.parse(localStorage.getItem(k)||'null');
+if(o&&o.v&&now-o.t<5184e6)v=o.v;else localStorage.removeItem(k)}catch(e){}
+window.SL_REF=v||(m?m[1]:'')})();'''
+
 JS = r'''
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches, hasIO = 'IntersectionObserver' in window;
@@ -748,6 +756,7 @@ JS = r'''
   /* 신청서: 필수 항목을 확인하고 학원 구글 시트(Apps Script)로 보낸다 */
   var form = document.getElementById('applyForm');
   if (form) {
+    if (window.SL_REF) { document.getElementById('refOk').hidden = false; document.getElementById('refIn').hidden = true; }
     form.elements['phone'].addEventListener('input', function(){
       var d = this.value.replace(/\D/g, '').slice(0, 11);
       this.value = d.length > 7 ? d.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3') : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
@@ -761,7 +770,7 @@ JS = r'''
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
       var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: picked('times'),
-                memo: f['memo'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample' };
+                memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample' };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
       if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간대');
@@ -1039,6 +1048,7 @@ def sample():
       <div class="fd"><span class="fl">코딩·로봇 경험<em>필수</em></span>{chk('exp', ['처음이에요', '엔트리·스크래치', '로봇코딩', '파이썬·C언어'])}<p class="hint">해 본 것을 모두 골라 주세요.</p></div>
       <div class="fd"><span class="fl">가능한 요일<em>필수</em></span>{chk('days', ['화', '수', '목', '금', '토'])}<p class="hint">여러 요일을 고를 수 있습니다. 일요일과 월요일에는 샘플클래스를 하지 않습니다.</p></div>
       <div class="fd"><span class="fl">희망 시간대<em>필수</em></span>{chk('times', ['오전 10~12시', '오후 1~3시', '오후 3~5시', '오후 5~7시', '저녁 7시 이후'])}<p class="hint">오전은 토요일, 저녁 7시 이후는 평일만 가능합니다.</p></div>
+      <div class="fd"><span class="fl">소개해 주신 분</span><p class="refok" id="refOk" hidden>✓ 소개 링크로 접속하셨습니다</p><div id="refIn"><input type="text" name="refname" maxlength="40" autocomplete="off" placeholder="예: 홍길동 학생 학부모"><p class="hint" style="margin-top:10px">학원을 소개받아 오셨다면 적어 주세요.</p></div></div>
       <label class="fd"><span class="fl">남기실 말씀</span><textarea name="memo" maxlength="500" placeholder="궁금한 점이나 미리 알려 주실 내용을 적어 주세요."></textarea></label>
       <div class="agree">
         <ul><li>샘플클래스는 초등·중등 90분, 유치부 60분이며, 참가비는 30,000원입니다. 정규과정에 등록하시면 수강료에서 전액 차감합니다.</li>
@@ -1046,7 +1056,7 @@ def sample():
         <label class="ck"><input type="checkbox" name="confirm"><span>위 내용을 확인했습니다 <em>필수</em></span></label>
       </div>
       <div class="agree">
-        <dl><dt>수집 항목</dt><dd>학생 이름, 학년, 보호자 연락처, 코딩·로봇 경험, 가능한 요일과 시간대, 남기신 말씀</dd>
+        <dl><dt>수집 항목</dt><dd>학생 이름, 학년, 보호자 연락처, 코딩·로봇 경험, 가능한 요일과 시간대, 소개해 주신 분, 남기신 말씀</dd>
         <dt>이용 목적</dt><dd>샘플클래스 일정 안내, 상담과 상담 이력 관리</dd>
         <dt>보유 기간</dt><dd>상담 이력으로 보관하며, 삭제를 요청하시면 바로 파기합니다</dd></dl>
         <p class="hint">동의하지 않으셔도 됩니다. 이 경우 온라인 신청은 어렵고, 전화(02-444-1854)로 신청하실 수 있습니다.</p>
@@ -1094,6 +1104,7 @@ def shell(HEAD, ENDPOINT, main, start='home', current=None):
 {HEAD}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.documentElement.className+=' js';window.FORM_ENDPOINT={json.dumps(ENDPOINT)}</script>
+<script>{REF_JS}</script>
 <style>{CSS}</style>
 </head>
 <body data-start="{start}">
