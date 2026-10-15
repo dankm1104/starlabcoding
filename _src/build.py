@@ -205,7 +205,7 @@ faqld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
 home = body.replace("@@LATEST@@", post_list(posts[:3], "posts/"))
 home = links(home, "", "posts/", "")
 
-TITLE = "광진구 구의동 코딩학원 스타랩 | 유치~고등 로봇코딩·파이썬·C언어"
+TITLE = "광진구 코딩학원 스타랩 | 구의동 유치~고등 로봇코딩·파이썬·C언어"
 # 네이버 서치어드바이저 기준: 설명문은 80자 이내 (2026-10-03)
 DESC = "광진구 구의동 스타랩코딩학원 광진점. 6년 연속 전국대회 수상, 세계대회 진출 10회. 유치부 로봇코딩부터 파이썬·C언어까지 600차시 과정."
 
