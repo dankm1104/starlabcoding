@@ -293,14 +293,14 @@ write(f"{OUT}/index.html", INDEX)
 for p in posts:
     others = [o for o in posts if o["slug"] != p["slug"]][:3]
     write(f"{OUT}/posts/{p['slug']}.html",
-          homepage.article_page(head_of(f"{p['title']} | 스타랩코딩학원 광진점", p["summary"], f"posts/{p['slug']}.html",
+          homepage.article_page(head_of(f"{p['title']} | 광진구 스타랩코딩학원", p["summary"], f"posts/{p['slug']}.html",
                                         article_ld(p), "article"), FORM_ENDPOINT, p, others))
-write(f"{OUT}/posts/index.html", homepage.list_page(head_of("학원 소식 | 스타랩코딩학원 광진점",
+write(f"{OUT}/posts/index.html", homepage.list_page(head_of("학원 소식 | 광진구 스타랩코딩학원",
       "광진구 구의동 스타랩코딩학원 광진점 학원 소식. 학부모가 자주 묻는 질문과 수업 이야기, 로봇대회·정보올림피아드·자격증 소식을 정리합니다.", "posts/", ""),
       FORM_ENDPOINT, posts))
 
 # 샘플클래스 신청 페이지: 첫 페이지 #sample 과 같은 신청서만 따로 연 문서
-write(f"{OUT}/sample.html", homepage.sample_page(head_of("샘플클래스 신청 | 스타랩코딩학원 광진점",
+write(f"{OUT}/sample.html", homepage.sample_page(head_of("샘플클래스 신청 | 광진구 스타랩코딩학원",
       "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등·중학생 로봇·코딩 수업(초등·중등 90분, 유치부 60분). 참가비 30,000원.",
       "sample.html", ""), FORM_ENDPOINT))
 
