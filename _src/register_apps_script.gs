@@ -140,59 +140,135 @@ function freeName(folder, base) {
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
-// 서명 PDF (보관용). 표로만 짠다(구글 PDF 변환이 표 외 배치를 잘 못 따른다). 동의한 문구 전문을 함께 남긴다
+// 서명 PDF (보관용). 구글 문서로 짠 뒤 PDF로 내보내고 임시 문서는 휴지통으로 보낸다.
+// (HTML→PDF 변환은 글꼴을 고를 수 없어 Arial Unicode로 나온다. 구글 문서는 구글 폰트를 그대로 쓴다)
+// 1쪽: 등록카드와 서명, 2쪽: 동의한 문구 전문
+const FONT = 'IBM Plex Sans KR';
+const C = { ink: '#222226', sub: '#6D6E72', line: '#CFCFD4', head: '#F4F4F6', brand: '#F7941E', ok: '#15803D' };
+
 function makePdf(v, no, now) {
-  const row = (k, val) => '<tr><td class="k">' + k + '</td><td>' + (val === '' || val == null ? '—' : val) + '</td></tr>';
-  const stamp = Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
-  const html = '<html><head><meta charset="utf-8"><style>' +
-    'body{font-family:"Noto Sans KR","Malgun Gothic",sans-serif;font-size:10.5pt;color:#222;margin:0}' +
-    'table{width:100%;border-collapse:collapse}' +
-    '.g td{border:1px solid #cfcfd4;padding:4px 7px;vertical-align:top}' +
-    '.g td.k{background:#f4f4f6;width:24%;font-weight:bold}' +
-    '.c td,.c th{border:1px solid #cfcfd4;padding:4px 7px;vertical-align:top;text-align:left}' +
-    '.c th{background:#f4f4f6;font-weight:bold}' +
-    'h3{font-size:10.5pt;color:#666;margin:12px 0 4px}' +
-    '.ok{color:#15803D;font-weight:bold}' +
-    '.meta{font-size:8.5pt;color:#666;text-align:right}' +
-    '.sm{font-size:8.5pt;color:#666}' +
-    '</style></head><body>' +
-    '<table><tr><td style="width:60%;border-bottom:2px solid #F7941E;padding-bottom:6px"><img src="data:image/png;base64,' + LOGO + '" style="height:34px">' +
-    ' &nbsp;<span style="font-size:17pt;font-weight:bold">학원 등록카드</span></td>' +
-    '<td class="meta" style="border-bottom:2px solid #F7941E;padding-bottom:6px">문서 번호 ' + no + '<br>제출 ' + stamp + ' · 동의 문구 ' + CONSENT_VER + '</td></tr></table>' +
-    '<h3>학생</h3><table class="g">' +
-    row('이름', esc(v.s_name)) + row('생년월일', esc(v.s_birth)) + row('성별', esc(v.s_sex)) +
-    row('학교·학년', esc(v.s_school) + ' · ' + esc(v.s_grade)) + row('학생 휴대폰', esc(v.s_phone)) + row('주소', esc(v.s_addr)) +
-    '</table><h3>보호자</h3><table class="g">' +
-    row('이름·관계', esc(v.p_name) + ' · ' + esc(v.p_rel)) + row('휴대폰', esc(v.p_phone)) + row('비상 연락처', esc(v.p_phone2)) +
-    '</table><h3>수강</h3><table class="g">' +
-    row('수강 반', esc(v.c_class)) + row('첫 등원일', esc(v.c_first)) + row('이전 학습 경험', esc(v.c_before)) + row('참고 사항', esc(v.c_note)) +
-    row('알게 된 경로', esc(v.src)) + row('소개해 주신 분', esc(v.ref)) +
-    '</table><h3>안내 확인과 동의</h3><table class="g">' +
-    row('교습비 반환 기준', '<span class="ok">확인</span> · 학원법 시행령 별표 4, 교재비 제외') +
-    row('개인정보 수집·이용', '<span class="ok">동의</span> · 수업 사진·영상 공유와 홍보 사용, 소식·이벤트 안내, CCTV 촬영 포함') +
-    '</table>' +
-    '<table style="margin-top:12px"><tr><td style="text-align:right;vertical-align:middle;padding-right:10px">보호자 ' + esc(v.p_name) + ' (서명)</td>' +
-    '<td style="width:240px;border-bottom:1px solid #222"><img src="' + v.sig + '" style="width:230px"></td></tr></table>' +
-    '<h3 style="page-break-before:always;margin-top:0">동의한 문구 (' + CONSENT_VER + ')</h3>' +
-    '<p style="margin:2px 0 4px"><b>[필수] 교습비 반환 기준</b> — 학원법 시행령 별표 4 기준으로 아래와 같이 적용됩니다.</p>' +
-    '<table class="c"><tr><th>구분</th><th>반환 사유 발생 시점</th><th>반환 금액</th></tr>' +
-    '<tr><td>학원 사정으로 교습 불가</td><td>교습할 수 없게 된 날</td><td>일할 계산</td></tr>' +
-    '<tr><td colspan="2">교습 시작 전</td><td>전액</td></tr>' +
-    '<tr><td rowspan="3">교습기간 1개월 이내</td><td>총 교습시간 1/3 경과 전</td><td>2/3</td></tr>' +
-    '<tr><td>총 교습시간 1/2 경과 전</td><td>1/2</td></tr>' +
-    '<tr><td>총 교습시간 1/2 경과 후</td><td>반환 없음</td></tr>' +
-    '<tr><td rowspan="2">교습기간 1개월 초과</td><td>반환 사유가 발생한 달</td><td>1개월 이내 기준</td></tr>' +
-    '<tr><td>나머지 달</td><td>전액</td></tr></table>' +
-    '<p class="sm" style="margin:3px 0 10px">교재비는 반환 대상이 아닙니다.</p>' +
-    '<p style="margin:2px 0 4px"><b>[필수] 개인정보 수집·이용</b></p>' +
-    '<table class="c">' +
-    '<tr><th style="width:18%">수집 항목</th><td>학생: 이름, 생년월일, 성별, 학교, 학년, 주소(동까지), 휴대폰(선택)<br>보호자: 이름, 관계, 휴대폰, 비상 연락처(선택)<br>수업 사진·영상, 학원 내 CCTV 영상</td></tr>' +
-    '<tr><th>이용 목적</th><td>수강 관리, 출결 연락, 교습비 청구 / 수업 사진·영상 보호자 공유 / 학원 홍보(홈페이지·블로그·SNS)에 수업 사진·영상 사용 / 학원 소식·이벤트 안내(문자·카카오톡) / 시설 안전과 원생 보호(학원 내 CCTV 촬영)</td></tr>' +
-    '<tr><th>보관 기간</th><td>퇴원 후 3년 / CCTV 영상 30일</td></tr></table>' +
-    '<p class="sm" style="margin:3px 0 0">만 14세 미만 학생의 개인정보는 보호자 동의로 처리합니다. 동의를 거부할 수 있으며, 거부 시 등록이 불가합니다.</p>' +
-    '<p class="sm" style="margin-top:14px;border-top:1px solid #cfcfd4;padding-top:4px">스타랩코딩학원 광진점 · 서울 광진구 광나루로 602 대한빌딩 201호 · 02-444-1854</p>' +
-    '</body></html>';
-  return Utilities.newBlob(html, MimeType.HTML, 'card.html').getAs(MimeType.PDF);
+  const doc = DocumentApp.create('등록카드 임시 ' + no);
+  const id = doc.getId();
+  try {
+    const b = doc.getBody();
+    b.setPageWidth(595.28).setPageHeight(841.89).setMarginTop(40).setMarginBottom(40).setMarginLeft(48).setMarginRight(48);
+    const stamp = Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+
+    // 머리: 로고 + 제목 | 문서 번호·제출 시각
+    const top = b.appendTable([['', '문서 번호 ' + no + '\n제출 ' + stamp + ' · 동의 문구 ' + CONSENT_VER]]);
+    top.setBorderWidth(0);
+    const t0 = top.getCell(0, 0).clear(), p0 = t0.getChild(0).asParagraph();
+    p0.appendInlineImage(png(LOGO)).setHeight(26).setWidth(51);
+    p0.appendText('  학원 등록카드').setFontSize(17).setBold(true).setForegroundColor(C.ink);
+    const t1 = top.getCell(0, 1);
+    t1.getChild(0).asParagraph().setAlignment(DocumentApp.HorizontalAlignment.RIGHT);
+    t1.editAsText().setFontSize(8).setForegroundColor(C.sub);
+    rule(b);
+
+    const kv = (title, rows) => {
+      label(b, title);
+      const t = b.appendTable(rows.map(r => [r[0], r[1] === '' || r[1] == null ? '—' : String(r[1])]));
+      grid(t); t.setColumnWidth(0, 118);
+      for (let i = 0; i < t.getNumRows(); i++) t.getCell(i, 0).setBackgroundColor(C.head).editAsText().setBold(true);
+      return t;
+    };
+    kv('학생', [['이름', v.s_name], ['생년월일', v.s_birth], ['성별', v.s_sex], ['학교·학년', v.s_school + ' · ' + v.s_grade], ['학생 휴대폰', v.s_phone], ['주소', v.s_addr]]);
+    kv('보호자', [['이름·관계', v.p_name + ' · ' + v.p_rel], ['휴대폰', v.p_phone], ['비상 연락처', v.p_phone2]]);
+    kv('수강', [['수강 반', v.c_class], ['첫 등원일', v.c_first], ['이전 학습 경험', v.c_before], ['참고 사항', v.c_note], ['알게 된 경로', v.src], ['소개해 주신 분', v.ref]]);
+    const agree = kv('안내 확인과 동의', [['교습비 반환 기준', '확인 · 학원법 시행령 별표 4, 교재비 제외'], ['개인정보 수집·이용', '동의 · 수업 사진·영상 공유와 홍보 사용, 소식·이벤트 안내, CCTV 촬영 포함']]);
+    for (let i = 0; i < 2; i++) agree.getCell(i, 1).editAsText().setForegroundColor(0, 1, C.ok).setBold(0, 1, true);
+
+    // 서명
+    const sig = b.appendTable([['보호자 ' + v.p_name + ' (서명)', '']]);
+    sig.setBorderWidth(0); sig.setColumnWidth(1, 190);
+    sig.getCell(0, 0).getChild(0).asParagraph().setAlignment(DocumentApp.HorizontalAlignment.RIGHT);
+    sig.getCell(0, 0).setVerticalAlignment(DocumentApp.VerticalAlignment.CENTER);
+    const img = sig.getCell(0, 1).getChild(0).asParagraph().appendInlineImage(png(v.sig.split(',')[1]));
+    const w = 180; img.setHeight(Math.round(img.getHeight() * w / img.getWidth())).setWidth(w);
+    b.appendParagraph('');
+
+    // 2쪽: 동의한 문구
+    b.appendPageBreak();
+    label(b, '동의한 문구 (' + CONSENT_VER + ')');
+    para(b, '[필수] 교습비 반환 기준', true);
+    para(b, '학원법 시행령 별표 4 기준으로 아래와 같이 적용됩니다.');
+    const rt = b.appendTable([
+      ['구분', '반환 사유 발생 시점', '반환 금액'],
+      ['학원 사정으로 교습 불가', '교습할 수 없게 된 날', '일할 계산'],
+      ['교습 시작 전', '', '전액'],
+      ['교습기간 1개월 이내', '총 교습시간 1/3 경과 전', '2/3'],
+      ['', '총 교습시간 1/2 경과 전', '1/2'],
+      ['', '총 교습시간 1/2 경과 후', '반환 없음'],
+      ['교습기간 1개월 초과', '반환 사유가 발생한 달', '1개월 이내 기준'],
+      ['', '나머지 달', '전액']]);
+    grid(rt);
+    for (let j = 0; j < 3; j++) rt.getCell(0, j).setBackgroundColor(C.head).editAsText().setBold(true);
+    para(b, '교재비는 반환 대상이 아닙니다.', false, 8.5, C.sub);
+    b.appendParagraph('');
+    para(b, '[필수] 개인정보 수집·이용', true);
+    const pt = b.appendTable([
+      ['수집 항목', '학생: 이름, 생년월일, 성별, 학교, 학년, 주소(동까지), 휴대폰(선택)\n보호자: 이름, 관계, 휴대폰, 비상 연락처(선택)\n수업 사진·영상, 학원 내 CCTV 영상'],
+      ['이용 목적', '수강 관리, 출결 연락, 교습비 청구\n수업 사진·영상 보호자 공유\n학원 홍보(홈페이지·블로그·SNS)에 수업 사진·영상 사용\n학원 소식·이벤트 안내(문자·카카오톡)\n시설 안전과 원생 보호(학원 내 CCTV 촬영)'],
+      ['보관 기간', '퇴원 후 3년 / CCTV 영상 30일']]);
+    grid(pt); pt.setColumnWidth(0, 90);
+    for (let i = 0; i < 3; i++) pt.getCell(i, 0).setBackgroundColor(C.head).editAsText().setBold(true);
+    para(b, '만 14세 미만 학생의 개인정보는 보호자 동의로 처리합니다. 동의를 거부할 수 있으며, 거부 시 등록이 불가합니다.', false, 8.5, C.sub);
+    b.appendParagraph('');
+    para(b, '스타랩코딩학원 광진점 · 서울 광진구 광나루로 602 대한빌딩 201호 · 02-444-1854', false, 8, C.sub);
+
+    // 맨 앞 빈 문단 지우고, 전체 글꼴
+    const first = b.getChild(0);
+    try { if (first.getType() === DocumentApp.ElementType.PARAGRAPH && first.asParagraph().getText() === '') first.removeFromParent(); } catch (e) {}
+    font(b);
+    doc.saveAndClose();
+    return DriveApp.getFileById(id).getAs(MimeType.PDF);
+  } finally {
+    try { DriveApp.getFileById(id).setTrashed(true); } catch (e) {}
+  }
+}
+
+function png(b64) { return Utilities.newBlob(Utilities.base64Decode(b64), 'image/png', 'img.png'); }
+function label(b, s) {
+  const p = b.appendParagraph(s);
+  p.setSpacingBefore(10).setSpacingAfter(3);
+  p.editAsText().setFontSize(9.5).setBold(true).setForegroundColor(C.sub);
+}
+function para(b, s, bold, size, color) {
+  const p = b.appendParagraph(s);
+  p.setSpacingBefore(2).setSpacingAfter(2);
+  p.editAsText().setFontSize(size || 10).setBold(!!bold).setForegroundColor(color || C.ink);
+  return p;
+}
+function rule(b) {
+  const p = b.appendParagraph('');
+  p.setSpacingBefore(0).setSpacingAfter(0);
+  b.appendHorizontalRule();
+}
+function grid(t) {
+  t.setBorderColor(C.line).setBorderWidth(0.75);
+  for (let i = 0; i < t.getNumRows(); i++) {
+    const r = t.getRow(i);
+    for (let j = 0; j < r.getNumCells(); j++) {
+      r.getCell(j).setPaddingTop(3).setPaddingBottom(3).setPaddingLeft(6).setPaddingRight(6)
+        .editAsText().setFontSize(9.5).setForegroundColor(C.ink);
+    }
+  }
+}
+// 표 안까지 모든 글자에 같은 글꼴
+function font(el) {
+  const t = el.getType();
+  if (t === DocumentApp.ElementType.TEXT) { el.asText().setFontFamily(FONT); return; }
+  if (el.getNumChildren) for (let i = 0; i < el.getNumChildren(); i++) font(el.getChild(i));
+}
+
+// 글꼴 시험: 예시 값으로 PDF를 만들어 '스타랩 등록서류' 폴더에 '글꼴 시험 (지워도 됨).pdf'로 저장
+function testPdf() {
+  const v = { s_name: '홍길동', s_birth: '2017-05-12', s_sex: '남', s_school: '구의초', s_grade: '초등3', s_phone: '', s_addr: '광진구 구의1동',
+    p_name: '홍길순', p_rel: '어머니', p_phone: '010-1234-5678', p_phone2: '', c_class: '토-11시30-로봇코딩3', c_first: '2026-10-17',
+    c_before: '스크래치 6개월', c_note: '', src: '지인 소개', ref: '', sig: 'data:image/png;base64,' + LOGO };
+  const root = DriveApp.getFolderById(PropertiesService.getScriptProperties().getProperty('ROOT_ID'));
+  const f = root.createFile(makePdf(v, 'REG-TEST-00', new Date())).setName('글꼴 시험 (지워도 됨).pdf');
+  Logger.log(f.getUrl());
 }
 
 // 처음 한 번 실행: 드라이브 폴더와 원장 전용 시트를 만들고(이미 있으면 그대로 쓴다), 권한을 허용한다
