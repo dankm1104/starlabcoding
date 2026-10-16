@@ -204,7 +204,7 @@ function makePdf(v, no, now) {
     p0.appendInlineImage(png(LOGO)).setHeight(26).setWidth(51);
     p0.appendText('  학원 등록카드').setFontSize(17).setBold(true).setForegroundColor(C.ink);
     const t1 = top.getCell(0, 1);
-    t1.getChild(0).asParagraph().setAlignment(DocumentApp.HorizontalAlignment.RIGHT);
+    for (let k = 0; k < t1.getNumChildren(); k++) t1.getChild(k).asParagraph().setAlignment(DocumentApp.HorizontalAlignment.RIGHT);
     t1.editAsText().setFontSize(8).setForegroundColor(C.sub);
     rule(b);
 
@@ -228,7 +228,6 @@ function makePdf(v, no, now) {
     sig.getCell(0, 0).setVerticalAlignment(DocumentApp.VerticalAlignment.CENTER);
     const img = sig.getCell(0, 1).getChild(0).asParagraph().appendInlineImage(png(v.sig.split(',')[1]));
     const w = 180; img.setHeight(Math.round(img.getHeight() * w / img.getWidth())).setWidth(w);
-    b.appendParagraph('');
 
     // 2쪽: 동의한 문구
     b.appendPageBreak();
@@ -283,8 +282,6 @@ function para(b, s, bold, size, color) {
   return p;
 }
 function rule(b) {
-  const p = b.appendParagraph('');
-  p.setSpacingBefore(0).setSpacingAfter(0);
   b.appendHorizontalRule();
 }
 function grid(t) {
@@ -293,7 +290,7 @@ function grid(t) {
     const r = t.getRow(i);
     for (let j = 0; j < r.getNumCells(); j++) {
       const cell = r.getCell(j).setPaddingTop(2).setPaddingBottom(2).setPaddingLeft(6).setPaddingRight(6);
-      cell.editAsText().setFontSize(9).setForegroundColor(C.ink);
+      cell.editAsText().setFontSize(9).setBold(false).setForegroundColor(C.ink);
       for (let k = 0; k < cell.getNumChildren(); k++) {
         const ch = cell.getChild(k);
         if (ch.getType() === DocumentApp.ElementType.PARAGRAPH) ch.asParagraph().setSpacingBefore(0).setSpacingAfter(0).setLineSpacing(1);
