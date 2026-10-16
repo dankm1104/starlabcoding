@@ -306,7 +306,7 @@ write(f"{OUT}/sample.html", homepage.sample_page(head_of("샘플클래스 신청
 
 # 학원 등록카드 (2026-10-16): 학원 태블릿에서 학부모가 작성·서명 → 앱스크립트 '광진점 등록카드'(register_apps_script.gs)
 # → 원장 드라이브 '스타랩 등록서류' 서명 PDF + 원장 전용 시트 + 원장 메일. 메뉴·사이트맵·통계에 넣지 않는다(noindex)
-REG_ENDPOINT = ""
+REG_ENDPOINT = "https://script.google.com/macros/s/AKfycbxdMHel_wWxqdaETRVZYy4LJYrUm2f0g0LrxdnKkQMIT4QigdJTDvz_BfHx1CddBbU5/exec"
 write(f"{OUT}/register.html", open("register.html", encoding="utf-8").read().replace("__REG_ENDPOINT__", REG_ENDPOINT))
 
 # 없는 주소로 들어왔을 때 (GitHub Pages가 404.html을 보여 준다. 어느 깊이에서든 열리므로 링크는 절대 경로)

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>학원 등록카드 | 스타랩코딩학원 광진점</title>
+<link rel="icon" href="favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<!--
+  학원 등록카드 (2026-10-16, 원장 결정)
+  학원 태블릿(또는 가끔 학부모 폰)에서 작성·서명 → 앱스크립트 '광진점 등록카드' → 원장 드라이브 서명 PDF + 원장 전용 시트 + 원장 메일
+  메뉴·사이트맵에 넣지 않는다. 공용 태블릿이라 입력값을 브라우저에 남기지 않는다(자동완성 끔, 제출하면 바로 비움, 저장소 안 씀)
+  동의 문구를 고치면 CONSENT_VER를 올리고 앱스크립트의 PDF 문구도 같이 고친다
+-->
+<style>
+:root{
+  --ink:#1C1C1E; --sub:#66676C; --line:#E3E0DC; --bg:#F6F5F4; --surface:#FFFFFF; --head:#F3F1EE;
+  --o:#F7941E; --oi:#A65605; --tint:#FEF1E2; --danger:#C2410C; --ok:#15803D;
+  --font:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:calc(20px + env(safe-area-inset-top,0px)) calc(48px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.stack{display:flex;flex-direction:column;gap:18px}
+.top{display:flex;flex-direction:column;gap:6px;border-bottom:3px solid var(--o);padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--sub)}
+.logo{height:48px;width:auto;display:block}
+h1{font-size:clamp(24px,5vw,30px);margin:0;letter-spacing:-.01em}
+.card{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.ct{font-weight:700;font-size:17px;line-height:1.3;padding:0 0 10px;margin:0;border-bottom:1px solid var(--line)}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:14px;align-items:end}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.inl{display:flex;gap:8px;min-width:0}
+.inl>*{flex:1 1 0;min-width:0}
+.lab{font-size:14px;font-weight:500;line-height:1.3}
+.req{color:var(--danger);margin-left:2px}
+.opt{color:var(--sub);font-weight:400;font-size:12.5px;margin-left:4px}
+input[type=text],input[type=tel],input[type=date],select,textarea{font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;min-height:46px;min-width:0;max-width:100%}
+input[type=date]{-webkit-appearance:none;appearance:none;display:block;text-align:left}
+input[type=date]::-webkit-date-and-time-value{text-align:left;margin:0}
+textarea{min-height:64px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.bad{border-color:var(--danger)!important;background:#FFF5F2!important}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choices label{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:14.5px;cursor:pointer;background:var(--bg)}
+.choices input{accent-color:var(--o);width:18px;height:18px;margin:0}
+.clause{border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ch{display:flex;align-items:center;gap:8px}
+.ch h3{margin:0;font-size:15.5px;font-weight:700}
+.tag{font-size:12px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--o);color:#fff}
+.lead{margin:0;font-size:14px}
+.tw{overflow-x:auto}
+.t{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.45}
+.t th,.t td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:middle}
+.t thead th,.t tbody th{background:var(--head);font-weight:500}
+.t tbody th{white-space:nowrap;vertical-align:top;width:1%}
+.t td.n{text-align:center;font-weight:500}
+.t ul{margin:0;padding-left:16px}
+.small{margin:0;font-size:12.5px;color:var(--sub)}
+.ck{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;cursor:pointer;align-self:flex-start}
+.ck input{accent-color:var(--o);width:22px;height:22px;margin:0}
+.sigbox{position:relative;border:2px dashed var(--line);border-radius:10px;background:#fff;touch-action:none}
+.sigbox.bad{border-color:var(--danger)}
+.sigbox canvas{display:block;width:100%;height:170px;border-radius:8px;cursor:crosshair}
+.sigbox .ph{position:absolute;inset:0;display:grid;place-items:center;color:#9A9AA0;font-size:15px;pointer-events:none}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-size:16px;font-weight:700;padding:12px 22px;border-radius:10px;border:0;cursor:pointer;min-height:50px}
+.btn.primary{background:var(--o);color:#fff}
+.btn.primary:disabled{opacity:.6;cursor:wait}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.hint{font-size:12.5px;color:var(--sub)}
+.err{color:var(--danger);font-size:14.5px;font-weight:500;min-height:1em}
+.done{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:36px 20px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.done .mark{width:56px;height:56px;border-radius:50%;background:var(--tint);color:var(--oi);display:grid;place-items:center;font-size:28px;font-weight:700}
+.done h2{margin:0;font-size:22px}
+.done p{margin:0;color:var(--sub)}
+.foot{font-size:12px;color:var(--sub);text-align:center}
+@media (max-width:480px){.card{padding:14px 12px 16px}.clause{padding:12px 10px}.t{font-size:12.5px}.t th,.t td{padding:6px 6px}.btn{padding:12px 16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><img class="logo" src="img/logo.png" alt="스타랩"><span>코딩학원 광진점</span></div>
+    <h1>학원 등록카드</h1>
+  </header>
+
+  <form id="reg" class="stack" novalidate autocomplete="off">
+    <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+    <section class="card">
+      <h2 class="ct">학생</h2>
+      <div class="row">
+        <label class="f"><span class="lab">이름<span class="req">*</span></span><input type="text" id="s_name" autocomplete="off" required></label>
+        <label class="f"><span class="lab">생년월일<span class="req">*</span><span class="opt">숫자 8자리</span></span><input type="text" id="s_birth" inputmode="numeric" maxlength="10" placeholder="예: 20170512" autocomplete="off" required></label>
+        <label class="f"><span class="lab">성별</span><select id="s_sex"><option value="">선택</option><option>남</option><option>여</option></select></label>
+      </div>
+      <div class="row">
+        <label class="f"><span class="lab">학교<span class="req">*</span></span><input type="text" id="s_school" placeholder="학교·유치원 이름" autocomplete="off" required></label>
+        <label class="f"><span class="lab">학년<span class="req">*</span></span><select id="s_grade" required><option value="">선택</option><option>6세</option><option>7세</option><option>초등1</option><option>초등2</option><option>초등3</option><option>초등4</option><option>초등5</option><option>초등6</option><option>중1</option><option>중2</option><option>중3</option><option>고1</option><option>고2</option><option>고3</option></select></label>
+        <label class="f"><span class="lab">학생 휴대폰<span class="opt">선택</span></span><input type="tel" id="s_phone" class="phone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="off"></label>
+      </div>
+      <label class="f"><span class="lab">주소<span class="req">*</span><span class="opt">동까지</span></span><input type="text" id="s_addr" placeholder="예: 광진구 구의1동" autocomplete="off" required></label>
+    </section>
+
+    <section class="card">
+      <h2 class="ct">보호자</h2>
+      <div class="row">
+        <label class="f"><span class="lab">이름<span class="req">*</span></span><input type="text" id="p_name" autocomplete="off" required></label>
+        <div class="f"><label class="lab" for="p_rel">관계<span class="req">*</span></label><div class="inl"><select id="p_rel" required><option value="">선택</option><option>어머니</option><option>아버지</option><option>기타</option></select><input type="text" id="p_rel_etc" placeholder="예: 할머니" aria-label="관계 직접 입력" autocomplete="off" hidden></div></div>
+        <label class="f"><span class="lab">휴대폰<span class="req">*</span></span><input type="tel" id="p_phone" class="phone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="off" required></label>
+      </div>
+      <label class="f"><span class="lab">비상 연락처<span class="opt">선택</span></span><input type="tel" id="p_phone2" class="phone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" autocomplete="off"></label>
+    </section>
+
+    <section class="card">
+      <h2 class="ct">수강</h2>
+      <div class="row">
+        <label class="f"><span class="lab">수강 반<span class="opt">학원 기입</span></span><input type="text" id="c_class" placeholder="예: 토-11시30-로봇코딩3" autocomplete="off"></label>
+        <label class="f"><span class="lab">첫 등원일<span class="opt">학원 기입</span></span><input type="date" id="c_first"></label>
+      </div>
+      <label class="f"><span class="lab">이전 학습 경험<span class="opt">선택</span></span><textarea id="c_before" placeholder="예: 스크래치 6개월"></textarea></label>
+      <label class="f"><span class="lab">참고 사항<span class="opt">선택</span></span><textarea id="c_note"></textarea></label>
+    </section>
+
+    <section class="card">
+      <h2 class="ct">알게 된 경로 <span class="opt">선택 · 복수 가능</span></h2>
+      <div class="choices" id="src">
+        <label><input type="checkbox" value="네이버 검색">네이버 검색</label>
+        <label><input type="checkbox" value="네이버 블로그">네이버 블로그</label>
+        <label><input type="checkbox" value="AI 추천(챗GPT 등)">AI 추천(챗GPT 등)</label>
+        <label><input type="checkbox" value="지인 소개">지인 소개</label>
+        <label><input type="checkbox" value="당근">당근</label>
+        <label><input type="checkbox" value="학원 앞을 지나다">학원 앞을 지나다</label>
+        <label><input type="checkbox" value="기타" id="src_etc">기타</label>
+      </div>
+      <label class="f" id="etcWrap" hidden><span class="lab">기타 경로</span><input type="text" id="src_etc_txt" placeholder="직접 입력" autocomplete="off"></label>
+      <label class="f"><span class="lab">소개해 주신 분<span class="opt">선택</span></span><input type="text" id="ref" placeholder="학생 이름" autocomplete="off"></label>
+    </section>
+
+    <section class="card">
+      <h2 class="ct">안내 확인과 동의</h2>
+
+      <section class="clause">
+        <div class="ch"><span class="tag">필수</span><h3>교습비 반환 기준</h3></div>
+        <p class="lead">학원법 시행령 별표 4 기준으로 아래와 같이 적용됩니다.</p>
+        <div class="tw"><table class="t">
+          <thead><tr><th>구분</th><th>반환 사유 발생 시점</th><th>반환 금액</th></tr></thead>
+          <tbody>
+            <tr><td>학원 사정으로 교습 불가</td><td>교습할 수 없게 된 날</td><td class="n">일할 계산</td></tr>
+            <tr><td colspan="2">교습 시작 전</td><td class="n">전액</td></tr>
+            <tr><td rowspan="3">교습기간 1개월 이내</td><td>총 교습시간 1/3 경과 전</td><td class="n">2/3</td></tr>
+            <tr><td>총 교습시간 1/2 경과 전</td><td class="n">1/2</td></tr>
+            <tr><td>총 교습시간 1/2 경과 후</td><td class="n">반환 없음</td></tr>
+            <tr><td rowspan="2">교습기간 1개월 초과</td><td>반환 사유가 발생한 달</td><td class="n">1개월 이내 기준</td></tr>
+            <tr><td>나머지 달</td><td class="n">전액</td></tr>
+          </tbody>
+        </table></div>
+        <p class="small">교재비는 반환 대상이 아닙니다.</p>
+        <label class="ck"><input type="checkbox" id="a_refund" required>확인했습니다</label>
+      </section>
+
+      <section class="clause">
+        <div class="ch"><span class="tag">필수</span><h3>개인정보 수집·이용</h3></div>
+        <div class="tw"><table class="t">
+          <tbody>
+            <tr><th>수집 항목</th><td>학생: 이름, 생년월일, 성별, 학교, 학년, 주소(동까지), 휴대폰(선택)<br>보호자: 이름, 관계, 휴대폰, 비상 연락처(선택)<br>수업 사진·영상, 학원 내 CCTV 영상</td></tr>
+            <tr><th>이용 목적</th><td><ul>
+              <li>수강 관리, 출결 연락, 교습비 청구</li>
+              <li>수업 사진·영상 보호자 공유</li>
+              <li>학원 홍보(홈페이지·블로그·SNS)에 수업 사진·영상 사용</li>
+              <li>학원 소식·이벤트 안내(문자·카카오톡)</li>
+              <li>시설 안전과 원생 보호(학원 내 CCTV 촬영)</li>
+            </ul></td></tr>
+            <tr><th>보관 기간</th><td>퇴원 후 3년 / CCTV 영상 30일</td></tr>
+          </tbody>
+        </table></div>
+        <p class="small">만 14세 미만 학생의 개인정보는 보호자 동의로 처리합니다. 동의를 거부할 수 있으며, 거부 시 등록이 불가합니다.</p>
+        <label class="ck"><input type="checkbox" id="a_privacy" required>동의합니다</label>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2 class="ct">보호자 서명<span class="req">*</span></h2>
+      <div class="sigbox" id="sigbox"><canvas id="pad" aria-label="서명 칸"></canvas><div class="ph" id="ph">여기에 서명</div></div>
+      <div class="actions">
+        <button type="button" class="btn ghost" id="clearSig">서명 지우기</button>
+        <span class="hint" id="today"></span>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button type="submit" class="btn primary" id="send">제출하기</button>
+      <button type="button" class="btn ghost" id="resetAll">모두 지우기</button>
+    </div>
+    <div class="err" id="err" role="alert"></div>
+  </form>
+
+  <section class="done" id="done" hidden>
+    <div class="mark" aria-hidden="true">✓</div>
+    <h2>제출되었습니다</h2>
+    <p>감사합니다. 태블릿을 선생님께 돌려주세요.</p>
+    <button type="button" class="btn primary" id="again">새로 작성</button>
+  </section>
+
+  <p class="foot">스타랩코딩학원 광진점 · 서울 광진구 광나루로 602 대한빌딩 201호 · 02-444-1854</p>
+</div>
+
+<script>
+(function(){
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbxdMHel_wWxqdaETRVZYy4LJYrUm2f0g0LrxdnKkQMIT4QigdJTDvz_BfHx1CddBbU5/exec";
+  var CONSENT_VER = "v1";
+  var $ = function(id){ return document.getElementById(id); };
+  var form = $('reg');
+
+  function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  $('today').textContent = '작성일 ' + ymd(new Date());
+
+  /* 서명 칸 */
+  var cv = $('pad'), ctx = cv.getContext('2d'), ph = $('ph'), drawing = false, signed = false, last = null;
+  function fit(){
+    var r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    if (!r.width) return;
+    var img = signed ? cv.toDataURL() : null;
+    cv.width = Math.max(1, Math.round(r.width * dpr)); cv.height = Math.max(1, Math.round(r.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineWidth = 2.6; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1d1d22';
+    if (img) { var i = new Image(); i.onload = function(){ ctx.drawImage(i, 0, 0, r.width, r.height); }; i.src = img; }
+  }
+  function pos(e){ var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  cv.addEventListener('pointerdown', function(e){
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    drawing = true; last = pos(e); cv.setPointerCapture(e.pointerId); ph.hidden = true; signed = true; $('sigbox').classList.remove('bad');
+    ctx.beginPath(); ctx.arc(last.x, last.y, 1.2, 0, Math.PI * 2); ctx.fillStyle = '#1d1d22'; ctx.fill();
+  });
+  cv.addEventListener('pointermove', function(e){ if (!drawing) return; var p = pos(e); ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke(); last = p; });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(n){ cv.addEventListener(n, function(){ drawing = false; }); });
+  function clearSig(){ ctx.clearRect(0, 0, cv.width, cv.height); signed = false; ph.hidden = false; }
+  $('clearSig').addEventListener('click', clearSig);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(cv); else { fit(); window.addEventListener('resize', fit); }
+  /* 서명을 흰 바탕 PNG로 (가로 최대 900px) */
+  function sigData(){
+    var w = Math.min(900, cv.width), h = Math.round(cv.height * w / cv.width);
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(cv, 0, 0, w, h);
+    return c.toDataURL('image/png');
+  }
+
+  /* 휴대폰: 숫자만 받고 010-1234-5678 모양으로 하이픈 자동 */
+  function fmtPhone(d, del){ var o = d.slice(0, 3); if (d.length > 3 || (!del && d.length === 3)) o += '-'; o += d.slice(3, 7); if (d.length > 7 || (!del && d.length === 7)) o += '-'; return o + d.slice(7, 11); }
+  /* 생년월일: 숫자 8자리 → 2017-05-12 */
+  function fmtDate(d, del){ var o = d.slice(0, 4); if (d.length > 4 || (!del && d.length === 4)) o += '-'; o += d.slice(4, 6); if (d.length > 6 || (!del && d.length === 6)) o += '-'; return o + d.slice(6, 8); }
+  function autoFormat(el, max, fmt){
+    el.addEventListener('input', function(e){
+      var p = el.selectionStart == null ? el.value.length : el.selectionStart;
+      var before = el.value.slice(0, p).replace(/\D/g, '').length;
+      var del = String(e.inputType || '').indexOf('delete') === 0;
+      el.value = fmt(el.value.replace(/\D/g, '').slice(0, max), del);
+      var i = 0, c = 0; while (i < el.value.length && c < before) { if (/\d/.test(el.value[i])) c++; i++; }
+      if (!del && el.value[i] === '-') i++;
+      try { el.setSelectionRange(i, i); } catch (x) {}
+      el.classList.remove('bad');
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.phone'), function(el){ autoFormat(el, 11, fmtPhone); });
+  autoFormat($('s_birth'), 8, fmtDate);
+
+  /* 학교: ○○초등학교→○○초, ○○중학교→○○중, ○○고등학교→○○고. 규칙에 안 맞는 이름은 그대로 */
+  function schoolNorm(v){
+    var t = v.replace(/\s+/g, ' ').trim(), m = t.replace(/\s/g, '');
+    var rules = [[/여자고등학교$/, '여고'], [/여자중학교$/, '여중'], [/고등학교$/, '고'], [/중학교$/, '중'], [/초등학교$/, '초'], [/초교$/, '초']];
+    for (var i = 0; i < rules.length; i++) if (rules[i][0].test(m)) return m.replace(rules[i][0], rules[i][1]);
+    return t;
+  }
+  $('s_school').addEventListener('blur', function(){ this.value = schoolNorm(this.value); });
+
+  /* 보호자 관계 기타 → 옆에 입력칸 */
+  $('p_rel').addEventListener('change', function(){
+    var on = this.value === '기타'; $('p_rel_etc').hidden = !on; $('p_rel_etc').required = on; if (on) $('p_rel_etc').focus();
+  });
+  /* 알게 된 경로 기타 → 입력칸 */
+  $('src_etc').addEventListener('change', function(){ $('etcWrap').hidden = !this.checked; if (this.checked) $('src_etc_txt').focus(); });
+  form.addEventListener('input', function(e){ if (e.target.classList) e.target.classList.remove('bad'); });
+  form.addEventListener('change', function(e){ if (e.target.classList) e.target.classList.remove('bad'); });
+
+  function validDate(s){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s); if (!m) return false;
+    var d = new Date(+m[1], +m[2] - 1, +m[3]), y = new Date().getFullYear();
+    return d.getMonth() === +m[2] - 1 && d.getDate() === +m[3] && +m[1] >= y - 20 && +m[1] <= y - 3;
+  }
+  function relVal(){ return $('p_rel').value === '기타' ? $('p_rel_etc').value.trim() : $('p_rel').value; }
+  function sources(){
+    var etc = $('src_etc_txt').value.trim();
+    return Array.prototype.map.call(document.querySelectorAll('#src input:checked'), function(i){ return i.id === 'src_etc' && etc ? '기타(' + etc + ')' : i.value; }).join(', ');
+  }
+
+  var sending = false;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (sending) return;
+    var err = $('err'); err.textContent = '';
+    $('s_school').value = schoolNorm($('s_school').value);
+    Array.prototype.forEach.call(form.querySelectorAll('.bad'), function(el){ el.classList.remove('bad'); });
+
+    var miss = [];
+    function need(id, label, ok){ var el = $(id); if (ok === undefined) ok = !!el.value.trim(); if (!ok) { el.classList.add('bad'); miss.push(label); } }
+    need('s_name', '학생 이름');
+    need('s_birth', '생년월일', validDate($('s_birth').value));
+    need('s_school', '학교');
+    need('s_grade', '학년');
+    need('s_addr', '주소');
+    need('p_name', '보호자 이름');
+    need('p_rel', '관계');
+    if ($('p_rel').value === '기타') need('p_rel_etc', '관계');
+    need('p_phone', '보호자 휴대폰', /^01\d-\d{4}-\d{4}$/.test($('p_phone').value));
+    ['s_phone', 'p_phone2'].forEach(function(id){ var v = $(id).value; if (v && !/^01\d-\d{4}-\d{4}$/.test(v)) need(id, id === 's_phone' ? '학생 휴대폰' : '비상 연락처', false); });
+    if (!$('a_refund').checked) miss.push('교습비 반환 기준 확인');
+    if (!$('a_privacy').checked) miss.push('개인정보 동의');
+    if (!signed) { $('sigbox').classList.add('bad'); miss.push('보호자 서명'); }
+    if (miss.length) {
+      err.textContent = '확인해 주세요: ' + miss.filter(function(v, i, a){ return a.indexOf(v) === i; }).join(', ');
+      var first = form.querySelector('.bad'); if (first && first.focus && first.tagName !== 'DIV') first.focus(); else if (first) first.scrollIntoView({ block: 'center' });
+      return;
+    }
+
+    var d = {
+      s_name: $('s_name').value.trim(), s_birth: $('s_birth').value, s_sex: $('s_sex').value, s_school: $('s_school').value,
+      s_grade: $('s_grade').value, s_phone: $('s_phone').value, s_addr: $('s_addr').value.trim(),
+      p_name: $('p_name').value.trim(), p_rel: relVal(), p_phone: $('p_phone').value, p_phone2: $('p_phone2').value,
+      c_class: $('c_class').value.trim(), c_first: $('c_first').value, c_before: $('c_before').value.trim(), c_note: $('c_note').value.trim(),
+      src: sources(), ref: $('ref').value.trim(),
+      a_refund: $('a_refund').checked, a_privacy: $('a_privacy').checked, consent: CONSENT_VER,
+      sig: sigData(), website: $('website').value, ua: navigator.userAgent.slice(0, 200)
+    };
+
+    sending = true; var btn = $('send'); btn.disabled = true; btn.textContent = '보내는 중…';
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 45000);
+    fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(d), signal: ctrl ? ctrl.signal : undefined })
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if (!res || !res.ok) throw new Error((res && res.error) || 'fail');
+        resetAll(); form.hidden = true; $('done').hidden = false; window.scrollTo(0, 0);
+      })
+      .catch(function(x){
+        err.textContent = String(x && x.message) === 'invalid'
+          ? '입력 내용을 다시 확인해 주세요.'
+          : '전송하지 못했습니다. 인터넷 연결을 확인하고 제출하기를 다시 눌러 주세요. 쓴 내용과 서명은 그대로 있습니다.';
+      })
+      .then(function(){ clearTimeout(timer); sending = false; btn.disabled = false; btn.textContent = '제출하기'; });
+  });
+
+  function resetAll(){
+    form.reset();
+    Array.prototype.forEach.call(form.querySelectorAll('.bad'), function(el){ el.classList.remove('bad'); });
+    $('p_rel_etc').hidden = true; $('p_rel_etc').required = false; $('etcWrap').hidden = true;
+    $('sigbox').classList.remove('bad'); clearSig(); $('err').textContent = '';
+  }
+  $('resetAll').addEventListener('click', function(){ resetAll(); window.scrollTo(0, 0); });
+  $('again').addEventListener('click', function(){ resetAll(); $('done').hidden = true; form.hidden = false; window.scrollTo(0, 0); fit(); });
+  /* 앞 사람 입력이 남지 않게: 뒤로 가기 캐시로 돌아와도 비운다 */
+  window.addEventListener('pageshow', function(e){ if (e.persisted) resetAll(); });
+})();
+</script>
+</body>
+</html>
