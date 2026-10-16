@@ -12,7 +12,9 @@ const TO = 'darren.kim@star-lab.co.kr';
 const ROOT_NAME = '스타랩 등록서류';
 const BOOK_NAME = '스타랩 등록서류';
 const CONSENT_VER = 'v1';
-const GRADES = ['6세', '7세', '초등1', '초등2', '초등3', '초등4', '초등5', '초등6', '중1', '중2', '중3', '고1', '고2', '고3'];
+const GRADES = ['6세', '7세', '초등1', '초등2', '초등3', '초등4', '초등5', '초등6', '중등1', '중등2', '중등3', '고등1', '고등2', '고등3'];   // 원생 탭 표기와 같게
+const ROSTER_BOOK = '1fF23hLKdMa_a9sF-ezPn4eOi_A1-5TSwjbKhlWgNoH0';   // 스타랩 통합관리 (공용)
+const ROSTER_TAB = '스타랩코딩학원_원생';
 const HEAD = ['제출 시각', '문서 번호', '학생 이름', '생년월일', '성별', '학교', '학년', '학생 휴대폰', '주소',
   '보호자 이름', '관계', '보호자 휴대폰', '비상 연락처', '수강 반', '첫 등원일', '이전 학습 경험', '참고 사항',
   '알게 된 경로', '소개해 주신 분', '교습비 반환 기준', '개인정보 수집·이용', '동의 문구', 'PDF',
@@ -44,6 +46,9 @@ function doPost(e) {
       v.p_name, v.p_rel, v.p_phone, v.p_phone2, v.c_class, v.c_first, v.c_before, v.c_note,
       v.src, v.ref, '확인', '동의', CONSENT_VER, file.getUrl(), '', '', '', '', v.ua
     ].map(x => /^[=+\-@]/.test(String(x)) ? "'" + x : x));   // 입력값이 시트 수식으로 실행되지 않게
+    let roster;
+    try { roster = syncRoster(v, now); } catch (x) { roster = '실패: ' + (x && x.message || x); console.error(x && x.stack || x); }
+    sh.getRange(sh.getLastRow(), HEAD.indexOf('원생 탭 반영') + 1).setValue(roster);
     SpreadsheetApp.flush();
     lock.releaseLock(); locked = false;
 
@@ -58,8 +63,9 @@ function doPost(e) {
         '수강 반: ' + (v.c_class || '-'),
         '첫 등원일: ' + (v.c_first || '-'),
         '문서 번호: ' + no,
+        '통합관리 원생 탭: ' + roster,
         '',
-        '확인 후 원생 탭에 옮겨 주세요. 원장 전용 시트 \'' + BOOK_NAME + '\':',
+        '원장 전용 시트 \'' + BOOK_NAME + '\':',
         SpreadsheetApp.openById(props.getProperty('BOOK_ID')).getUrl()
       ].join('\n')
     });
@@ -88,6 +94,43 @@ function clean(p) {
     p.a_refund !== true || p.a_privacy !== true ||
     !/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(v.sig) || v.sig.length > 2000000;
   return bad ? null : v;
+}
+
+// 통합관리 '스타랩코딩학원_원생' 탭에 반영 (2026-10-16 원장)
+// 열: A 원생 이름 | B 학부모 휴대폰 | C 상태 | D~F 클래스1~3 | G 원생 휴대폰 | H 학교 | I 학년 | J 성별 | K 메모 | L 입회일 | M 퇴원시기 | N 주소 | O 생년월일
+// - 이름과 학부모 번호가 같은 원생이 있으면: 휴대폰·학교·학년·성별·주소·생년월일을 새 값으로 바꾸고, 클래스1·입회일은 비어 있을 때만 채운다. 퇴원 상태였으면 재원으로
+// - 이름은 같은데 번호가 다르면: 아무것도 쓰지 않고 '확인 필요'로 남긴다 (동명이인일 수 있어서)
+// - 없으면: 맨 아래 새 줄. 상태 재원, 입회일은 첫 등원일(없으면 제출일). 비어 있는 칸은 건드리지 않는다
+function syncRoster(v, now, sheet) {
+  const sh = sheet || SpreadsheetApp.openById(ROSTER_BOOK).getSheetByName(ROSTER_TAB);
+  const names = sh.getRange(1, 1, sh.getMaxRows(), 1).getValues();
+  let last = 1;
+  for (let i = names.length - 1; i >= 1; i--) if (String(names[i][0]).trim()) { last = i + 1; break; }
+  const rows = last >= 2 ? sh.getRange(2, 1, last - 1, 15).getValues() : [];
+  const dg = s => String(s).replace(/\D/g, '');
+  const hit = [], sameName = [];
+  rows.forEach((r, i) => {
+    if (String(r[0]).trim() !== v.s_name) return;
+    sameName.push(i + 2);
+    if (dg(r[1]) === dg(v.p_phone)) hit.push(i + 2);
+  });
+  const today = Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd');
+  if (hit.length === 1) {
+    const row = hit[0], old = rows[row - 2];
+    const set = (col, val) => { if (val) sh.getRange(row, col).setValue(val); };
+    set(7, v.s_phone); set(8, v.s_school); set(9, v.s_grade); set(10, v.s_sex); set(14, v.s_addr); set(15, v.s_birth);
+    if (!String(old[3]).trim()) set(4, v.c_class);
+    if (!String(old[11]).trim()) set(12, v.c_first || today);
+    if (String(old[2]).trim() === '퇴원') { sh.getRange(row, 3).setValue('재원'); return '재등록 ' + row + '행 (퇴원→재원)'; }
+    return '갱신 ' + row + '행';
+  }
+  if (hit.length > 1 || sameName.length) return '확인 필요: 같은 이름이 ' + sameName.join(', ') + '행에 있음';
+  const row = last + 1;
+  if (row > sh.getMaxRows()) sh.insertRowsAfter(sh.getMaxRows(), 10);
+  if (last >= 2) sh.getRange(last, 1, 1, 15).copyTo(sh.getRange(row, 1, 1, 15), { formatOnly: true });   // 윗줄 서식 그대로
+  const vals = [v.s_name, v.p_phone, '재원', v.c_class, '', '', v.s_phone, v.s_school, v.s_grade, v.s_sex, '', v.c_first || today, '', v.s_addr, v.s_birth];
+  vals.forEach((x, i) => { if (x !== '') sh.getRange(row, i + 1).setValue(/^[=+\-@]/.test(String(x)) ? "'" + x : x); });
+  return '추가 ' + row + '행';
 }
 
 // 휴대폰: 숫자 11자리 → 010-1234-5678. 아니면 빈칸
@@ -156,7 +199,7 @@ function makePdf(v, no, now) {
 
     // 머리: 로고 + 제목 | 문서 번호·제출 시각
     const top = b.appendTable([['', '문서 번호 ' + no + '\n제출 ' + stamp + ' · 동의 문구 ' + CONSENT_VER]]);
-    top.setBorderWidth(0);
+    top.setBorderWidth(0); grid(top); top.setBorderWidth(0);
     const t0 = top.getCell(0, 0).clear(), p0 = t0.getChild(0).asParagraph();
     p0.appendInlineImage(png(LOGO)).setHeight(26).setWidth(51);
     p0.appendText('  학원 등록카드').setFontSize(17).setBold(true).setForegroundColor(C.ink);
@@ -180,7 +223,7 @@ function makePdf(v, no, now) {
 
     // 서명
     const sig = b.appendTable([['보호자 ' + v.p_name + ' (서명)', '']]);
-    sig.setBorderWidth(0); sig.setColumnWidth(1, 190);
+    grid(sig); sig.setBorderWidth(0); sig.setColumnWidth(1, 190);
     sig.getCell(0, 0).getChild(0).asParagraph().setAlignment(DocumentApp.HorizontalAlignment.RIGHT);
     sig.getCell(0, 0).setVerticalAlignment(DocumentApp.VerticalAlignment.CENTER);
     const img = sig.getCell(0, 1).getChild(0).asParagraph().appendInlineImage(png(v.sig.split(',')[1]));
@@ -230,12 +273,12 @@ function makePdf(v, no, now) {
 function png(b64) { return Utilities.newBlob(Utilities.base64Decode(b64), 'image/png', 'img.png'); }
 function label(b, s) {
   const p = b.appendParagraph(s);
-  p.setSpacingBefore(10).setSpacingAfter(3);
+  p.setSpacingBefore(9).setSpacingAfter(3).setLineSpacing(1);
   p.editAsText().setFontSize(9.5).setBold(true).setForegroundColor(C.sub);
 }
 function para(b, s, bold, size, color) {
   const p = b.appendParagraph(s);
-  p.setSpacingBefore(2).setSpacingAfter(2);
+  p.setSpacingBefore(2).setSpacingAfter(2).setLineSpacing(1);
   p.editAsText().setFontSize(size || 10).setBold(!!bold).setForegroundColor(color || C.ink);
   return p;
 }
@@ -249,8 +292,12 @@ function grid(t) {
   for (let i = 0; i < t.getNumRows(); i++) {
     const r = t.getRow(i);
     for (let j = 0; j < r.getNumCells(); j++) {
-      r.getCell(j).setPaddingTop(3).setPaddingBottom(3).setPaddingLeft(6).setPaddingRight(6)
-        .editAsText().setFontSize(9.5).setForegroundColor(C.ink);
+      const cell = r.getCell(j).setPaddingTop(2).setPaddingBottom(2).setPaddingLeft(6).setPaddingRight(6);
+      cell.editAsText().setFontSize(9).setForegroundColor(C.ink);
+      for (let k = 0; k < cell.getNumChildren(); k++) {
+        const ch = cell.getChild(k);
+        if (ch.getType() === DocumentApp.ElementType.PARAGRAPH) ch.asParagraph().setSpacingBefore(0).setSpacingAfter(0).setLineSpacing(1);
+      }
     }
   }
 }
@@ -269,6 +316,29 @@ function testPdf() {
   const root = DriveApp.getFolderById(PropertiesService.getScriptProperties().getProperty('ROOT_ID'));
   const f = root.createFile(makePdf(v, 'REG-TEST-00', new Date())).setName('글꼴 시험 (지워도 됨).pdf');
   Logger.log(f.getUrl());
+}
+
+// 원생 탭 반영 시험: 원장 전용 시트에 임시 탭을 만들어 가짜 원생 두 명으로 돌려 보고 지운다 (통합관리는 건드리지 않음)
+function testRoster() {
+  const book = SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('BOOK_ID'));
+  const tmp = book.insertSheet('원생 탭 시험');
+  try {
+    const blank = n => Array(n).fill('');
+    tmp.getRange(1, 1, 3, 15).setValues([
+      ['원생 이름', '학부모 휴대폰 번호', '상태', '클래스1', '클래스2', '클래스3', '원생 휴대폰 번호', '학교', '학년', '원생 성별', '메모', '원생 입회일', '퇴원시기', '원생 주소', '생년월일'],
+      ['가나다', '010-1111-2222', '재원', '토-2시30-로봇코딩3'].concat(blank(4), ['초등5', '남', '', '2026-08-29', '', '아차산로', '2015-12-14']),
+      ['라마바', '010-3333-4444', '퇴원'].concat(blank(12))]);
+    const base = { s_name: '사아자', s_birth: '2017-05-12', s_sex: '남', s_school: '구의초', s_grade: '초등3', s_phone: '', s_addr: '광진구 구의1동',
+      p_phone: '010-7777-8888', c_class: '', c_first: '' };
+    const now = new Date();
+    Logger.log('새 원생: ' + syncRoster(base, now, tmp));
+    Logger.log('기존 원생: ' + syncRoster(Object.assign({}, base, { s_name: '가나다', p_phone: '010-1111-2222', s_grade: '초등6' }), now, tmp));
+    Logger.log('퇴원생 재등록: ' + syncRoster(Object.assign({}, base, { s_name: '라마바', p_phone: '01033334444' }), now, tmp));
+    Logger.log('동명이인: ' + syncRoster(Object.assign({}, base, { s_name: '가나다', p_phone: '010-9999-0000' }), now, tmp));
+    tmp.getRange(1, 1, tmp.getLastRow(), 15).getDisplayValues().forEach((r, i) => Logger.log((i + 1) + ': ' + r.join(' | ')));
+  } finally {
+    book.deleteSheet(tmp);
+  }
 }
 
 // 처음 한 번 실행: 드라이브 폴더와 원장 전용 시트를 만들고(이미 있으면 그대로 쓴다), 권한을 허용한다
