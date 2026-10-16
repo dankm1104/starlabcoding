@@ -173,7 +173,7 @@ function makePdf(v, no, now) {
     '</table>' +
     '<table style="margin-top:12px"><tr><td style="text-align:right;vertical-align:middle;padding-right:10px">보호자 ' + esc(v.p_name) + ' (서명)</td>' +
     '<td style="width:240px;border-bottom:1px solid #222"><img src="' + v.sig + '" style="width:230px"></td></tr></table>' +
-    '<h3 style="margin-top:18px">동의한 문구 (' + CONSENT_VER + ')</h3>' +
+    '<h3 style="page-break-before:always;margin-top:0">동의한 문구 (' + CONSENT_VER + ')</h3>' +
     '<p style="margin:2px 0 4px"><b>[필수] 교습비 반환 기준</b> — 학원법 시행령 별표 4 기준으로 아래와 같이 적용됩니다.</p>' +
     '<table class="c"><tr><th>구분</th><th>반환 사유 발생 시점</th><th>반환 금액</th></tr>' +
     '<tr><td>학원 사정으로 교습 불가</td><td>교습할 수 없게 된 날</td><td>일할 계산</td></tr>' +
