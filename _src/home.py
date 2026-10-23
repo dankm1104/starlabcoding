@@ -40,6 +40,10 @@ def _d(m):
 TRACK = re.sub(r'<div class="bar[^>]*>', _d, TRACK)
 INFO = INFO.replace('class="btn" href="tel', 'class="pill" href="tel').replace('class="btn ghost"', 'class="pill ghost"')
 POSTS = ''
+def alt(t):
+    '''사진 대체 문구: 태그를 빼고 따옴표를 바꾼다'''
+    return re.sub(r'<[^>]+>', '', t).replace('&', '&amp;').replace('"', '&quot;')
+
 def set_posts(items):
     '''build.py의 글 목록(최신 3편)으로 학원 소식 칸을 만든다. img/d/post-<slug>.jpg 가 있으면 글 옆에 붙인다
     (블로그 대표 이미지. 사진은 펙셀스 색감으로 맞추고, 버튼 배너뿐인 글은 본문 사진을 쓴다)'''
@@ -47,7 +51,7 @@ def set_posts(items):
     rows = []
     for p in items:
         t = SITE / 'img' / 'd' / f"post-{p['slug']}.jpg"
-        th = f'<span class="th"><img src="img/d/post-{p["slug"]}.jpg" alt="" loading="lazy" decoding="async"></span>' if t.exists() else ''
+        th = f'<span class="th"><img src="img/d/post-{p["slug"]}.jpg" alt="{alt(p["title"])}" loading="lazy" decoding="async"></span>' if t.exists() else ''
         c = '' if p['category'] in ('스타랩 이야기', '학원 소식') else f"<span>{p['category']}</span>"
         rows.append(f'<li><a href="posts/{p["slug"]}.html"><span class="tx"><span class="meta"><time datetime="{p["date"]}">{p["date"].replace("-", ".")}</time>{c}</span>'
                     f'<b>{p["title"]}</b><span class="sum">{p["summary"]}</span></span>{th}</a></li>')
@@ -1109,7 +1113,7 @@ def shell(HEAD, ENDPOINT, main, start='home', current=None):
 </head>
 <body data-start="{start}">
 <header class="top"><div class="cols">
-  <a class="brand" href="#home"><img src="{IMG['logo.png']}" alt=""><b>스타랩코딩학원</b></a>
+  <a class="brand" href="#home"><img src="{IMG['logo.png']}" alt="스타랩 로고"><b>스타랩코딩학원</b></a>
   <nav class="nav" aria-label="주요 메뉴">{navh}</nav>
   <div class="right"><a class="tel" href="tel:024441854">02-444-1854</a>{SAMPLE}
     <button type="button" class="menu" aria-label="메뉴" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16 M4 12h16 M4 17h16"/></svg></button></div>
@@ -1130,8 +1134,17 @@ def shell(HEAD, ENDPOINT, main, start='home', current=None):
 </html>
 '''
 
+def one_h1(doc):
+    '''한 문서에 h1은 하나만 (네이버·빙 진단 2026-10-23). 첫 화면 제목만 h1으로 두고
+    나머지 화면 제목은 h2로 바꾼다. 모양은 class="h1"이 정하므로 그대로다'''
+    k = [0]
+    def f(m):
+        k[0] += 1
+        return m.group(0) if k[0] == 1 else '<h2 class="h1">' + m.group(1) + '</h2>'
+    return re.sub(r'<h1 class="h1">(.*?)</h1>', f, doc, flags=re.S)
+
 def page(HEAD, ENDPOINT):
-    return shell(HEAD, ENDPOINT, '\n'.join([home(), curriculum(), record(), stories(), sample()]))
+    return one_h1(shell(HEAD, ENDPOINT, '\n'.join([home(), curriculum(), record(), stories(), sample()])))
 
 def relink(doc, home_url, asset):
     """첫 페이지 밖 문서: 이 문서에 없는 칸(#curriculum 등)으로 가는 링크는 첫 페이지로, 사진 경로는 asset 기준으로"""
@@ -1148,7 +1161,7 @@ def posts_list(items, href, asset):
     rows = []
     for p in items:
         t = SITE / 'img' / 'd' / f"post-{p['slug']}.jpg"
-        th = f'<span class="th"><img src="{asset}img/d/post-{p["slug"]}.jpg" alt="" loading="lazy" decoding="async"></span>' if t.exists() else ''
+        th = f'<span class="th"><img src="{asset}img/d/post-{p["slug"]}.jpg" alt="{alt(p["title"])}" loading="lazy" decoding="async"></span>' if t.exists() else ''
         c = '' if p['category'] in ('스타랩 이야기', '학원 소식') else f"<span>{p['category']}</span>"
         rows.append(f'<li><a href="{href}{p["slug"]}.html"><span class="tx"><span class="meta"><time datetime="{p["date"]}">{p["date"].replace("-", ".")}</time>{c}</span>'
                     f'<b>{p["title"]}</b><span class="sum">{p["summary"]}</span></span>{th}</a></li>')
