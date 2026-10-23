@@ -17,6 +17,8 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
 # 구글 애널리틱스 (속성: 스타랩코딩학원 광진점 홈페이지, 스트림: 광진점 홈페이지)
 # 실제 도메인에서만 켜진다. 미리보기·로컬에서는 기록하지 않음
 GA_ID = "G-SXYG0R5WMM"
+# 챗GPT 광고(OpenAI 광고 관리자) 전환 픽셀 — 데이터 소스 '광진점 홈페이지', 전환 이벤트 '샘플클래스 신청'(lead_created)
+OAI_PIXEL = "XTH4KDB7iP9x85fC9mKH67"
 # 샘플클래스 신청을 받는 구글 Apps Script 웹앱 주소 (신청 → 구글 시트 + 메일)
 FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycby6k2TKL4GjP-XzRct7w_7yKdNAslZeJEhDgeK1nBIh6rZuuf9nP146p9yayOhi58ch_g/exec"
 # 원장·학원 기기 제외: 주소 끝에 ?internal 을 붙여 한 번 열면 그 브라우저는 이후 기록 안 함 (?internal=off 로 해제)
@@ -48,7 +50,15 @@ if (window.slTrack) {
     if (name) gtag('event', name, { link_url: h, transport_type: 'beacon' });
   });
 }
-</script>""".replace("@@GA@@", GA_ID)
+// 챗GPT 광고 전환 (OpenAI 픽셀 @@OAI@@, 2026-10-23 원장 동의). 픽셀의 '자동 고급 매칭'은 끌 수 없어서,
+// 신청서의 보호자 연락처가 넘어가지 않도록 신청이 끝나고 신청서를 비운 뒤에만 픽셀을 불러 'lead_created'를 보낸다
+window.oaiLead = function () {
+  if (!window.slTrack) return;
+  !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");
+  oaiq("init", { pixelId: "@@OAI@@" });
+  oaiq("measure", "lead_created", { type: "customer_action" });
+};
+</script>""".replace("@@GA@@", GA_ID).replace("@@OAI@@", OAI_PIXEL)
 # 네이버 광고 전환 추적 (프리미엄 로그 분석 공통 스크립트 + 신청 완료 'lead')
 # 키(네이버공통키 na_account_id)는 검색광고시스템 [도구 > 프리미엄 로그 분석]에서 확인. 비어 있으면 아무것도 넣지 않는다
 # 안내: https://naver.github.io/conversion-tracking/pages/01_script_guide_wcstrans/
