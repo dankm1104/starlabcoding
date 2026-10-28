@@ -1047,7 +1047,7 @@ def sample():
     form = f'''<form class="af" id="applyForm" novalidate>
       <div class="frow2">
         <label class="fd"><span class="fl">학생 이름<em>필수</em></span><input type="text" name="name" maxlength="30" autocomplete="off" required></label>
-        <label class="fd"><span class="fl">학년<em>필수</em></span><select name="grade" required><option value="">선택해 주세요</option><option value="7세">유치부</option>{grades}</select></label>
+        <label class="fd"><span class="fl">학년<em>필수</em></span><select name="grade" required><option value="">선택해 주세요</option><option value="7세">7세</option>{grades}</select></label>
       </div>
       <label class="fd"><span class="fl">보호자 연락처<em>필수</em></span><input type="tel" name="phone" inputmode="numeric" placeholder="010-0000-0000" maxlength="13" required></label>
       <div class="fd"><span class="fl">코딩·로봇 경험<em>필수</em></span>{chk('exp', ['처음이에요', '엔트리·스크래치', '로봇코딩', '파이썬·C언어'])}<p class="hint">해 본 것을 모두 골라 주세요.</p></div>
