@@ -161,7 +161,7 @@ def phero(eye, title, sub='', b=''):
     return f'<div class="head"><p class="eye">{eye}</p>{h1w(title)}{s}{b}</div>'
 
 PAGES = {  # 이어서 보기 카드에 쓰는 페이지 소개
-    'curriculum': ('커리큘럼', '유치부터 대입까지, 끊김 없는 로드맵', '유치부부터 고등부까지 단계별 과정과 선택 과정'),
+    'curriculum': ('커리큘럼', '유치부터 대입까지 끊김 없는 로드맵', '유치부부터 고등부까지 단계별 과정과 선택 과정'),
     'method': ('수업 방식', '설명을 듣고 따라 만드는 수업이 아닙니다', '도입부터 평가까지 다섯 단계로 진행하는 수업'),
     'record': ('대회·실적', '실적으로 증명합니다', '출전 대회와 대회별 수상·진출 기록'),
     'stories': ('학원 소식', '상담에서 자주 받는 질문과 수업 이야기', '학원 블로그 글 모음'),
@@ -176,8 +176,8 @@ def nexts(a, b):
 
 def band():
     return (f'<section class="band"><div class="cols"><div class="head appear"><p class="eye">샘플클래스</p>'
-            f'<h2 class="h2">처음이라면,<br>샘플클래스로 먼저 경험해 보세요</h2>'
-            f'<p class="sub">정규수업과 같은 교구와 방식으로 직접 만들고, 코딩하고, 고쳐 가며 완성해 봅니다.</p>'
+            f'<h2 class="h2">처음이라면<br>샘플클래스로 먼저 경험해 보세요</h2>'
+            f'<p class="sub">정규수업과 같은 교구와 방식으로<br>작품 하나를 직접 완성해 봅니다.</p>'
             f'{btns(pill("샘플클래스 신청", "#sample", "white"), pill("전화 02-444-1854", "tel:024441854", "line"))}</div></div></section>')
 
 def roadmap():
@@ -869,7 +869,7 @@ def home():
 <section class="hero"><div class="cols">
   <div class="head">
     <p class="eye">스타랩코딩학원 광진점</p>
-    {h1w('<em>피지컬</em> <em>AI</em> <em>시대</em>,<br>준비는 지금부터입니다.')}
+    {h1w('<em>피지컬</em> <em>AI</em> <em>시대</em><br>준비는 지금부터입니다')}
     <p class="sub">로봇코딩부터 파이썬·C언어, 입시 준비까지<br>하나의 과정으로 이어집니다.</p>
     {btns(SAMPLE, go('커리큘럼 보기', '#curriculum'))}
   </div>
@@ -878,19 +878,19 @@ def home():
 </div></section>
 
 <section class="sand prod"><div class="cols">
-  {head('커리큘럼', '유치부터 대입까지,<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.', btns(SAMPLE, go('커리큘럼 보기', '#curriculum')))}
+  {head('커리큘럼', '유치부터 대입까지<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.', btns(SAMPLE, go('커리큘럼 보기', '#curriculum')))}
   <div class="card appear">{roadmap()}</div>
 </div></section>
 
 <section class="proofsec" style="padding-top:16px"><div class="cols">
-  {photo_card('', 'hero.jpg', '대회·실적', '6년 연속 전국대회 수상,<br>10회 이상 세계대회 진출', '2025 로보텍스·MRC 코리아 인터내셔널 대회에 출전한 스타랩 선수단', '대회·실적 보기', '#record', 'center 62%')}
+  {photo_card('', 'hero.jpg', '대회·실적', '6년 연속 전국대회 수상<br>10회 이상 세계대회 진출', '2025 로보텍스·MRC 코리아 인터내셔널 대회에 출전한 스타랩 선수단', '대회·실적 보기', '#record', 'center 62%')}
 </div></section>
 
 <section class="hmethod"><div class="cols">
-  {head('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고, 로봇을 돌려 보고,<br>틀린 곳을 스스로 고칩니다.')}
+  {head('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고 로봇을 돌려 봅니다.<br>틀린 곳은 스스로 찾아 고칩니다.')}
   <figure class="device appear"><img src="{IMG['method.jpg']}" alt="스파이크 에센셜로 만든 로봇을 태블릿 블록코딩으로 움직이는 수업"></figure>
   <div class="five appear">{five}</div>
-  <p class="five-p appear">생각을 코드로 옮기고 결과를 보고 다시 판단하는 연습으로, 창의력과 끝까지 풀어내는 문제해결력, 함께 완성하는 협업능력을 기릅니다.</p>
+  <p class="five-p appear">생각을 코드로 옮기고 결과를 보며 다시 판단합니다.<br>이 연습이 창의력과 문제해결력, 협업능력으로 이어집니다.</p>
   <div class="center appear">{btns(SAMPLE, go('커리큘럼 보기', '#curriculum'))}</div>
 </div></section>
 
@@ -933,7 +933,7 @@ def curriculum():
     return f'''
 <div class="view" data-view="curriculum" data-title="커리큘럼 · 스타랩코딩학원 광진점">
 <section class="phero"><div class="cols">
-  {phero('커리큘럼', '유치부터 대입까지,<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.', btns(SAMPLE))}
+  {phero('커리큘럼', '유치부터 대입까지<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.', btns(SAMPLE))}
   <nav class="chips appear" aria-label="단계 바로가기">{chips}</nav>
 </div></section>
 <section class="courses"><div class="cols">{groups}</div></section>
@@ -942,10 +942,10 @@ def curriculum():
   <div class="ocs">{opts}</div>
 </div></section>
 <section id="method" style="scroll-margin-top:56px"><div class="cols">
-  {head('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고, 로봇을 돌려 보고,<br>틀린 곳을 스스로 고칩니다.', btns(SAMPLE))}
+  {head('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고 로봇을 돌려 봅니다.<br>틀린 곳은 스스로 찾아 고칩니다.', btns(SAMPLE))}
   <figure class="device appear"><img src="{IMG['method.jpg']}" alt="스파이크 에센셜로 만든 로봇을 태블릿 블록코딩으로 움직이는 수업"></figure>
   <div class="five appear">{five}</div>
-  <p class="five-p appear">생각을 코드로 옮기고 결과를 보고 다시 판단하는 연습으로, 창의력과 끝까지 풀어내는 문제해결력, 함께 완성하는 협업능력을 기릅니다.</p>
+  <p class="five-p appear">생각을 코드로 옮기고 결과를 보며 다시 판단합니다.<br>이 연습이 창의력과 문제해결력, 협업능력으로 이어집니다.</p>
 </div></section>
 {nexts('record', 'stories')}
 {band()}
@@ -963,12 +963,12 @@ def method():
     return f'''
 <div class="view" data-view="method" data-title="수업 방식 · 스타랩코딩학원 광진점">
 <section class="phero"><div class="cols">
-  {phero('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고, 로봇을 돌려 보고,<br>틀린 곳을 스스로 고칩니다.', btns(SAMPLE))}
+  {phero('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고 로봇을 돌려 봅니다.<br>틀린 곳은 스스로 찾아 고칩니다.', btns(SAMPLE))}
 </div></section>
 <section style="padding-top:0"><div class="cols">
   <figure class="device appear"><img src="{IMG['method.jpg']}" alt="스파이크 에센셜로 만든 로봇을 태블릿 블록코딩으로 움직이는 수업"></figure>
   <div class="five appear">{five}</div>
-  <p class="five-p appear">생각을 코드로 옮기고 결과를 보고 다시 판단하는 연습으로, 창의력과 끝까지 풀어내는 문제해결력, 함께 완성하는 협업능력을 기릅니다.</p>
+  <p class="five-p appear">생각을 코드로 옮기고 결과를 보며 다시 판단합니다.<br>이 연습이 창의력과 문제해결력, 협업능력으로 이어집니다.</p>
 </div></section>
 <section style="padding-top:40px"><div class="cols">
   {head('비교', '<span class="ph-t">제목 자리 · 따라 만드는 수업과 다른 점</span>', '', btns(SAMPLE))}
@@ -1015,7 +1015,7 @@ def record():
 <section class="sand" style="padding-bottom:80px"><div class="cols">
   {head('', '주요 수상 이력', '', btns(SAMPLE))}
   <div class="aw appear">{cards}</div>
-  <p class="aw-sum appear"><b>2021–2026, 6개년 연속 세계대회 진출</b></p>
+  <p class="aw-sum appear"><b>2021~2026 6개년 연속 세계대회 진출</b></p>
 </div></section>
 <section style="padding-bottom:72px"><div class="cols">
   {head('', '그 밖의 수상 내역', '')}
@@ -1080,7 +1080,7 @@ def sample():
     return f'''
 <div class="view" data-view="sample" data-title="샘플클래스 신청 · 스타랩코딩학원 광진점">
 <section class="phero"><div class="cols">
-  {phero('샘플클래스', '처음이라면,<br>샘플클래스로 먼저 경험해 보세요', '신청을 남겨 주시면 확인 후 전화로 수업 시간을 안내해 드립니다.')}
+  {phero('샘플클래스', '처음이라면<br>샘플클래스로 먼저 경험해 보세요', '신청을 남겨 주시면 확인 후 전화로 수업 시간을 안내해 드립니다.')}
 </div></section>
 <section style="padding-top:0"><div class="cols"><div class="apply appear"><div class="formcard">{form}</div>{aside}</div></div></section>
 <section id="faq" style="padding-top:40px;scroll-margin-top:56px"><div class="cols">
