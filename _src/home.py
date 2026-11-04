@@ -890,8 +890,7 @@ def home():
   {head('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고 로봇을 돌려 봅니다.<br>틀린 곳은 스스로 찾아 고칩니다.')}
   <figure class="device appear"><img src="{IMG['method.jpg']}" alt="스파이크 에센셜로 만든 로봇을 태블릿 블록코딩으로 움직이는 수업"></figure>
   <div class="five appear">{five}</div>
-  <p class="five-p appear">생각을 코드로 옮기고 결과를 보며 다시 판단합니다.<br>이 연습이 창의력과 문제해결력, 협업능력으로 이어집니다.</p>
-  <div class="center appear">{btns(SAMPLE, go('커리큘럼 보기', '#curriculum'))}</div>
+  <div class="center appear">{btns(go('커리큘럼 보기', '#curriculum'))}</div>
 </div></section>
 
 {band()}
@@ -945,7 +944,6 @@ def curriculum():
   {head('수업 방식', '설명을 듣고 따라 만드는<br>수업이 아닙니다', '학생이 직접 코드를 짜고 로봇을 돌려 봅니다.<br>틀린 곳은 스스로 찾아 고칩니다.', btns(SAMPLE))}
   <figure class="device appear"><img src="{IMG['method.jpg']}" alt="스파이크 에센셜로 만든 로봇을 태블릿 블록코딩으로 움직이는 수업"></figure>
   <div class="five appear">{five}</div>
-  <p class="five-p appear">생각을 코드로 옮기고 결과를 보며 다시 판단합니다.<br>이 연습이 창의력과 문제해결력, 협업능력으로 이어집니다.</p>
 </div></section>
 {nexts('record', 'stories')}
 {band()}
@@ -968,7 +966,6 @@ def method():
 <section style="padding-top:0"><div class="cols">
   <figure class="device appear"><img src="{IMG['method.jpg']}" alt="스파이크 에센셜로 만든 로봇을 태블릿 블록코딩으로 움직이는 수업"></figure>
   <div class="five appear">{five}</div>
-  <p class="five-p appear">생각을 코드로 옮기고 결과를 보며 다시 판단합니다.<br>이 연습이 창의력과 문제해결력, 협업능력으로 이어집니다.</p>
 </div></section>
 <section style="padding-top:40px"><div class="cols">
   {head('비교', '<span class="ph-t">제목 자리 · 따라 만드는 수업과 다른 점</span>', '', btns(SAMPLE))}
