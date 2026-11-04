@@ -698,11 +698,11 @@ input,select,textarea,button{font:inherit;color:inherit}
 @media (prefers-reduced-motion:reduce){.mq-t{animation:none;flex-wrap:wrap;width:auto;justify-content:center}.mq-t .lg:nth-child(n+11){display:none}.view.on{animation:none}.js .appear,.js .trackbox .bar,.js .bubble,.js .h1 .w{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}}
 '''
 
-# 소개 링크: 주소 끝 ?r=값 으로 들어오면 그 브라우저에 60일 동안 기억해 두었다가 샘플클래스 신청 때 함께 보낸다.
+# 소개 링크: 주소 끝 ?r=값 으로 들어오면 그 브라우저에 14일 동안 기억해 두었다가 (2026-11-04 원장, 60일→14일) 샘플클래스 신청 때 함께 보낸다.
 # 나중에 누른 소개 링크가 앞의 것을 덮는다. 저장이 막힌 브라우저에서도 그 방문 동안은 쓴다.
 REF_JS = r'''(function(){var k='sl_ref',m=/[?&]r=([A-Za-z0-9_-]{2,20})(?:&|$)/.exec(location.search),now=Date.now(),v='';
 try{if(m)localStorage.setItem(k,JSON.stringify({v:m[1],t:now}));var o=JSON.parse(localStorage.getItem(k)||'null');
-if(o&&o.v&&now-o.t<5184e6)v=o.v;else localStorage.removeItem(k)}catch(e){}
+if(o&&o.v&&now-o.t<12096e5)v=o.v;else localStorage.removeItem(k)}catch(e){}
 window.SL_REF=v||(m?m[1]:'')})();'''
 
 JS = r'''
