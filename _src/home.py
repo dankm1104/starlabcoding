@@ -878,7 +878,7 @@ def home():
 </div></section>
 
 <section class="sand prod"><div class="cols">
-  {head('커리큘럼', '유치부터 대입까지<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.', btns(SAMPLE, go('커리큘럼 보기', '#curriculum')))}
+  {head('커리큘럼', '유치부터 대입까지<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제 오더라도 수준에 맞는 반에서 소수정예로 시작합니다.', btns(SAMPLE, go('커리큘럼 보기', '#curriculum')))}
   <div class="card appear">{roadmap()}</div>
 </div></section>
 
@@ -932,7 +932,7 @@ def curriculum():
     return f'''
 <div class="view" data-view="curriculum" data-title="커리큘럼 · 스타랩코딩학원 광진점">
 <section class="phero"><div class="cols">
-  {phero('커리큘럼', '유치부터 대입까지<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제, 어떤 수준으로 와도 딱 맞는 자리에서 소수정예로 시작합니다.', btns(SAMPLE))}
+  {phero('커리큘럼', '유치부터 대입까지<br>끊김 없는 로드맵', '600차시에 달하는 빈틈없는 커리큘럼으로<br>언제 오더라도 수준에 맞는 반에서 소수정예로 시작합니다.', btns(SAMPLE))}
   <nav class="chips appear" aria-label="단계 바로가기">{chips}</nav>
 </div></section>
 <section class="courses"><div class="cols">{groups}</div></section>
