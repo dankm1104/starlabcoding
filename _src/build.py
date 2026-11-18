@@ -309,10 +309,29 @@ write(f"{OUT}/posts/index.html", homepage.list_page(head_of("학원 소식 | 광
       "광진구 구의동 스타랩코딩학원 광진점 학원 소식. 학부모가 자주 묻는 질문과 수업 이야기, 로봇대회·정보올림피아드·자격증 소식을 정리합니다.", "posts/", ""),
       FORM_ENDPOINT, posts))
 
+# 샘플클래스 구조화 데이터 (2026-11-18 원장 "해봐라"): 화면에 이미 보이는 기준(90분·60분, 참가비 30,000원)을 기계가 읽게 적는다.
+# 이름·설명·가격은 ChatGPT 비즈니스 프로필에 올린 상품(item_id STARLAB-SAMPLE)과 같게 둔다. 한쪽을 고치면 다른 쪽도 고친다
+sample_ld = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "샘플클래스 (초등·중등 90분, 유치부 60분)",
+    "description": "유치부·초등·중학생 로봇·코딩 수업입니다. 참가비는 정규과정에 등록하시면 수강료에서 전액 차감합니다. "
+                   "신청을 남겨 주시면 확인 후 전화로 수업 시간을 안내해 드립니다.",
+    "provider": {"@type": ["LocalBusiness", "EducationalOrganization"], "name": org["name"],
+                 "telephone": org["telephone"], "address": org["address"]},
+    "areaServed": org["areaServed"],
+    "offers": {"@type": "Offer", "price": "30000", "priceCurrency": "KRW", "availability": "https://schema.org/InStock"},
+}
+if DOMAIN:
+    sample_ld["url"] = DOMAIN + "/sample.html"
+    sample_ld["image"] = DOMAIN + "/img/hero.jpg"
+    sample_ld["provider"]["url"] = DOMAIN + "/"
+    sample_ld["offers"]["url"] = DOMAIN + "/sample.html"
+
 # 샘플클래스 신청 페이지: 첫 페이지 #sample 과 같은 신청서만 따로 연 문서
 write(f"{OUT}/sample.html", homepage.sample_page(head_of("샘플클래스 신청 | 광진구 스타랩코딩학원",
       "스타랩코딩학원 광진점 샘플클래스 신청. 유치부·초등·중학생 로봇·코딩 수업(초등·중등 90분, 유치부 60분). 참가비 30,000원.",
-      "sample.html", ""), FORM_ENDPOINT))
+      "sample.html", ld(sample_ld)), FORM_ENDPOINT))
 
 # 학원 등록카드 (2026-10-16): 학원 태블릿에서 학부모가 작성·서명 → 앱스크립트 '광진점 등록카드'(register_apps_script.gs)
 # → 원장 드라이브 '스타랩 등록서류' 서명 PDF + 원장 전용 시트 + 원장 메일. 메뉴·사이트맵·통계에 넣지 않는다(noindex)
