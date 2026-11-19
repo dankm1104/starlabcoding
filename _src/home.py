@@ -705,6 +705,24 @@ try{if(m)localStorage.setItem(k,JSON.stringify({v:m[1],t:now}));var o=JSON.parse
 if(o&&o.v&&now-o.t<12096e5)v=o.v;else localStorage.removeItem(k)}catch(e){}
 window.SL_REF=v||(m?m[1]:'')})();'''
 
+# 방문 경로 (2026-11-19 원장 "고치자. 신청자가 직접 기입하지 않고 우리가 추적하는 방법"): 어느 링크로 들어왔는지를 그 브라우저에 적어 두었다가
+# 샘플클래스 신청 때 함께 보낸다. 신청자는 아무것도 적지 않는다. 모든 문서에서 돈다(글 페이지로 들어와 신청 화면으로 넘어가도 남도록).
+# 한 번의 방문 기록 = 주소 꼬리표(utm_source 등)가 있으면 그것, 없으면 직전 사이트 주소, 둘 다 없으면 앱 표시(카카오톡 등)나 '모름'.
+# f = 처음 들어온 길, l = 마지막으로 들어온 길. 꼬리표·직전 사이트가 있는 방문만 l을 덮는다(주소를 직접 쳐서 다시 온 방문은 앞의 길을 지우지 않는다). 90일 지나면 버린다.
+SRC_JS = r"""(function(){var k='sl_src',now=Date.now(),o={},t=null,q=location.search;
+function g(n){var m=new RegExp('[?&]'+n+'=([^&#]*)').exec(q);if(!m)return'';try{return decodeURIComponent(m[1].replace(/\+/g,' ')).slice(0,60)}catch(e){return m[1].slice(0,60)}}
+try{var s=g('utm_source'),h='',own=false,u=navigator.userAgent||'';
+try{h=document.referrer?new URL(document.referrer).hostname.slice(0,60):''}catch(e){}
+if(/(^|\.)starlabcoding\.co\.kr$/.test(h)){h='';own=true}
+var a=/KAKAOTALK/i.test(u)?'kakaotalk':/NAVER\(inapp/i.test(u)?'naver':/DaumApps/i.test(u)?'daum':/Instagram/i.test(u)?'instagram':/FBAN|FBAV/i.test(u)?'facebook':/daangn|karrot/i.test(u)?'daangn':'';
+if(s)t={s:s,m:g('utm_medium'),c:g('utm_campaign'),n:g('utm_content')};else if(h)t={h:h};
+try{o=JSON.parse(localStorage.getItem(k)||'null')||{}}catch(e){o={}}
+if(o.f&&now-o.f.t>7776e6)o={};
+if(!t&&!o.l&&!own)t=a?{a:a}:{d:1};
+if(t){if(a&&!t.a)t.a=a;t.t=now;t.p=location.pathname.slice(0,60);if(!o.f)o.f=t;o.l=t;try{localStorage.setItem(k,JSON.stringify(o))}catch(e){}}
+}catch(e){}
+window.SL_SRC=o})();"""
+
 JS = r'''
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches, hasIO = 'IntersectionObserver' in window;
@@ -774,7 +792,7 @@ JS = r'''
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
       var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: picked('times'),
-                memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample' };
+                memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample', src: window.SL_SRC || {} };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
       if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간대');
@@ -1107,6 +1125,7 @@ def shell(HEAD, ENDPOINT, main, start='home', current=None):
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script>document.documentElement.className+=' js';window.FORM_ENDPOINT={json.dumps(ENDPOINT)}</script>
 <script>{REF_JS}</script>
+<script>{SRC_JS}</script>
 <style>{CSS}</style>
 </head>
 <body data-start="{start}">

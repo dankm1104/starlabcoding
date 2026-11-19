@@ -102,6 +102,19 @@ window.oaiLead = function () {
 try{if(m)localStorage.setItem(k,JSON.stringify({v:m[1],t:now}));var o=JSON.parse(localStorage.getItem(k)||'null');
 if(o&&o.v&&now-o.t<12096e5)v=o.v;else localStorage.removeItem(k)}catch(e){}
 window.SL_REF=v||(m?m[1]:'')})();</script>
+<script>(function(){var k='sl_src',now=Date.now(),o={},t=null,q=location.search;
+function g(n){var m=new RegExp('[?&]'+n+'=([^&#]*)').exec(q);if(!m)return'';try{return decodeURIComponent(m[1].replace(/\+/g,' ')).slice(0,60)}catch(e){return m[1].slice(0,60)}}
+try{var s=g('utm_source'),h='',own=false,u=navigator.userAgent||'';
+try{h=document.referrer?new URL(document.referrer).hostname.slice(0,60):''}catch(e){}
+if(/(^|\.)starlabcoding\.co\.kr$/.test(h)){h='';own=true}
+var a=/KAKAOTALK/i.test(u)?'kakaotalk':/NAVER\(inapp/i.test(u)?'naver':/DaumApps/i.test(u)?'daum':/Instagram/i.test(u)?'instagram':/FBAN|FBAV/i.test(u)?'facebook':/daangn|karrot/i.test(u)?'daangn':'';
+if(s)t={s:s,m:g('utm_medium'),c:g('utm_campaign'),n:g('utm_content')};else if(h)t={h:h};
+try{o=JSON.parse(localStorage.getItem(k)||'null')||{}}catch(e){o={}}
+if(o.f&&now-o.f.t>7776e6)o={};
+if(!t&&!o.l&&!own)t=a?{a:a}:{d:1};
+if(t){if(a&&!t.a)t.a=a;t.t=now;t.p=location.pathname.slice(0,60);if(!o.f)o.f=t;o.l=t;try{localStorage.setItem(k,JSON.stringify(o))}catch(e){}}
+}catch(e){}
+window.SL_SRC=o})();</script>
 <style>
 .ui{position:relative;width:100%;height:100%;container-type:inline-size;background:linear-gradient(155deg,#FEF1E2 0%,#FBD9AE 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .ui *{box-sizing:border-box}
@@ -834,7 +847,7 @@ input,select,textarea,button{font:inherit;color:inherit}
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
       var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: picked('times'),
-                memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample' };
+                memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample', src: window.SL_SRC || {} };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
       if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간대');

@@ -8,6 +8,7 @@ const BOOK_ID = '1fF23hLKdMa_a9sF-ezPn4eOi_A1-5TSwjbKhlWgNoH0';   // 스타랩 �
 const TAB = '명단Metadata';
 const REF_BOOK_ID = '1I1aI4I5FTgV6jH2TurtAYZt45jmIZKr-POmOguZE4t4';   // 스타랩 소개 링크 (원장 전용: 링크 값 | 소개한 분)
 // 명단Metadata 열: 번호 | 학생이름 | 학생 나이(해당년도 기준, 세는 나이) | 전화 번호 | 날짜(9월 30일) | 접근 경로 | 특이사항
+// 유입(2026-11-19 원장): 사이트가 방문 경로(p.src)를 같이 보내면 특이사항 끝에 '유입: …', 메일에 '유입 경로: …'로 적는다. 신청자가 적는 칸은 없다
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -24,9 +25,10 @@ function doPost(e) {
     }
     v.refwho = who(v.ref);
     const now = new Date();
+    const from = source(p.src, now);
     const date = Utilities.formatDate(now, 'Asia/Seoul', 'M월 d일');
     const note = ['홈페이지 샘플클래스 신청', v.grade, '경험: ' + v.exp, '가능 요일: ' + v.days, '희망 시간: ' + v.times]
-      .concat(v.memo ? ['남기신 말씀: ' + v.memo] : []).concat(intro(v) ? ['소개: ' + intro(v)] : []).join(', ');
+      .concat(v.memo ? ['남기신 말씀: ' + v.memo] : []).concat(intro(v) ? ['소개: ' + intro(v)] : []).concat(from ? ['유입: ' + from] : []).join(', ');
 
     lock.waitLock(20000);
     const sh = SpreadsheetApp.openById(BOOK_ID).getSheetByName(TAB);
@@ -48,6 +50,7 @@ function doPost(e) {
         '희망 시간대: ' + v.times,
         '남기신 말씀: ' + (v.memo || '-'),
         '소개해 주신 분: ' + (intro(v) || '-'),
+        '유입 경로: ' + (from || '-'),
         '',
         '신청 시각: ' + Utilities.formatDate(now, 'Asia/Seoul', 'yyyy-MM-dd HH:mm'),
         '스타랩 통합관리 > 명단Metadata 맨 아래에 기록했습니다.'
@@ -77,6 +80,62 @@ function who(ref) {
   } catch (e) {}
   return '';
 }
+
+// 유입 경로: 사이트가 보낸 방문 기록을 읽기 쉬운 말로. l = 마지막으로 들어온 길, f = 처음 들어온 길(다를 때만 덧붙임).
+// 사이트가 안 보냈으면(옛 화면) 빈칸, 보냈는데 길을 모르면 '확인 안 됨'. 신청한 날과 다른 날의 방문이면 날짜를 붙인다
+function source(src, now) {
+  if (!src || typeof src !== 'object') return '';
+  const l = touch(src.l), f = touch(src.f);
+  if (!l) return '확인 안 됨';
+  let s = l.label + (l.unknown ? '' : when(l, now));
+  if (f && !f.unknown && f.label !== l.label) s += ' / 첫 방문 ' + f.label + when(f, now);
+  return s.slice(0, 200);
+}
+
+// 방문 기록 하나 → 이름. 주소 꼬리표(utm)가 있으면 그것, 없으면 직전 사이트, 없으면 앱 표시
+function touch(t) {
+  if (!t || typeof t !== 'object') return null;
+  const s = tidy(t.s), h = tidy(t.h).toLowerCase(), a = tidy(t.a).toLowerCase();
+  let label = '';
+  if (s) {
+    const tag = [s, tidy(t.m), tidy(t.c), tidy(t.n)].filter(String).join('/');
+    const known = { 'daangn': '당근 광고', 'naver_blog': '네이버 블로그 버튼', 'chatgpt': '챗GPT 광고', 'chatgpt.com': '챗GPT' }[s.toLowerCase()];
+    label = known ? known + ' [' + tag + ']' : '꼬리표 ' + tag;
+  } else if (h) {
+    label = site(h);
+  } else if (a) {
+    label = { kakaotalk: '카카오톡으로 받은 링크', naver: '네이버 앱', daum: '다음 앱', instagram: '인스타그램 앱', facebook: '페이스북 앱', daangn: '당근 앱' }[a] || '';
+  }
+  if (!label) return t.d ? { label: '확인 안 됨(주소 입력·문자 링크 등)', t: 0, unknown: true } : null;
+  return { label: label, t: Number(t.t) || 0 };
+}
+
+// 직전 사이트 주소 → 이름
+function site(h) {
+  const rules = [
+    [/(^|\.)gemini\.google\.com$/, '제미나이'], [/(^|\.)(chatgpt\.com|openai\.com)$/, '챗GPT'], [/(^|\.)perplexity\.ai$/, '퍼플렉시티'],
+    [/(^|\.)claude\.ai$/, 'Claude'], [/(^|\.)copilot\.microsoft\.com$/, '코파일럿'],
+    [/(^|\.)search\.naver\.com$/, '네이버 검색'], [/(^|\.)(place|map)\.naver\.com$/, '네이버 플레이스·지도'],
+    [/(^|\.)blog\.naver\.com$/, '네이버 블로그'], [/(^|\.)cafe\.naver\.com$/, '네이버 카페'], [/(^|\.)naver\.com$/, '네이버'],
+    [/(^|\.)google\.[a-z.]+$/, '구글 검색'], [/(^|\.)bing\.com$/, '빙 검색'], [/(^|\.)daum\.net$/, '다음'],
+    [/(^|\.)map\.kakao\.com$/, '카카오맵'], [/(^|\.)kakao\.com$/, '카카오'],
+    [/(^|\.)star-lab\.co\.kr$/, '스타랩 본사 홈페이지'], [/(^|\.)daangn\.com$/, '당근'],
+    [/(^|\.)instagram\.com$/, '인스타그램'], [/(^|\.)facebook\.com$/, '페이스북'], [/(^|\.)threads\.(net|com)$/, '스레드'],
+    [/(^|\.)(youtube\.com|youtu\.be)$/, '유튜브']
+  ];
+  for (let i = 0; i < rules.length; i++) if (rules[i][0].test(h)) return rules[i][1] + ' (' + h + ')';
+  return h;
+}
+
+// 신청한 날과 다른 날에 들어온 길이면 ' (11/18 방문)'
+function when(x, now) {
+  if (!x.t) return '';
+  const d = Utilities.formatDate(new Date(x.t), 'Asia/Seoul', 'M/d');
+  return d === Utilities.formatDate(now, 'Asia/Seoul', 'M/d') ? '' : ' (' + d + ' 방문)';
+}
+
+// 사이트가 보낸 값 다듬기: 쉼표·줄바꿈은 빈칸으로, 60자까지
+function tidy(x) { return String(x == null ? '' : x).replace(/[,\r\n]+/g, ' ').trim().slice(0, 60); }
 
 // 학년 → 세는 나이 (7세=7, 초1=8 … 초6=13, 중1=14 … 중3=16). 명단Metadata 기존 기록과 같은 기준
 function age(grade) {
