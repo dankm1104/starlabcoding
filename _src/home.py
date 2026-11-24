@@ -573,6 +573,7 @@ input,select,textarea,button{font:inherit;color:inherit}
 .srow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .srow[hidden],.t[hidden],.slotbox[hidden]{display:none}
 .slotbox{display:flex;flex-direction:column;gap:10px}
+.other{display:flex;flex-direction:column;gap:8px;margin-top:4px}.other .t{align-self:flex-start}.otherin{display:flex;flex-direction:column;gap:6px}.otherin[hidden]{display:none}
 .sd{font-size:13.5px;font-weight:600;color:var(--g5);min-width:48px}
 .t{position:relative;cursor:pointer}
 .t input{position:absolute;opacity:0;pointer-events:none}
@@ -805,6 +806,11 @@ JS = r'''
     form.addEventListener('change', function(e){
       var t = e.target;
       if (t.name === 'grade') { fitGrade(); return; }
+      if (t.name === 'other') {   /* 목록에 없는 시간도 받는다 (원장, 2026-11-24 "저기 있는 시간 이외를 원할수도 있잖아") */
+        document.getElementById('otherIn').hidden = !t.checked;
+        if (t.checked) form.elements['otherTime'].focus(); else form.elements['otherTime'].value = '';
+        return;
+      }
       if (t.name === 'days') {   /* 요일을 고르면 그 요일 수업 시간이 나온다 (원장, 2026-11-24) */
         var row = form.querySelector('.srow[data-day="' + t.value + '"]'); if (row) row.hidden = !t.checked;
         if (!t.checked) Array.prototype.forEach.call(form.querySelectorAll('input[name=times][data-day="' + t.value + '"]'), function(i){ i.checked = false; });
@@ -817,12 +823,15 @@ JS = r'''
       e.preventDefault();
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
+      function wish(){ var o = f['other'].checked ? f['otherTime'].value.trim().replace(/[,\s]+/g, ' ') : '', ot = o ? '다른 시간 ' + o : '', a = [slots(), ot].filter(Boolean).join(', ');
+        return (a.length > 80 && ot) ? [ot, slots()].join(', ') : a; }
       function slots(){ var g = [], by = {}; Array.prototype.forEach.call(form.querySelectorAll('input[name=times]:checked'), function(i){ var k = i.getAttribute('data-day'); if (!by[k]) { by[k] = []; g.push(k); } by[k].push(i.value); }); return g.map(function(k){ return k + ' ' + by[k].join('·'); }).join(', '); }
-      var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: slots(),
+      var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: wish(),
                 memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample', src: window.SL_SRC || {} };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
-      if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간');
+      if (!d.exp) miss.push('코딩·로봇 경험'); if (f['other'].checked) { if (!f['otherTime'].value.trim()) miss.push('원하는 다른 시간'); }
+      else { if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간'); }
       if (!d.confirm) miss.push('안내 확인'); if (!d.agree) miss.push('개인정보 동의');
       if (miss.length) { err.textContent = '아래 항목을 확인해 주세요: ' + miss.join(', '); return; }
       err.textContent = ''; btn.disabled = true; btn.textContent = '보내는 중…';
@@ -1134,7 +1143,7 @@ def sample():
       </div>
       <label class="fd"><span class="fl">보호자 연락처<em>필수</em></span><input type="tel" name="phone" inputmode="numeric" placeholder="010-0000-0000" maxlength="13" required></label>
       <div class="fd"><span class="fl">코딩·로봇 경험<em>필수</em></span>{chk('exp', ['처음이에요', '엔트리·스크래치', '로봇코딩', '파이썬·C언어'])}<p class="hint">해 본 것을 모두 골라 주세요.</p></div>
-      <div class="fd"><span class="fl">가능한 요일과 시간<em>필수</em></span><p class="hint" id="slotNeed">학년을 고르면 그 학년이 들을 수 있는 요일과 시간이 나옵니다.</p><div class="slotbox" id="slotBox" hidden>{chk('days', [d for d, _ in SAMPLE_SLOTS])}{slot_rows()}<p class="hint">요일을 고르면 그 요일 수업 시간이 나옵니다.<br>요일과 시간 모두 여러 개를 골라도 됩니다.<br>일요일과 월요일에는 샘플클래스를 하지 않습니다.</p></div></div>
+      <div class="fd"><span class="fl">가능한 요일과 시간<em>필수</em></span><p class="hint" id="slotNeed">학년을 고르면 그 학년이 들을 수 있는 요일과 시간이 나옵니다.</p><div class="slotbox" id="slotBox" hidden>{chk('days', [d for d, _ in SAMPLE_SLOTS])}{slot_rows()}<div class="other"><label class="t"><input type="checkbox" name="other"><span>다른 시간을 원해요</span></label><div class="otherin" id="otherIn" hidden><input type="text" name="otherTime" maxlength="40" autocomplete="off" placeholder="원하는 요일과 시간 (예: 수요일 오후 4시)"><p class="hint">맞춰 드릴 수 있는지 확인해 연락드립니다.</p></div></div><p class="hint">요일을 고르면 그 요일 수업 시간이 나옵니다.<br>요일과 시간 모두 여러 개를 골라도 됩니다.<br>일요일과 월요일에는 샘플클래스를 하지 않습니다.</p></div></div>
       <div class="fd"><span class="fl">소개해 주신 분</span><p class="refok" id="refOk" hidden>✓ 소개 링크로 접속하셨습니다</p><div id="refIn"><input type="text" name="refname" maxlength="40" autocomplete="off" placeholder="예: 홍길동 학생 학부모"><p class="hint" style="margin-top:10px">학원을 소개받아 오셨다면 적어 주세요.</p></div></div>
       <label class="fd"><span class="fl">남기실 말씀</span><textarea name="memo" maxlength="500" placeholder="궁금한 점이나 미리 알려 주실 내용을 적어 주세요."></textarea></label>
       <div class="agree">

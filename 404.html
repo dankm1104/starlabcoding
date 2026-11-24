@@ -521,6 +521,7 @@ input,select,textarea,button{font:inherit;color:inherit}
 .srow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .srow[hidden],.t[hidden],.slotbox[hidden]{display:none}
 .slotbox{display:flex;flex-direction:column;gap:10px}
+.other{display:flex;flex-direction:column;gap:8px;margin-top:4px}.other .t{align-self:flex-start}.otherin{display:flex;flex-direction:column;gap:6px}.otherin[hidden]{display:none}
 .sd{font-size:13.5px;font-weight:600;color:var(--g5);min-width:48px}
 .t{position:relative;cursor:pointer}
 .t input{position:absolute;opacity:0;pointer-events:none}
@@ -748,6 +749,11 @@ input,select,textarea,button{font:inherit;color:inherit}
     form.addEventListener('change', function(e){
       var t = e.target;
       if (t.name === 'grade') { fitGrade(); return; }
+      if (t.name === 'other') {   /* 목록에 없는 시간도 받는다 (원장, 2026-11-24 "저기 있는 시간 이외를 원할수도 있잖아") */
+        document.getElementById('otherIn').hidden = !t.checked;
+        if (t.checked) form.elements['otherTime'].focus(); else form.elements['otherTime'].value = '';
+        return;
+      }
       if (t.name === 'days') {   /* 요일을 고르면 그 요일 수업 시간이 나온다 (원장, 2026-11-24) */
         var row = form.querySelector('.srow[data-day="' + t.value + '"]'); if (row) row.hidden = !t.checked;
         if (!t.checked) Array.prototype.forEach.call(form.querySelectorAll('input[name=times][data-day="' + t.value + '"]'), function(i){ i.checked = false; });
@@ -760,12 +766,15 @@ input,select,textarea,button{font:inherit;color:inherit}
       e.preventDefault();
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
+      function wish(){ var o = f['other'].checked ? f['otherTime'].value.trim().replace(/[,\s]+/g, ' ') : '', ot = o ? '다른 시간 ' + o : '', a = [slots(), ot].filter(Boolean).join(', ');
+        return (a.length > 80 && ot) ? [ot, slots()].join(', ') : a; }
       function slots(){ var g = [], by = {}; Array.prototype.forEach.call(form.querySelectorAll('input[name=times]:checked'), function(i){ var k = i.getAttribute('data-day'); if (!by[k]) { by[k] = []; g.push(k); } by[k].push(i.value); }); return g.map(function(k){ return k + ' ' + by[k].join('·'); }).join(', '); }
-      var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: slots(),
+      var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: wish(),
                 memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample', src: window.SL_SRC || {} };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
-      if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간');
+      if (!d.exp) miss.push('코딩·로봇 경험'); if (f['other'].checked) { if (!f['otherTime'].value.trim()) miss.push('원하는 다른 시간'); }
+      else { if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간'); }
       if (!d.confirm) miss.push('안내 확인'); if (!d.agree) miss.push('개인정보 동의');
       if (miss.length) { err.textContent = '아래 항목을 확인해 주세요: ' + miss.join(', '); return; }
       err.textContent = ''; btn.disabled = true; btn.textContent = '보내는 중…';
