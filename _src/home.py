@@ -569,6 +569,11 @@ input,select,textarea,button{font:inherit;color:inherit}
 .af textarea{height:112px;padding:12px 14px;resize:vertical}
 .af input:focus,.af select:focus,.af textarea:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(247,148,30,.18)}
 .tg{display:flex;flex-wrap:wrap;gap:8px}
+.slots{display:flex;flex-direction:column;gap:10px}
+.srow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.srow[hidden],.t[hidden],.slotbox[hidden]{display:none}
+.slotbox{display:flex;flex-direction:column;gap:10px}
+.sd{font-size:13.5px;font-weight:600;color:var(--g5);min-width:48px}
 .t{position:relative;cursor:pointer}
 .t input{position:absolute;opacity:0;pointer-events:none}
 .t span{display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:40px;background:var(--sand);font-size:14.5px;font-weight:500;transition:background .2s,box-shadow .2s}
@@ -783,19 +788,41 @@ JS = r'''
       var d = this.value.replace(/\D/g, '').slice(0, 11);
       this.value = d.length > 7 ? d.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3') : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
     });
+    function fitGrade(){   /* 학년에 맞는 반이 있는 시간만 보인다. 반 없는 시간(data-g=all)은 모든 학년 (원장, 2026-11-24) */
+      var g = form.elements['grade'].value;
+      document.getElementById('slotBox').hidden = !g; document.getElementById('slotNeed').hidden = !!g;
+      Array.prototype.forEach.call(form.querySelectorAll('input[name=times]'), function(i){
+        var ok = !!g && (i.getAttribute('data-g') === 'all' || (' ' + i.getAttribute('data-g') + ' ').indexOf(' ' + g + ' ') >= 0);
+        i.parentNode.hidden = !ok; if (!ok) i.checked = false;
+      });
+      Array.prototype.forEach.call(form.querySelectorAll('input[name=days]'), function(i){
+        var any = Array.prototype.some.call(form.querySelectorAll('input[name=times][data-day="' + i.value + '"]'), function(x){ return !x.parentNode.hidden; });
+        i.parentNode.hidden = !any; if (!any) i.checked = false;
+        var row = form.querySelector('.srow[data-day="' + i.value + '"]'); if (row) row.hidden = !i.checked;
+      });
+    }
+    fitGrade();
     form.addEventListener('change', function(e){
-      var t = e.target; if (t.name !== 'exp' || !t.checked) return;
+      var t = e.target;
+      if (t.name === 'grade') { fitGrade(); return; }
+      if (t.name === 'days') {   /* 요일을 고르면 그 요일 수업 시간이 나온다 (원장, 2026-11-24) */
+        var row = form.querySelector('.srow[data-day="' + t.value + '"]'); if (row) row.hidden = !t.checked;
+        if (!t.checked) Array.prototype.forEach.call(form.querySelectorAll('input[name=times][data-day="' + t.value + '"]'), function(i){ i.checked = false; });
+        return;
+      }
+      if (t.name !== 'exp' || !t.checked) return;
       Array.prototype.forEach.call(form.querySelectorAll('input[name=exp]'), function(i){ if (i !== t && (t.value === '처음이에요' || i.value === '처음이에요')) i.checked = false; });
     });
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var f = form.elements, err = document.getElementById('ferr'), btn = document.getElementById('fsubmit'), miss = [];
       function picked(n){ return Array.prototype.map.call(form.querySelectorAll('input[name=' + n + ']:checked'), function(i){ return i.value; }).join(', '); }
-      var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: picked('times'),
+      function slots(){ var g = [], by = {}; Array.prototype.forEach.call(form.querySelectorAll('input[name=times]:checked'), function(i){ var k = i.getAttribute('data-day'); if (!by[k]) { by[k] = []; g.push(k); } by[k].push(i.value); }); return g.map(function(k){ return k + ' ' + by[k].join('·'); }).join(', '); }
+      var d = { name: f['name'].value.trim(), grade: f['grade'].value, phone: f['phone'].value.trim(), exp: picked('exp'), days: picked('days'), times: slots(),
                 memo: f['memo'].value.trim(), ref: window.SL_REF || '', refname: window.SL_REF ? '' : f['refname'].value.trim(), website: f['website'].value, confirm: f['confirm'].checked, agree: f['agree'].checked, page: location.pathname + '#sample', src: window.SL_SRC || {} };
       if (!d.name) miss.push('학생 이름'); if (!d.grade) miss.push('학년');
       if (!/^01\d-?\d{3,4}-?\d{4}$/.test(d.phone)) miss.push('보호자 연락처');
-      if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간대');
+      if (!d.exp) miss.push('코딩·로봇 경험'); if (!d.days) miss.push('가능한 요일'); if (!d.times) miss.push('희망 시간');
       if (!d.confirm) miss.push('안내 확인'); if (!d.agree) miss.push('개인정보 동의');
       if (miss.length) { err.textContent = '아래 항목을 확인해 주세요: ' + miss.join(', '); return; }
       err.textContent = ''; btn.disabled = true; btn.textContent = '보내는 중…';
@@ -1057,6 +1084,47 @@ def stories():
 def chk(name, items, cls=''):
     return '<div class="tg">' + ''.join(f'<label class="t"><input type="checkbox" name="{name}" value="{v}"><span>{v}</span></label>' for v in items) + '</div>'
 
+# 샘플클래스 요일별 시간 (원장 2026-11-24 "평일 7시 말고 있는 시간표 기준으로 맞추자. 요일별로 다를거아냐"):
+# 겨울학기 시간표(통합관리 '시간표 겨울학기', 2026-11-24 확정)의 요일별 반 시작 시각. 학기 시간표가 바뀌면 같이 고친다
+# 원장이 정한 샘플클래스 시간 (2026-11-24 19:02)
+SAMPLE_SLOTS = [('화', ['2:30', '4:00', '5:30', '7:00']),
+                ('수', ['2:30', '5:00', '6:30']),
+                ('목', ['2:00', '4:00', '5:30', '7:00']),
+                ('금', ['2:00', '3:30', '6:00']),
+                ('토', ['10:00', '11:30', '1:00', '2:30'])]
+
+def slot_label(t):
+    h = int(t.split(':')[0])
+    return ('오전 ' if h >= 9 and h < 12 else '오후 ') + t
+
+# 학년에 맞는 반이 있는 시간만 보이게 한다 (원장 2026-11-24 "신청자 연령에 맞춰서", "아예 공강인 시간대는 그냥 넣어줘도 되잖아").
+# 반의 대상 학년은 겨울학기 시간표 오른쪽 클래스 표의 대상연령. 반이 없는 칸(공강)은 빈 목록이고 모든 학년에게 보인다
+GRADES = ['7세', '초1', '초2', '초3', '초4', '초5', '초6', '중1', '중2', '중3']
+def grade_range(a, b): return GRADES[GRADES.index(a):GRADES.index(b) + 1]
+CLASS_GRADES = {'STEAM2': ['7세'], '로봇코딩1': ['초1'], '로봇코딩2': ['초2'], '로봇코딩3': ['초3'],
+                '로봇코딩4': grade_range('초4', '초6'), '파이썬 초급': grade_range('초5', '중3'),
+                '파이썬 로보틱스': grade_range('초6', '중3'), 'C언어·임베디드': grade_range('중1', '중3')}
+SLOT_CLASSES = {('화', '2:30'): [], ('화', '4:00'): ['파이썬 초급'], ('화', '5:30'): ['파이썬 초급'], ('화', '7:00'): [],
+                ('수', '2:30'): ['로봇코딩3'], ('수', '5:00'): ['C언어·임베디드', '로봇코딩2'], ('수', '6:30'): ['파이썬 초급'],
+                ('목', '2:00'): ['로봇코딩1', '로봇코딩2'], ('목', '4:00'): ['로봇코딩4', 'STEAM2'],
+                ('목', '5:30'): ['로봇코딩1', '로봇코딩3'], ('목', '7:00'): ['파이썬 로보틱스', 'C언어·임베디드'],
+                ('금', '2:00'): [], ('금', '3:30'): ['로봇코딩4'], ('금', '6:00'): ['파이썬 로보틱스'],
+                ('토', '10:00'): ['로봇코딩2', '로봇코딩3', '로봇코딩4'], ('토', '11:30'): ['파이썬 로보틱스', '파이썬 초급'],
+                ('토', '1:00'): ['파이썬 로보틱스', '로봇코딩4', '로봇코딩1'], ('토', '2:30'): ['파이썬 로보틱스', '로봇코딩3', 'C언어·임베디드']}
+
+def slot_grades(d, t):
+    if (d, t) not in SLOT_CLASSES: raise SystemExit(f'SLOT_CLASSES에 {d} {t}가 없습니다')
+    cs = SLOT_CLASSES[(d, t)]
+    if not cs: return 'all'
+    return ' '.join(g for g in GRADES if any(g in CLASS_GRADES[c] for c in cs))
+
+def slot_rows():
+    out = []
+    for d, times in SAMPLE_SLOTS:
+        chips = ''.join(f'<label class="t"><input type="checkbox" name="times" value="{t}" data-day="{d}" data-g="{slot_grades(d, t)}"><span>{slot_label(t)}</span></label>' for t in times)
+        out.append(f'<div class="srow" data-day="{d}" hidden><span class="sd">{d}요일</span><div class="tg">{chips}</div></div>')
+    return '<div class="slots">' + ''.join(out) + '</div>'
+
 def sample():
     grades = ''.join(f'<option>{g}</option>' for g in ['초1', '초2', '초3', '초4', '초5', '초6', '중1', '중2', '중3'])
     form = f'''<form class="af" id="applyForm" novalidate>
@@ -1066,8 +1134,7 @@ def sample():
       </div>
       <label class="fd"><span class="fl">보호자 연락처<em>필수</em></span><input type="tel" name="phone" inputmode="numeric" placeholder="010-0000-0000" maxlength="13" required></label>
       <div class="fd"><span class="fl">코딩·로봇 경험<em>필수</em></span>{chk('exp', ['처음이에요', '엔트리·스크래치', '로봇코딩', '파이썬·C언어'])}<p class="hint">해 본 것을 모두 골라 주세요.</p></div>
-      <div class="fd"><span class="fl">가능한 요일<em>필수</em></span>{chk('days', ['화', '수', '목', '금', '토'])}<p class="hint">여러 요일을 고를 수 있습니다. 일요일과 월요일에는 샘플클래스를 하지 않습니다.</p></div>
-      <div class="fd"><span class="fl">희망 시간대<em>필수</em></span>{chk('times', ['오전 10~12시', '오후 1~3시', '오후 3~5시', '오후 5~7시', '저녁 7시 이후'])}<p class="hint">오전은 토요일, 저녁 7시 이후는 평일만 가능합니다.</p></div>
+      <div class="fd"><span class="fl">가능한 요일과 시간<em>필수</em></span><p class="hint" id="slotNeed">학년을 고르면 그 학년이 들을 수 있는 요일과 시간이 나옵니다.</p><div class="slotbox" id="slotBox" hidden>{chk('days', [d for d, _ in SAMPLE_SLOTS])}{slot_rows()}<p class="hint">요일을 고르면 그 요일 수업 시간이 나옵니다.<br>요일과 시간 모두 여러 개를 골라도 됩니다.<br>일요일과 월요일에는 샘플클래스를 하지 않습니다.</p></div></div>
       <div class="fd"><span class="fl">소개해 주신 분</span><p class="refok" id="refOk" hidden>✓ 소개 링크로 접속하셨습니다</p><div id="refIn"><input type="text" name="refname" maxlength="40" autocomplete="off" placeholder="예: 홍길동 학생 학부모"><p class="hint" style="margin-top:10px">학원을 소개받아 오셨다면 적어 주세요.</p></div></div>
       <label class="fd"><span class="fl">남기실 말씀</span><textarea name="memo" maxlength="500" placeholder="궁금한 점이나 미리 알려 주실 내용을 적어 주세요."></textarea></label>
       <div class="agree">
